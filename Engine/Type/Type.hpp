@@ -9,7 +9,12 @@
   # include <raylib.h>
 # endif
 
-# define VEC2 Vector2
-# define VEC3 Vector3
+enum {
+  S_EngineStart,
+  S_EngineInit,
+  S_EngineRun,
+  S_EngineUnload,
+  S_EngineStop
+};
 
 #endif
