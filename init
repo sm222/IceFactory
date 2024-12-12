@@ -7,11 +7,5 @@ echo -n "building "
 sleep $sleepTime ; echo -n "."
 mkdir -p $dir
 sleep $sleepTime ; echo -n "."
-cd $dir
-sleep $sleepTime ; echo -n "." ; sleep $sleepTime ; echo ""
-cmake ..
-echo done
-sleep 1
-make
-cd ..
-cp $dir/bin/IceEngine .
+cd $dir && sleep $sleepTime ; echo -n "." ; sleep $sleepTime ; echo ""
+cmake .. && echo done && sleep 1 && make && cd .. && cp $dir/bin/IceEngine .

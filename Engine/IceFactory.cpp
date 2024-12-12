@@ -1,37 +1,23 @@
-#include "HideIceFactory.hpp"
+#include "IceFactory.hpp"
 #include "Type/Type.hpp"
 #include <iostream>
 #include <exception>
 
-IceFactory* IceFactory::__instance     = nullptr;
-bool        IceFactory::__raylib       = false;
-Vector2     IceFactory::__screenSize   = {800 ,800};
-std::string IceFactory::__GameName     = "def";
-int         IceFactory::__engineStatus = 0;
+bool  IceFactory::__raylib       = false;
+int   IceFactory::__engineStatus = S_EngineInit;
 
-IceFactory::IceFactory(void)  {
+IceFactory::IceFactory(void): 
+__instance(nullptr), __screenSize((Vector2){800, 800}),
+__GameName("def") {
 
 }
-
 
 IceFactory::~IceFactory(void) {}
 
-IceFactory* IceFactory::Instance(void) {
-  if (!__instance) {
-    __instance = new IceFactory();
-    if (!__instance)
-      throw std::runtime_error("new fail");
-  }
+int  IceFactory::initEngine(void) {
   __engineStatus = S_EngineStart;
-  return __instance;
-}
 
-void IceFactory::endEngine(void) {
-  __engineStatus = S_EngineStop;
-  if (__instance) {
-    delete __instance;
-    __instance = nullptr;
-  }
+  return 1;
 }
 
 int IceFactory::GetEngineStatus(void) {
@@ -42,19 +28,37 @@ int getStatusEngine(void) {
   return IceFactory::GetEngineStatus();
 }
 
-void initEngine(void) {
-  IceFactory::Instance();
+
+RenderTexture2D IceFactory::GetViewPort(void) {
+  return __viewport;
 }
 
-void initRaylib(void) {
-  IceFactory* e = IceFactory::Instance();
-  if (!e->IceFactoryInitRayLib())
-    throw std::runtime_error("raylib fail");
+bool IceFactory::initRaylib(void) {
+  if (!__raylib) {
+    IceFactoryInitRayLib();
+    __viewport = LoadRenderTexture(__screenSize.x, __screenSize.y);
+    __raylib = true;
+  }
+  else {
 
+  }
+  return true;
 }
 
-void closeEngine(void) {
-  IceFactory::endEngine();
+bool IceFactory::closeRaylib(void) {
+  if (__raylib) {
+    UnloadRenderTexture(__viewport);
+    __raylib = false;
+  }
+  else {
+
+  }
+  return true;
+}
+
+bool IceFactory::closeEngine(void) {
+  CloseWindow();
+  __engineStatus = S_EngineStop;
   std::cout << "end" << std::endl;
+  return true;
 }
-

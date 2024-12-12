@@ -5,26 +5,27 @@
 # include <string>
 # include <vector>
 # include "../Type/Type.hpp"
+# include <string.h>
+# include <strings.h>
 
-template <typename T>
 
 class Object {
   protected:
-    char  __name[99];
-    char* __type;
-    VEC3  __position;
+    char    __name[99];
+    char*   __type;
+    Vector3 __position;
   public:
     Object(const char* name);
     Object(const std::string name);
     ~Object(void);
     // get
-    const char* GetName(void)     const;
-    const char* GetType(void)     const;
-    const VEC3  GetPosition(void) const;
+    const char*    GetName(void)     const;
+    const char*    GetType(void)     const;
+    const Vector3  GetPosition(void) const;
     // set
-    void SetPosition(const VEC3 position);
-    void SetPosition(const VEC3& position);
-    void SetPosition(T x, T y, T z);
+    void SetPosition(const Vector3 position);
+    void SetPosition(const Vector3& position);
+    void SetPosition(float x, float y, float z);
     //  /
     void SetName(const char* NewName);
     void SetName(const std::string NewName);

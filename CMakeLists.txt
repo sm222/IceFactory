@@ -17,7 +17,11 @@ find_package(raylib 3.0 REQUIRED) # Requires at least version 3.0
 
 #set(CMAKE_C_STANDARD 11) # Requires C11 standard
 
-set(src Game/main.cpp Engine/IceFactoryInit.cpp Engine/IceFactory.cpp)
+set(src Game/main.cpp 
+Engine/IceFactoryInit.cpp 
+Engine/IceFactory.cpp
+Engine/Object/Object.cpp
+)
 
 add_executable(${PROJECT_NAME} ${src})
 

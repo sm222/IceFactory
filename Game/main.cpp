@@ -2,30 +2,36 @@
 # include <iostream>
 
 
-void loop(void) {
+void loop(IceFactory& engine) {
   while (!WindowShouldClose()) {
     BeginDrawing();
+    BeginTextureMode(engine.GetViewPort());
     ClearBackground(WHITE);
+    EndTextureMode();
+    const Texture2D& T = engine.GetViewPort().texture;
+    DrawTexture(T, 0,0, WHITE);
     EndDrawing();
   }
-  CloseWindow();
 }
 
+//LoadRenderTexture
 
 int main(void) {
+  IceFactory engine;
   int run = 1;
   while (run) {
     switch (getStatusEngine()) {
       case S_EngineInit:
-        initEngine();
+        engine.initEngine();
         break;
       case S_EngineStart:
-        initRaylib();
+        engine.initRaylib();
+        std::cout << "!ici\n";
         break;
       case S_EngineRun:
         std::cout << "?ici\n";
-        loop();
-        closeEngine();
+        loop(engine);
+        engine.closeEngine();
         break;
       case S_EngineStop:
         run = 0;
