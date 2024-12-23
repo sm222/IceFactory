@@ -6,7 +6,10 @@
 # endif
 
 # include "Type/Type.hpp"
+# include "Object/Object.hpp"
+# include "Groups/Groups.hpp"
 # include "Render/Render.hpp"
+# include "Camera/Camera.hpp"
 # include <raylib.h>
 # include <raymath.h>
 # include <string>
@@ -14,22 +17,23 @@
 namespace Engine {
   class IceFactory {
     public:
-      int             initEngine(void);
-      static int      GetEngineStatus(void);
-      RenderTexture2D GetViewPort(void);
-      bool            initRaylib(void);
-      bool            closeRaylib(void);
-      bool            closeEngine(void);
+      int                initEngine(void);
+      static int         GetEngineStatus(void);
+      RenderTexture2D    GetViewPort(void);
+      bool               initRaylib(void);
+      bool               closeRaylib(void);
+      bool               closeEngine(void);
       //
       IceFactory(void);
       ~IceFactory(void);
+      Groups<Object*>    _mainGroups;
     protected:
     private:
-      bool          IceFactoryInitRayLib(void);
+      bool              IceFactoryInitRayLib(void);
       //
       //
-      static int    __engineStatus;
-      static bool   __raylib;
+      static int      __engineStatus;
+      static bool     __raylib;
       //
       RenderTexture2D __viewport;
       IceFactory*     __instance;
@@ -61,7 +65,6 @@ using Engine::IceFactory;
     }
 */
 
-void initEngine(void);
 int  getStatusEngine(void);
 
 

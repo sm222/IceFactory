@@ -8,13 +8,15 @@
 # include <string.h>
 # include <strings.h>
 
+#define OBJECT_TYPE "Object"
 
 class Object {
   protected:
-    char    __name[99];
-    char*   __type;
-    Vector3 __position;
+    char        __name[99];
+    const char* __type;
+    Vector3     __position;
   public:
+    Object(void);
     Object(const char* name);
     Object(const std::string name);
     ~Object(void);

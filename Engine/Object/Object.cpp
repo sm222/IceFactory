@@ -1,9 +1,13 @@
 #include "Object.hpp"
 
 
+Object::Object(void):
+__type(OBJECT_TYPE), __position((Vector3){0,0,0}){
+  __name[0] = 0;
+}
 
 Object::Object(const char* name): 
-__type(NULL), __position((Vector3){0,0,0})
+__type(OBJECT_TYPE), __position((Vector3){0,0,0})
 {
   if (!name) {
     sprintf(__name, "noName");
@@ -22,7 +26,7 @@ __type(NULL), __position((Vector3){0,0,0})
 }
 
 Object::Object(const std::string name): 
-__type(NULL), __position((Vector3){0,0,0})
+__type(OBJECT_TYPE), __position((Vector3) {0,0,0})
 {
   size_t len = name.length();
   if (len > 98) {

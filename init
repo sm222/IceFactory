@@ -2,10 +2,11 @@
 
 dir="build"
 sleepTime='0.1'
+sleepTime2='0.01'
 
 echo -n "building "
-sleep $sleepTime ; echo -n "."
+sleep $sleepTime2 ; echo -n "."
 mkdir -p $dir
-sleep $sleepTime ; echo -n "."
-cd $dir && sleep $sleepTime ; echo -n "." ; sleep $sleepTime ; echo ""
+sleep $sleepTime2 ; echo -n "."
+cd $dir && sleep $sleepTime2 ; echo -n "." ; sleep $sleepTime ; echo ""
 cmake .. && echo done && sleep 1 && make && cd .. && cp $dir/bin/IceEngine .

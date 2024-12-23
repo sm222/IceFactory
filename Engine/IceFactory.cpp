@@ -16,7 +16,6 @@ IceFactory::~IceFactory(void) {}
 
 int  IceFactory::initEngine(void) {
   __engineStatus = S_EngineStart;
-
   return 1;
 }
 
