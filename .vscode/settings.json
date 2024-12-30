@@ -50,5 +50,6 @@
         "typeinfo": "cpp",
         "iostream": "cpp",
         "*.tpp": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

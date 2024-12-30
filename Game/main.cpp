@@ -1,23 +1,11 @@
 # include "../Engine/IceFactory.hpp"
+# include "../Engine/Object/DevCube.hpp"
 # include <iostream>
 
-CameraGame cam;
+FpsCamera cam;
 
 const Vector3 h = {0,0,0};
 
-int drawP(Object *p) {
-  Vector3 end = p->GetPosition();
-  const float d = 0.4;
-  end.x += d;
-  //DrawLine3D(p->GetPosition(), end , RED);
-  end.x -= d;
-  end.y -= d;
-  DrawLine3D(p->GetPosition(), end , BLUE);
-  end.y += d;
-  end.z += d;
-  //DrawLine3D(p->GetPosition(), end , GREEN);
-  return 0;
-}
 
 void DrawGrid(int sizeX, int sizeZ, int Y) {
   const float boxsize = 0.1;
@@ -32,21 +20,21 @@ void DrawGrid(int sizeX, int sizeZ, int Y) {
 
 
 void loop(IceFactory& engine) {
-  SetTargetFPS(144);
+  SetTargetFPS(60);
   Image flip;
   cam.setPotision((Vector3){-1, 0, -1});
   while (!WindowShouldClose()) {
     engine.updateInpus();
     cam.updatePotision(
-    (Vector3) { (engine.getAnalogInput("FB") * 0.05f),
-                (engine.getAnalogInput("LR") * 0.05f),
+    (Vector3) { engine.timeScale(engine.getAnalogInput("FB") * 5.0f),
+                engine.timeScale(engine.getAnalogInput("LR") * 5.0f),
                 0.0f },
     (Vector3) { GetMouseDelta().x * 0.05f, // Rotation: yaw
                 GetMouseDelta().y * 0.05f, // Rotation: pitch
                 0.0f /* Rotation: roll*/ } ,
           GetMouseWheelMove());
     if (IsKeyPressed(KEY_F11)) {
-      SetWindowSize(1200 * 2, 1200);
+      SetWindowSize(1200, 1200);
       SetWindowPosition(0,0);
     }
     //
@@ -55,11 +43,7 @@ void loop(IceFactory& engine) {
       BeginTextureMode(engine.GetViewPort());
     ClearBackground(BLACK);
     BeginMode3D(cam.getCamera());
-    engine._mainGroups.Run(drawP);
-    for (int i = 0; i < 2; i++) {
-      DrawGrid(15 - i, 15 - i, -1 - i);
-    }
-    DrawLine3D((Vector3){0, 0, 0},(Vector3) {0, 1, 0}, BLUE);
+    engine._mainGroups.Run(Object::CallDraw, 1);
     EndMode3D();
     EndTextureMode();
       Texture2D T = engine.GetViewPort().texture;
@@ -69,7 +53,6 @@ void loop(IceFactory& engine) {
       UnloadImage(flip);
       DrawTextureEx(tmp, {0, 0}, -0, 1, WHITE);
     DrawFPS(0,0);
-    //DrawTexture(T, 0, 0, WHITE);
     EndDrawing();
     UnloadTexture(tmp);
   }
@@ -79,9 +62,10 @@ void loop(IceFactory& engine) {
 
 int main(void) {
   IceFactory engine;
-  Object a("test");
   int run = 1;
-  engine._mainGroups.Add(&a);
+  Object* ptr = new Object();
+  DevCube* c = new DevCube();
+  Groups<Object*> newGroup;
   while (run) {
     switch (getStatusEngine()) {
       case S_EngineInit:
@@ -93,8 +77,13 @@ int main(void) {
         break;
       case S_EngineRun:
         std::cout << "?ici\n";
+        engine._mainGroups.Add(ptr);
+        engine._mainGroups.AddChild(&newGroup);
+        newGroup.Add(c);
+        SetTraceLogLevel(LOG_NONE);
         loop(engine);
         engine.closeEngine();
+        engine._mainGroups.Rm(ptr);
         break;
       case S_EngineStop:
         run = 0;
@@ -103,7 +92,9 @@ int main(void) {
         break;
     }
   }
-  
+  delete ptr;
+  delete c;
+  std::cout << "retun main\n";
   //closeEngine();
   return 0;
 }

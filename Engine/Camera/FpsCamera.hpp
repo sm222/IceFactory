@@ -1,15 +1,16 @@
 
-#ifndef  __CAMERAGAME_HPP__
-# define __CAMERAGAME_HPP__
+#ifndef  __FPS_CAMERA_HPP__
+# define __FPS_CAMERA_HPP__
 
 # include "../Type/Type.hpp"
+# include "../Object/Object.hpp"
 
 
 // Class declaration
-class CameraGame {
+class FpsCamera {
   public:
-    CameraGame(void);
-    ~CameraGame(void);
+    FpsCamera(void);
+    ~FpsCamera(void);
     //
     //
     const Camera3D getCamera(void) const;
@@ -19,8 +20,10 @@ class CameraGame {
     //
 
   private:
-    Camera3D   __cam;
-    bool       __status;
+    Camera3D        __cam;
+    bool            __status;
+    Image           __Iframe;
+    RenderTexture2D __Tframe;
 };
 
 #endif // CAMERA_HPP_

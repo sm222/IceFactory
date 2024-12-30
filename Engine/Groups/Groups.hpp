@@ -12,10 +12,14 @@ class Groups {
   public:
     Groups(void);
     ~Groups(void);
+    //
     ssize_t Add(const T obj);
     bool    Rm(const size_t key);
     bool    Rm(const T self);
-    bool    Run(int(*ft)(T));
+    bool    Run(void(*ft)(T),  unsigned int child = 0);
+    //
+    bool    AddChild(Groups* g);
+
   protected:
   private:
     std::vector<T>       __list;

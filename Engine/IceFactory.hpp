@@ -11,7 +11,7 @@
 # include "Object/Object.hpp"
 # include "Groups/Groups.hpp"
 # include "Render/Render.hpp"
-# include "Camera/Camera.hpp"
+# include "Camera/FpsCamera.hpp"
 
 # include <raylib.h>
 # include <raymath.h>
@@ -30,6 +30,10 @@ namespace Engine {
       //
       int                updateInpus(void);
       float              getAnalogInput(std::string name);
+      //
+      static float       timeScale(float in);
+      static void        setTimeScale(float scale);
+
       //
       IceFactory(void);
       ~IceFactory(void);
@@ -50,6 +54,7 @@ namespace Engine {
       std::map<std::string, bool>    __numericMap;
       std::map<std::string, float>   __analogMap;
       std::map<int, int>             __keyMapBind;
+      static float                   __timeScale;
       //static 
   };
 };

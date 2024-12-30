@@ -20,8 +20,9 @@ find_package(raylib 3.0 REQUIRED) # Requires at least version 3.0
 set(src Game/main.cpp 
 Engine/IceFactory.cpp
 Engine/Object/Object.cpp
+Engine/Object/DevCube.cpp
 Engine/Groups/Groups.tpp
-Engine/Camera/Camera.cpp
+Engine/Camera/FpsCamera.cpp
 Engine/IceFactoryInit.cpp 
 )
 

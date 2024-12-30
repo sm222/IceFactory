@@ -99,3 +99,25 @@ void Object::SetName(const std::string name) {
     __name[len] = 0;
   }
 }
+
+static void __showPose(Object *self) {
+  const float size = 0.5f;
+  Vector3 newPoint = self->GetPosition();
+  newPoint.y += size;
+  DrawLine3D(self->GetPosition(), newPoint, BLUE);
+  newPoint.y -= size;
+  newPoint.x += size;
+  DrawLine3D(self->GetPosition(), newPoint, GREEN);
+  newPoint.x -= size;
+  newPoint.z += size;
+  DrawLine3D(self->GetPosition(), newPoint, RED);
+}
+
+void Object::Draw(void) {
+  __showPose(this);
+}
+
+void Object::CallDraw(Object* self) {
+  if (self)
+    self->Draw();
+}

@@ -19,7 +19,9 @@ class Object {
     Object(void);
     Object(const char* name);
     Object(const std::string name);
-    ~Object(void);
+    static void  CallDraw(Object* self);
+    virtual void Draw(void);
+    virtual ~Object(void);
     // get
     const char*    GetName(void)     const;
     const char*    GetType(void)     const;

@@ -2,9 +2,11 @@
 #include "Type/Type.hpp"
 #include <iostream>
 #include <exception>
+#include <stdio.h>
 
 bool  IceFactory::__raylib       = false;
 int   IceFactory::__engineStatus = S_EngineInit;
+float IceFactory::__timeScale    = 1;
 
 IceFactory::IceFactory(void): 
 __instance(nullptr), __screenSize((Vector2) {1000, 1000}),
@@ -90,4 +92,12 @@ float  IceFactory::getAnalogInput(const std::string name) {
   if (__analogMap.find(name) != __analogMap.end())
     return __analogMap[name];
   return 0;
+}
+
+float  IceFactory::timeScale(float in) {
+  return in * GetFrameTime() * __timeScale;
+}
+
+void   IceFactory::setTimeScale(float scale) {
+  __timeScale = scale;
 }
