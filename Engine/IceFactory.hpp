@@ -5,15 +5,18 @@
 #  define VERTION 0
 # endif
 
+# include "ControlDefine.hpp"
+//
 # include "Type/Type.hpp"
 # include "Object/Object.hpp"
 # include "Groups/Groups.hpp"
 # include "Render/Render.hpp"
 # include "Camera/Camera.hpp"
+
 # include <raylib.h>
 # include <raymath.h>
 # include <string>
-
+# include <map>
 namespace Engine {
   class IceFactory {
     public:
@@ -23,6 +26,10 @@ namespace Engine {
       bool               initRaylib(void);
       bool               closeRaylib(void);
       bool               closeEngine(void);
+      static Vector2     flaotToVec2(float angle);
+      //
+      int                updateInpus(void);
+      float              getAnalogInput(std::string name);
       //
       IceFactory(void);
       ~IceFactory(void);
@@ -39,6 +46,10 @@ namespace Engine {
       IceFactory*     __instance;
       Vector2         __screenSize;
       std::string     __GameName;
+      //
+      std::map<std::string, bool>    __numericMap;
+      std::map<std::string, float>   __analogMap;
+      std::map<int, int>             __keyMapBind;
       //static 
   };
 };

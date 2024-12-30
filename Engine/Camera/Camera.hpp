@@ -11,21 +11,16 @@ class CameraGame {
     CameraGame(void);
     ~CameraGame(void);
     //
-    void       setBox(void);
-    bool       lookUp(float ammont);
-    bool       lookDown(float ammont);
-    void       lookLeft(float ammont);
-    void       lookRight(float ammont);
-    Camera3D   cam;
-    bool       status;
-    Vector3    offSet;
-    t_box      box;
+    //
+    const Camera3D getCamera(void) const;
+    //
+    void           updatePotision(Vector3 movement, Vector3 rotate, float zoom);
+    void           setPotision(Vector3 p);
+    //
 
   private:
-    float    __dir;
-    Vector2  __pro;
-    float    __pitch;
-    float    __maxPitch;
+    Camera3D   __cam;
+    bool       __status;
 };
 
 #endif // CAMERA_HPP_

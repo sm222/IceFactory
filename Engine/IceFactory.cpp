@@ -7,12 +7,18 @@ bool  IceFactory::__raylib       = false;
 int   IceFactory::__engineStatus = S_EngineInit;
 
 IceFactory::IceFactory(void): 
-__instance(nullptr), __screenSize((Vector2){800, 800}),
+__instance(nullptr), __screenSize((Vector2) {1000, 1000}),
 __GameName("def") {
 
+  __keyMapBind[K_forward]  = KEY_W;
+  __keyMapBind[K_backward] = KEY_S;
+  __keyMapBind[K_left]     = KEY_A;
+  __keyMapBind[K_right]    = KEY_D;
 }
 
 IceFactory::~IceFactory(void) {}
+
+// - - - - - - - - - - - - - - - -
 
 int  IceFactory::initEngine(void) {
   __engineStatus = S_EngineStart;
@@ -35,7 +41,12 @@ RenderTexture2D IceFactory::GetViewPort(void) {
 bool IceFactory::initRaylib(void) {
   if (!__raylib) {
     IceFactoryInitRayLib();
+    const int m = GetCurrentMonitor();
+    float a = GetMonitorWidth(m) ;
+    float b = GetMonitorHeight(m);
+    __screenSize = {a , b};
     __viewport = LoadRenderTexture(__screenSize.x, __screenSize.y);
+    SetWindowSize(a , b );
     __raylib = true;
   }
   else {
@@ -60,4 +71,23 @@ bool IceFactory::closeEngine(void) {
   __engineStatus = S_EngineStop;
   std::cout << "end" << std::endl;
   return true;
+}
+
+
+Vector2  IceFactory::flaotToVec2(float angle) {
+  return {sin(angle * DEG2RAD), cos(angle * DEG2RAD)};
+}
+
+
+int      IceFactory::updateInpus(void) {
+  //
+  __analogMap["FB"] = (IsKeyDown(__keyMapBind[K_forward]) - (IsKeyDown(__keyMapBind[K_backward])));
+  __analogMap["LR"] = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );
+  return 0;
+}
+
+float  IceFactory::getAnalogInput(const std::string name) {
+  if (__analogMap.find(name) != __analogMap.end())
+    return __analogMap[name];
+  return 0;
 }
