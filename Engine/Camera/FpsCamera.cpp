@@ -7,10 +7,6 @@ FpsCamera::FpsCamera(void): __cam((Camera3D){{0, 0, 0}, {0,0,0}, {0,1,0}, 90, 0}
 
 }
 
-Vector2 floatToVec2(float angle) {
-  return {sin(angle * DEG2RAD), cos(angle * DEG2RAD)};
-}
-
 FpsCamera::~FpsCamera(void) {}
 
 
@@ -25,3 +21,4 @@ void FpsCamera::updatePotision(Vector3 movement, Vector3 rotate, float zoom) {
 void FpsCamera::setPotision(Vector3 p) {
   __cam.position = p;
 }
+

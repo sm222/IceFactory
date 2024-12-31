@@ -27,9 +27,9 @@ class Object {
     const char*    GetType(void)     const;
     const Vector3  GetPosition(void) const;
     // set
-    void SetPosition(const Vector3 position);
-    void SetPosition(const Vector3& position);
-    void SetPosition(float x, float y, float z);
+    virtual void SetPosition(const Vector3 position);
+    virtual void SetPosition(const Vector3& position);
+    virtual void SetPosition(float x, float y, float z);
     //  /
     void SetName(const char* NewName);
     void SetName(const std::string NewName);

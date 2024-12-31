@@ -84,6 +84,7 @@ int main(void) {
         loop(engine);
         engine.closeEngine();
         engine._mainGroups.Rm(ptr);
+        newGroup.RmI(0);
         break;
       case S_EngineStop:
         run = 0;

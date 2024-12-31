@@ -14,7 +14,7 @@ class Groups {
     ~Groups(void);
     //
     ssize_t Add(const T obj);
-    bool    Rm(const size_t key);
+    bool    RmI(const unsigned int key);
     bool    Rm(const T self);
     bool    Run(void(*ft)(T),  unsigned int child = 0);
     //

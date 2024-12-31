@@ -2,7 +2,7 @@
 
 
 Object::Object(void):
-__type(OBJECT_TYPE), __position((Vector3){0,0,0}){
+__type(OBJECT_TYPE), __position((Vector3) {0,0,0}) {
   __name[0] = 0;
 }
 

@@ -17,7 +17,7 @@ ssize_t Groups<T>::Add(const T obj) {
 }
 
 template <typename T>
-bool Groups<T>::Rm(const size_t key) {
+bool Groups<T>::RmI(const unsigned int key) {
   if (key > __list.size())
     return false;
   typename std::vector<T>::iterator it;
