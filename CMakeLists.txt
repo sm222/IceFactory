@@ -22,6 +22,7 @@ Engine/IceFactory.cpp
 Engine/Object/Object.cpp
 Engine/Object/DevCube.cpp
 Engine/Groups/Groups.tpp
+Engine/Camera/BaseCamera.cpp
 Engine/Camera/FpsCamera.cpp
 Engine/IceFactoryInit.cpp 
 )

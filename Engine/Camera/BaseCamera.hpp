@@ -16,10 +16,10 @@ class BaseCamera : public Object {
     ~BaseCamera();
     //
     const Camera3D getCamera(void) const;
-    void           updatePotision(Vector3 movement, Vector3 rotate, float zoom);
-    void           SetPosition(const Vector3 position);
-    void           SetPosition(const Vector3& position);
-    void           SetPosition(float x, float y, float z);
+    //void           updatePotision(Vector3 movement, Vector3 rotate, float zoom);
+    //void           SetPosition(const Vector3 position);
+    //void           SetPosition(const Vector3& position);
+    //void           SetPosition(float x, float y, float z);
 
     void           setTarget(Vector3 position);
     //Draw

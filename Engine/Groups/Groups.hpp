@@ -4,6 +4,7 @@
 
 # include <vector>
 # include <stdio.h>
+# include <string.h>
 
 // Class declaration
 template <typename T>
@@ -16,7 +17,7 @@ class Groups {
     ssize_t Add(const T obj);
     bool    RmI(const unsigned int key);
     bool    Rm(const T self);
-    bool    Run(void(*ft)(T),  unsigned int child = 0);
+    bool    Run(void(*ft)(T),  unsigned int child = 0, const char* type = nullptr);
     //
     bool    AddChild(Groups* g);
 

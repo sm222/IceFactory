@@ -43,7 +43,7 @@ void loop(IceFactory& engine) {
       BeginTextureMode(engine.GetViewPort());
     ClearBackground(BLACK);
     BeginMode3D(cam.getCamera());
-    engine._mainGroups.Run(Object::CallDraw, 1);
+    engine._mainGroups.Run(Object::CallDraw, 4);
     EndMode3D();
     EndTextureMode();
       Texture2D T = engine.GetViewPort().texture;

@@ -38,16 +38,25 @@ bool Groups<T>::Rm(const T self) {
   return false;
 }
 
+/// @brief use to run a cmd on the Vector T type. need to have a 'GetType'
+/// @tparam T 
+/// @param ft 
+/// @param child 
+/// @param type 
+/// @return 
 template <typename T>
-bool Groups<T>::Run(void(*ft)(T), unsigned int child) {
+bool Groups<T>::Run(void(*ft)(T), unsigned int child, const char* type) {
   if (!ft)
     return false;
   for (size_t i = 0; i < __list.size(); i++) {
-    ft(__list[i]);
+    if (type == nullptr || strncmp(type, __list[i]->GetType(), strlen(type) + 1) == 0) {
+      ft(__list[i]);
+      //
+    }
   }
   if (child) {
     for (size_t i = 0; i < __child.size(); i++) {
-      __child[i]->Run(ft, --child);
+      __child[i]->Run(ft, --child, type);
     }
   }
   return true;
