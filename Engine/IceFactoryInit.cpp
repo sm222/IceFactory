@@ -8,6 +8,5 @@ bool IceFactory::IceFactoryInitRayLib(void) {
   __engineStatus = S_EngineRun;
   SetWindowState(FLAG_WINDOW_RESIZABLE);
   SetWindowMinSize(600, 600);
-  __viewport = LoadRenderTexture(__screenSize.x, __screenSize.y);
   return true;
 }

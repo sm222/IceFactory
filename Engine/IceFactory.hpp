@@ -18,26 +18,27 @@
 # include <string>
 # include <map>
 namespace Engine {
-  class IceFactory {
-    public:
-      int                initEngine(void);
-      static int         GetEngineStatus(void);
-      RenderTexture2D    GetViewPort(void);
-      bool               initRaylib(void);
-      bool               closeRaylib(void);
-      bool               closeEngine(void);
-      static Vector2     flaotToVec2(float angle);
-      //
-      int                updateInpus(void);
-      float              getAnalogInput(std::string name);
-      //
-      static float       timeScale(float in);
-      static void        setTimeScale(float scale);
+class IceFactory {
+  public:
+    int                initEngine(void);
+    static int         GetEngineStatus(void);
+    RenderTexture2D    GetViewPort(void);
+    bool               initRaylib(void);
+    bool               closeRaylib(void);
+    bool               closeEngine(void);
+    static Vector2     flaotToVec2(float angle);
+    //
+    int                updateInpus(void);
+    float              getAnalogInput(std::string name);
+    //
+    static float       timeScale(float in);
+    static void        setTimeScale(float scale);
+    Vector2            GiveWindowSize(void);
 
-      //
-      IceFactory(void);
-      ~IceFactory(void);
-      Groups<Object*>    _mainGroups;
+    //
+    IceFactory(void);
+    ~IceFactory(void);
+    Groups<Object*>    _mainGroups;
     protected:
     private:
       bool              IceFactoryInitRayLib(void);

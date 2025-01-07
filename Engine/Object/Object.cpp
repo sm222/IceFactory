@@ -62,13 +62,13 @@ void Object::SetPosition(const Vector3 position) {
 }
 
 void Object::SetPosition(float x, float y, float z) {
-  this->__position.x = x;
-  this->__position.y = y;
-  this->__position.z = z;
+  this->SetPosition({x, y, z});
 }
 
-void Object::SetPosition(const Vector3& position) {
-  this->__position = position;
+
+void Object::MoveTowards(const Vector3 direction, const float speed) {
+  const Vector3 scale =  Vector3Scale(direction, speed);
+  this->SetPosition(Vector3Add(__position, scale));
 }
 
 void Object::SetName(const char* name) {
@@ -116,6 +116,8 @@ static void __showPose(Object *self) {
 void Object::Draw(void) {
   __showPose(this);
 }
+
+
 
 void Object::CallDraw(Object* self) {
   if (self)

@@ -19,6 +19,8 @@ class Groups {
     bool    Rm(const T self);
     bool    Run(void(*ft)(T),  unsigned int child = 0, const char* type = nullptr);
     //
+    T*      Find(const char* name, unsigned int child = 0);
+    //
     bool    AddChild(Groups* g);
 
   protected:

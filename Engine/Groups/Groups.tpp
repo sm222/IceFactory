@@ -41,8 +41,8 @@ bool Groups<T>::Rm(const T self) {
 /// @brief use to run a cmd on the Vector T type. need to have a 'GetType'
 /// @tparam T 
 /// @param ft 
-/// @param child 
-/// @param type 
+/// @param child depth of recursive
+/// @param type use to select only one type at the time
 /// @return 
 template <typename T>
 bool Groups<T>::Run(void(*ft)(T), unsigned int child, const char* type) {
@@ -70,4 +70,29 @@ bool Groups<T>::AddChild(Groups* g) {
     return true;
   }
   return false;
+}
+
+/// @brief find the first instance with the same name
+/// @brief the T value must have a 'GetName'
+/// @tparam T 
+/// @param name 
+/// @param child 
+/// @return 
+template <typename T>
+T*  Groups<T>::Find(const char* name, unsigned int child) {
+  if (name == nullptr)
+    return nullptr;
+  for (size_t i = 0; i < __list.size(); i++) {
+    if (strncmp(__list[i].GetName(), name, strlen(name) + 1) == 0) {
+      return __list[i];
+    }
+  }
+  if (child) {
+    for (size_t i = 0; i < __child.size(); i++) {
+      const T* data = __child[i]->Find(name, --child);
+      if (data)
+        return data;
+    }
+  }
+  return nullptr;
 }

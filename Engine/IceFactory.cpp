@@ -44,11 +44,12 @@ bool IceFactory::initRaylib(void) {
   if (!__raylib) {
     IceFactoryInitRayLib();
     const int m = GetCurrentMonitor();
-    float a = GetMonitorWidth(m) ;
-    float b = GetMonitorHeight(m);
+    const float a = GetMonitorWidth(m) ;
+    const float b = GetMonitorHeight(m);
     __screenSize = {a , b};
-    __viewport = LoadRenderTexture(__screenSize.x, __screenSize.y);
+    std::cout << a << " / " << b << "\n";
     SetWindowSize(a , b );
+    __viewport = LoadRenderTexture(a, b);
     __raylib = true;
   }
   else {
@@ -59,8 +60,8 @@ bool IceFactory::initRaylib(void) {
 
 bool IceFactory::closeRaylib(void) {
   if (__raylib) {
-    UnloadRenderTexture(__viewport);
     __raylib = false;
+    UnloadRenderTexture(__viewport);
   }
   else {
 
@@ -100,4 +101,8 @@ float  IceFactory::timeScale(float in) {
 
 void   IceFactory::setTimeScale(float scale) {
   __timeScale = scale;
+}
+
+Vector2 IceFactory::GiveWindowSize(void) {
+  return __screenSize;
 }
