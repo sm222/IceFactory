@@ -1,22 +1,29 @@
 #include "BaseCamera.hpp"
 #include <iostream>
-int BaseCamera::__active = 0;
+
+unsigned int BaseCamera::__active = 0;
+unsigned int BaseCamera::__cameraNumber = 0;
 
 BaseCamera::BaseCamera(void) : Object(), 
 __camera((Camera3D){{0, 0, 0}, {0,0,0}, {0,1,0}, 90, 0}) , __status(false) {
   __type = BASE_CAMERA;
+  __CameraID = GetNewID();
 }
 
 BaseCamera::BaseCamera(const char* name) : Object(name) {
   __type = BASE_CAMERA;
+  __CameraID = GetNewID();
 }
 
 BaseCamera::BaseCamera(const std::string name) : Object(name) {
   __type = BASE_CAMERA;
+  __CameraID = GetNewID();
 }
 
 BaseCamera::~BaseCamera(void) {
-
+  if (IsRenderTextureValid(__Tframe)) {
+    UnloadRenderTexture(__Tframe);
+  }
 }
 
 void BaseCamera::SetTarget(Vector3 position) {
@@ -54,7 +61,7 @@ void  BaseCamera::Update(Vector3 movement, Vector3 rotate, float zoom) {
   UpdateCameraPro(&__camera, movement, rotate, zoom);
 }
 
-void BaseCamera::SetActive(int status) {
+void BaseCamera::SetActive(unsigned int status) {
   __active = status;
 }
 
@@ -99,6 +106,10 @@ void  BaseCamera::DrawFrame(const Vector2 Position, const float angle, const flo
   DrawTextureEx(__frame, Position, angle, scale, WHITE);
 }
 
-Texture2D BaseCamera::GetFrame(void) {
+const Texture2D BaseCamera::GetFrame(void) {
   return __frame;
+}
+
+unsigned int BaseCamera::GetNewID(void) {
+  return ++__cameraNumber;
 }

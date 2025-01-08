@@ -3,9 +3,7 @@
 # include "../Engine/Camera/BaseCamera.hpp"
 # include <iostream>
 
-FpsCamera cam;
 
-BaseCamera PlayerCamera;
 
 const Vector3 h = {0,0,0};
 
@@ -23,51 +21,40 @@ void DrawGrid(int sizeX, int sizeZ, int Y) {
 
 
 void loop(IceFactory& engine) {
+  BaseCamera PlayerCamera;
   SetTargetFPS(60);
-  //Image flip;
-  cam.setPotision((Vector3){-1, 0, -1});
-  PlayerCamera.SetPosition(cam.getCamera().position);
+  PlayerCamera.SetPosition((Vector3){1, 0, 1});
   PlayerCamera.SetCanvas(engine.GiveWindowSize());
   PlayerCamera.SetTarget(Vector3 {0,0,0});
+  HideCursor();
+  DisableCursor();
   while (!WindowShouldClose()) {
-    engine.updateInpus();
+    engine.UpdateEngine();
     PlayerCamera.Update(
-    (Vector3) { engine.timeScale(engine.getAnalogInput("FB") * 5.0f),
-                engine.timeScale(engine.getAnalogInput("LR") * 5.0f),
+    (Vector3) { engine.timeScale(engine.getAnalogInput(ForwardBackward) * 5.0f),
+                engine.timeScale(engine.getAnalogInput(LeftRight) * 5.0f),
                 0.0f },
-    (Vector3) { GetMouseDelta().x * 0.05f, // Rotation: yaw
-                GetMouseDelta().y * 0.05f, // Rotation: pitch
+    (Vector3) { engine.getAnalogInput(MouseHorizontal) * 0.05f, // Rotation: yaw
+                engine.getAnalogInput(MouseVertical)* 0.05f, // Rotation: pitch
                 0.0f /* Rotation: roll*/ } ,
           GetMouseWheelMove());
-    ///
-    cam.updatePotision(
-    (Vector3) { engine.timeScale(engine.getAnalogInput("FB") * 5.0f),
-                engine.timeScale(engine.getAnalogInput("LR") * 5.0f),
-                0.0f },
-    (Vector3) { GetMouseDelta().x * 0.05f, // Rotation: yaw
-                GetMouseDelta().y * 0.05f, // Rotation: pitch
-                0.0f /* Rotation: roll*/ } ,
-          GetMouseWheelMove());
-    if (IsKeyPressed(KEY_F11)) {
-      SetWindowSize(1200, 1200);
-      SetWindowPosition(0,0);
+    //
+    if (engine.ReadEnvent(Event_pause)) {
+      if (IsCursorHidden()) {
+        ShowCursor();
+        EnableCursor();
+      }
+      else {
+        HideCursor();
+        DisableCursor();
+      }
     }
-    //
-    SetMousePosition(GetMonitorWidth(0) / 2, GetMonitorHeight(0) / 2);
+    //SetMousePosition(GetMonitorWidth(0) / 2, GetMonitorHeight(0) / 2);
     BeginDrawing();
-    //  BeginTextureMode(engine.GetViewPort());
-    //ClearBackground(BLACK);
-    //BeginMode3D(cam.getCamera());
-    //engine._mainGroups.Run(Object::CallDraw);
-    //EndMode3D();
-    //EndTextureMode();
-    //
-      //Texture2D T = engine.GetViewPort().texture;
-      //flip = LoadImageFromTexture(T);
-      //ImageFlipVertical(&flip);
-      //Texture2D tmp = LoadTextureFromImage(flip);
-      //UnloadImage(flip);
-    //DrawTextureEx(tmp, {0, 0}, -0, 1, WHITE);
+    ClearBackground(BLACK);
+    if (IsKeyPressed(KEY_ENTER)) {
+      PlayerCamera.SetTarget((Vector3){0,0,0});
+    }
     PlayerCamera.Start();
     engine._mainGroups.Run(Object::CallDraw);
     PlayerCamera.Stop();
@@ -75,7 +62,6 @@ void loop(IceFactory& engine) {
     DrawFPS(0,0);
     EndDrawing();
     PlayerCamera.Clear();
-    //UnloadTexture(tmp);
   }
 }
 
@@ -94,14 +80,12 @@ int main(void) {
         break;
       case S_EngineStart:
         engine.initRaylib();
-        std::cout << "!ici\n";
         break;
       case S_EngineRun:
-        std::cout << "?ici\n";
         engine._mainGroups.Add(ptr);
         engine._mainGroups.AddChild(&newGroup);
         newGroup.Add(c);
-        SetTraceLogLevel(LOG_NONE);
+        SetTraceLogLevel(LOG_DEBUG);
         loop(engine);
         engine.closeEngine();
         engine._mainGroups.Rm(ptr);
@@ -116,7 +100,5 @@ int main(void) {
   }
   delete ptr;
   delete c;
-  std::cout << "retun main\n";
-  //closeEngine();
   return 0;
 }
