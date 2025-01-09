@@ -17,9 +17,9 @@ class Groups {
     ssize_t Add(const T obj);
     bool    RmI(const unsigned int key);
     bool    Rm(const T self);
-    bool    Run(void(*ft)(T),  unsigned int child = 0, const char* type = nullptr);
+    bool    Run(void(*ft)(T),  unsigned int depth = 0, const char* type = nullptr);
     //
-    T*      Find(const char* name, unsigned int child = 0);
+    T*      Find(const char* name, unsigned int depth = 0);
     //
     bool    AddChild(Groups* g);
 

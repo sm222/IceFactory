@@ -49,10 +49,9 @@ void BaseCamera::Draw(void) {
 }
 
 bool BaseCamera::SetCanvas(const Vector2 size) {
-  //if (IsRenderTextureValid(__Tframe)) {
-  //  UnloadRenderTexture(__Tframe);
-  //}
-
+  if (IsRenderTextureValid(__Tframe)) {
+    UnloadRenderTexture(__Tframe);
+  }
   __Tframe = LoadRenderTexture(size.x, size.y);
   return IsRenderTextureValid(__Tframe);
 }
@@ -101,6 +100,11 @@ bool BaseCamera::Clear(void) {
   }
   return false;
 }
+
+const Vector2 BaseCamera::GetFrameSize(void) {
+  return ((Vector2){(float)__Tframe.texture.width, (float)__Tframe.texture.height});
+}
+
 
 void  BaseCamera::DrawFrame(const Vector2 Position, const float angle, const float scale) {
   DrawTextureEx(__frame, Position, angle, scale, WHITE);

@@ -13,16 +13,17 @@
 typedef enum EngineEvents {
   Event_none = 0,
   Event_pause,
+  Event_window_resized,
 } t_EngineEvents;
 
-enum {
+typedef enum EngineStatus{
   S_EngineStart,
   S_EngineInit,
   S_EngineRun,
   S_EnginePause,
   S_EngineUnload,
   S_EngineStop
-};
+} t_EngineStatus;
 
 
 #endif

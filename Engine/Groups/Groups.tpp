@@ -41,11 +41,11 @@ bool Groups<T>::Rm(const T self) {
 /// @brief use to run a cmd on the Vector T type. need to have a 'GetType'
 /// @tparam T 
 /// @param ft 
-/// @param child depth of recursive
+/// @param depth depth of recursive
 /// @param type use to select only one type at the time
 /// @return 
 template <typename T>
-bool Groups<T>::Run(void(*ft)(T), unsigned int child, const char* type) {
+bool Groups<T>::Run(void(*ft)(T), unsigned int depth, const char* type) {
   if (!ft)
     return false;
   for (size_t i = 0; i < __list.size(); i++) {
@@ -54,9 +54,9 @@ bool Groups<T>::Run(void(*ft)(T), unsigned int child, const char* type) {
       //
     }
   }
-  if (child) {
+  if (depth) {
     for (size_t i = 0; i < __child.size(); i++) {
-      __child[i]->Run(ft, --child, type);
+      __child[i]->Run(ft, --depth, type);
     }
   }
   return true;
@@ -76,10 +76,10 @@ bool Groups<T>::AddChild(Groups* g) {
 /// @brief the T value must have a 'GetName'
 /// @tparam T 
 /// @param name 
-/// @param child 
+/// @param depth
 /// @return 
 template <typename T>
-T*  Groups<T>::Find(const char* name, unsigned int child) {
+T*  Groups<T>::Find(const char* name, unsigned int depth) {
   if (name == nullptr)
     return nullptr;
   for (size_t i = 0; i < __list.size(); i++) {
@@ -87,9 +87,9 @@ T*  Groups<T>::Find(const char* name, unsigned int child) {
       return __list[i];
     }
   }
-  if (child) {
+  if (depth) {
     for (size_t i = 0; i < __child.size(); i++) {
-      const T* data = __child[i]->Find(name, --child);
+      const T* data = __child[i]->Find(name, --depth);
       if (data)
         return data;
     }

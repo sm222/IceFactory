@@ -5,12 +5,12 @@
 #include <exception>
 #include <stdio.h>
 
-bool  IceFactory::__raylib       = false;
-int   IceFactory::__engineStatus = S_EngineInit;
-float IceFactory::__timeScale    = 1;
+bool             IceFactory::__raylib       = false;
+t_EngineStatus   IceFactory::__engineStatus = S_EngineInit;
+float            IceFactory::__timeScale    = 1;
 
 IceFactory::IceFactory(void): 
-__instance(nullptr), __screenSize((Vector2) {1000, 1000}),
+__screenSize((Vector2) {1000, 1000}),
 __gameName("def") {
 
   __keyMapBind[K_forward]  = KEY_W;
@@ -21,6 +21,26 @@ __gameName("def") {
 }
 
 IceFactory::~IceFactory(void) {}
+// - - - - - - - - - - - - - - - -
+
+void  IceFactory::SetEngineStatus(const t_EngineStatus status) {
+  __engineStatus = status;
+}
+
+// - - - - - - - - - - - - - - - -
+
+static const Vector2 getMonitorSize(void) {
+  const int m = GetCurrentMonitor();
+  const float w = GetMonitorWidth(m) ;
+  const float h = GetMonitorHeight(m);
+  return ((Vector2){w, h});
+}
+
+static const Vector2 getWindowSize(void) {
+  return ((Vector2){(float)GetRenderWidth() ,(float)GetRenderHeight()});
+}
+
+
 
 // - - - - - - - - - - - - - - - -
 
@@ -37,14 +57,12 @@ int getStatusEngine(void) {
   return IceFactory::GetEngineStatus();
 }
 
+
 bool IceFactory::initRaylib(void) {
   if (!__raylib) {
     IceFactoryInitRayLib();
-    const int m = GetCurrentMonitor();
-    const float w = GetMonitorWidth(m) ;
-    const float h = GetMonitorHeight(m);
-    __screenSize = {w , h};
-    SetWindowSize(w , h);
+    __screenSize = getMonitorSize();
+    SetWindowSize(__screenSize.x, __screenSize.y);
     __raylib = true;
   }
   else {
@@ -57,8 +75,7 @@ bool IceFactory::closeRaylib(void) {
   if (__raylib) {
     __raylib = false;
   }
-  else {  __keyMapBind[K_right]    = KEY_D;
-
+  else { 
 
   }
   return true;
@@ -78,16 +95,18 @@ Vector2  IceFactory::flaotToVec2(float angle) {
 
 int      IceFactory::UpdateInpus(void) {
   //
+  const Vector2 Mdelata = GetMouseDelta();
   __analogMap[ForwardBackward] = (IsKeyDown(__keyMapBind[K_forward]) - (IsKeyDown(__keyMapBind[K_backward])));
   __analogMap[LeftRight] = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );
-  const Vector2 Mdelata = GetMouseDelta();
-  __analogMap[MouseVertical] = Mdelata.y;
+  __analogMap[MouseVertical]   = Mdelata.y;
   __analogMap[MouseHorizontal] = Mdelata.x;
   return 0;
 }
 
 int   IceFactory::UpdateEvent(void) {
   __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_Pause]);
+  __EngineEvent[Event_window_resized] = IsWindowResized();
+
   return 0;
 }
 
@@ -101,14 +120,20 @@ bool  IceFactory::ReadEnvent(const t_EngineEvents event) {
   return __EngineEvent[event];
 }
 
+
 /// @brief call UpdateInpus and UpdateEvent
 /// @param  
 /// @return 
 int   IceFactory::UpdateEngine(void) {
-  return UpdateInpus() + UpdateEvent();
+  const int status = UpdateInpus() + UpdateEvent();
+  if (__EngineEvent[Event_window_resized]) {
+    __screenSize = getWindowSize();
+  }
+  return status;
 }
 
-float  IceFactory::getAnalogInput(const t_Controls name) {
+
+float  IceFactory::GetAnalogInput(const t_Controls name) {
   if (__analogMap.find(name) != __analogMap.end())
     return __analogMap[name];
   return 0;

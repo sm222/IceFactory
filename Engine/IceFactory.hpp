@@ -27,10 +27,13 @@ class IceFactory {
     bool               closeEngine(void);
     static Vector2     flaotToVec2(float angle);
     //
+    void               SetEngineStatus(const t_EngineStatus status);
+    //
     int                UpdateEngine(void);
     //
     int                UpdateInpus(void);
-    float              getAnalogInput(const t_Controls name);
+    float              GetAnalogInput(const t_Controls name);
+    //bool               
     //
     int                UpdateEvent(void);
     void               ForceEnvent(const t_EngineEvents envent);
@@ -53,11 +56,9 @@ class IceFactory {
       bool              IceFactoryInitRayLib(void);
       //
       //
-      static int                        __engineStatus;
+      static t_EngineStatus             __engineStatus;
       static bool                       __raylib;
       //
-      RenderTexture2D                   __viewport;
-      IceFactory*                       __instance;
       Vector2                           __screenSize;
       std::string                       __gameName;
       //

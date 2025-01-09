@@ -31,6 +31,8 @@ class BaseCamera : public Object {
     bool            Clear(void);
     //
     const Texture2D GetFrame(void);
+    const Vector2   GetFrameSize(void);
+    
     //
   private:
     static void            SetActive(unsigned int status);
