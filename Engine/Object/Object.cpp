@@ -4,6 +4,7 @@
 Object::Object(void):
 __type(OBJECT_TYPE), __position((Vector3) {0,0,0}) {
   __name[0] = 0;
+  Zero();
 }
 
 Object::Object(const char* name): 
@@ -23,6 +24,7 @@ __type(OBJECT_TYPE), __position((Vector3){0,0,0})
       __name[len] = 0;
     }
   }
+  Zero();
 }
 
 Object::Object(const std::string& name): 
@@ -37,9 +39,10 @@ __type(OBJECT_TYPE), __position((Vector3) {0,0,0})
     memcpy(__name, name.c_str(), len);
     __name[len] = 0;
   }
+  Zero();
 }
 
-Object::~Object() {
+Object::~Object(void) {
 
 }
 
@@ -66,7 +69,7 @@ void Object::SetPosition(float x, float y, float z) {
 }
 
 
-void Object::MoveTowards(const Vector3 direction, const float speed) {
+void Object::MoveTowards(const Vector3& direction, const float speed) {
   const Vector3 scale =  Vector3Scale(direction, speed);
   this->SetPosition(Vector3Add(__position, scale));
 }
@@ -88,7 +91,7 @@ void Object::SetName(const char* name) {
   }
 }
 
-void Object::SetName(const std::string name) {
+void Object::SetName(const std::string& name) {
   size_t len = name.length();
   if (len > 98) {
     memcpy(__name, name.c_str(), 98);
@@ -122,4 +125,8 @@ void Object::Draw(void) {
 void Object::CallDraw(Object* self) {
   if (self)
     self->Draw();
+}
+
+void Object::Zero(void) {
+  ZERO_NONE_PTR(__position);
 }

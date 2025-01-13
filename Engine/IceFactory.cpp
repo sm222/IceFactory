@@ -12,7 +12,10 @@ float            IceFactory::__timeScale    = 1;
 IceFactory::IceFactory(void): 
 __screenSize((Vector2) {1000, 1000}),
 __gameName("def") {
-
+  //
+  __userSeting.targetFps = 30;
+  __userSeting.targetWindowSize = {600, 600};
+  //
   __keyMapBind[K_forward]  = KEY_W;
   __keyMapBind[K_backward] = KEY_S;
   __keyMapBind[K_left]     = KEY_A;

@@ -4,20 +4,24 @@
 unsigned int BaseCamera::__active = 0;
 unsigned int BaseCamera::__cameraNumber = 0;
 
+
 BaseCamera::BaseCamera(void) : Object(), 
 __camera((Camera3D){{0, 0, 0}, {0,0,0}, {0,1,0}, 90, 0}) , __status(false) {
+  Zero();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
   __mode = camera_texture;
 }
 
 BaseCamera::BaseCamera(const char* name) : Object(name) {
+  Zero();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
   __mode = camera_texture;
 }
 
 BaseCamera::BaseCamera(const std::string name) : Object(name) {
+  Zero();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
   __mode = camera_texture;
@@ -136,4 +140,16 @@ const Texture2D BaseCamera::GetFrame(void) {
 // future problem ?
 unsigned int BaseCamera::GetNewID(void) {
   return ++__cameraNumber;
+}
+
+void BaseCamera::Zero(void) {
+  ZERO_NONE_PTR(__status);
+  ZERO_NONE_PTR(__Iframe);
+  ZERO_NONE_PTR(__Tframe);
+  ZERO_NONE_PTR(__frame);
+  ZERO_NONE_PTR(__active);
+  ZERO_NONE_PTR(__CameraID);
+  ZERO_NONE_PTR(__mode);
+  ZERO_NONE_PTR(__clean);
+  ZERO_NONE_PTR(__tint);
 }

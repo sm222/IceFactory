@@ -25,7 +25,11 @@ class Groups {
     //
     bool    RmChildI(const size_t key);
     bool    RmChild(const Groups *self);
-
+    //
+    void    MoveToward(const Vector3& direction, const float ammout);
+    //
+    void    Delete(unsigned int depth = 0, const char* type = nullptr);
+    //
   protected:
   private:
     std::vector<T>       __list;

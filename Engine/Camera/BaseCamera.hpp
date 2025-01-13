@@ -41,6 +41,7 @@ class BaseCamera : public Object {
     
     //
   private:
+    void                   Zero(void);
     static void            SetActive(unsigned int status);
     static unsigned int    GetNewID(void);
     static int             GetActive(void);

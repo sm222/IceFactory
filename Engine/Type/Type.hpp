@@ -55,4 +55,11 @@ typedef enum EngineStatus{
 } t_EngineStatus;
 
 
+typedef struct {
+  unsigned int targetFps;
+  Vector2      targetWindowSize;
+} UserSeting;
+
+
+
 #endif

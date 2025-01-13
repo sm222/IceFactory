@@ -129,3 +129,33 @@ T*  Groups<T>::Find(const char* name, unsigned int depth) {
   }
   return nullptr;
 }
+
+
+/// @brief T need to be a ptr and have a MoveToward define 
+/// @tparam T 
+/// @param direction 
+/// @param ammout 
+template <typename T>
+void  Groups<T>::MoveToward(const Vector3& direction, const float ammout) {
+  typename std::vector<T>::iterator it = __list.begin();
+  while (it != __list.end()) {
+    (*it)->MoveTowards(direction, ammout);
+    it++;
+  }
+}
+
+
+
+/// @brief call Delete on evry element in the group
+/// @tparam T 
+template <typename T>
+void  Groups<T>::Delete(unsigned int depth, const char* type) {
+  typename std::vector<T>::iterator it = __list.begin();
+  while (it != __list.end()) {
+    T tmp = *it;
+    __list.erase(it);
+    delete tmp;
+  }
+  (void)depth;
+  (void)type;
+}

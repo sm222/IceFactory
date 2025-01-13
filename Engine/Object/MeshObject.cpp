@@ -2,22 +2,25 @@
 
 
 MeshObject::MeshObject(void) : Object() {
+  Zero();
   __type = MESH_OBJECT_TYPE;
-  Clean();
 }
 
 MeshObject::MeshObject(const char* name) : Object(name) {
+  Zero();
   __type = MESH_OBJECT_TYPE;
-  Clean();
 }
 
 MeshObject::MeshObject(const std::string& name) : Object(name) {
+  Zero();
   __type = MESH_OBJECT_TYPE;
-  Clean();
 }
 
-void MeshObject::Clean(void) {
+void MeshObject::Zero(void) {
   __errorModel = nullptr;
+  ZERO_NONE_PTR(__model);
+  ZERO_NONE_PTR(__texture);
+  ZERO_NONE_PTR(__bondingBox);
 }
 
 MeshObject::~MeshObject(void) {

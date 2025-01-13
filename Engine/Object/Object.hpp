@@ -10,11 +10,14 @@
 
 #define OBJECT_TYPE "Object"
 
+# define ZERO_NONE_PTR(var)    bzero(&var, sizeof(var))
+
 class Object {
   protected:
     char        __name[MAX_NAME_LEN + 1];
     const char* __type;
     Vector3     __position;
+    void        Zero(void);
   public:
     Object(void);
     Object(const char* name);
@@ -31,10 +34,10 @@ class Object {
     virtual void SetPosition(const Vector3 position);
     virtual void SetPosition(float x, float y, float z);
     //
-    virtual void MoveTowards(const Vector3 direction, const float speed = 1.0f);
+    virtual void MoveTowards(const Vector3& direction, const float speed = 1.0f);
     //  /
     void SetName(const char* NewName);
-    void SetName(const std::string NewName);
+    void SetName(const std::string& NewName);
 };
 
 #endif

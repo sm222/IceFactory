@@ -15,7 +15,7 @@ class MeshObject : public Object {
   //
   void          Draw(void);
   private:
-  void          Clean(void);
+  void          Zero(void);
   Model         __model;
   Texture2D     __texture;
   BoundingBox   __bondingBox;

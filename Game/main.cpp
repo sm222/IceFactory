@@ -52,9 +52,8 @@ void loop(IceFactory& engine) {
     if (IsKeyPressed(KEY_ENTER)) {
       PlayerCamera.SetTarget((Vector3){0,0,0});
     }
-    char s[100];
-    sprintf(s, "camere %f / %f", PlayerCamera.GetFrameSize().x, PlayerCamera.GetFrameSize().y);
     //
+    engine._mainGroups.MoveToward({0,1,0}, 0.01);
     BeginDrawing();
     PlayerCamera.Start();
     engine._mainGroups.Run(Object::CallDraw);
@@ -64,7 +63,6 @@ void loop(IceFactory& engine) {
     PlayerCamera.Stop();
     PlayerCamera.DrawFrame((Vector2){0, 0}, 0.0f);
     DrawFPS(0,0);
-    DrawText(s, 0, 20, 20, WHITE);
     EndDrawing();
     PlayerCamera.Clear();
   }
@@ -99,7 +97,7 @@ int main(void) {
         engine.closeEngine();
         engine._mainGroups.Rm(ptr);
         newGroup.RmI(0);
-        engine._mainGroups.RmChild(0);
+        engine._mainGroups.Delete();
         break;
       case S_EngineStop:
         run = 0;
@@ -108,8 +106,5 @@ int main(void) {
         break;
     }
   }
-  delete ptr;
-  delete c;
-  delete m;
   return 0;
 }

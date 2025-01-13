@@ -59,6 +59,7 @@ class IceFactory {
     private:
       bool              IceFactoryInitRayLib(void);
       //
+      UserSeting                        __userSeting;
       //
       static t_EngineStatus             __engineStatus;
       static bool                       __raylib;
