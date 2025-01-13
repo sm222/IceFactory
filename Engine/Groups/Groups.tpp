@@ -1,5 +1,7 @@
 # include <stdio.h>
 # include <iostream>
+# include <vector>
+
 template <typename T>
 Groups<T>::Groups(void) {
   
@@ -11,8 +13,17 @@ Groups<T>::~Groups(void) {
 }
 
 template <typename T>
-ssize_t Groups<T>::Add(const T obj) {
+ssize_t Groups<T>::Add(const T& obj) {
   __list.push_back(obj);
+  return __list.size();
+}
+
+template <typename T>
+ssize_t Groups<T>::Add(std::vector<T>& objs) {
+  typename std::vector<T>::interator it = objs.begin();
+  for (it; it != objs.end(); it++) {
+    __list.push_back(*it);
+  }
   return __list.size();
 }
 
@@ -51,7 +62,6 @@ bool Groups<T>::Run(void(*ft)(T), unsigned int depth, const char* type) {
   for (size_t i = 0; i < __list.size(); i++) {
     if (type == nullptr || strncmp(type, __list[i]->GetType(), strlen(type) + 1) == 0) {
       ft(__list[i]);
-      //
     }
   }
   if (depth) {
@@ -64,13 +74,36 @@ bool Groups<T>::Run(void(*ft)(T), unsigned int depth, const char* type) {
 
 
 template <typename T>
-bool Groups<T>::AddChild(Groups* g) {
-  if (g) {
-    __child.push_back(g);
+bool Groups<T>::AddChild(Groups* group) {
+  if (group) {
+    __child.push_back(group);
     return true;
   }
   return false;
 }
+
+template <typename T>
+bool Groups<T>::RmChildI(const size_t key) {
+  typename std::vector<Groups*>::iterator it;
+  if (key > __child.size())
+    return false;
+  it = __child.begin() + key;
+  __child.erase(it);
+  return true;
+}
+
+template <typename T>
+bool Groups<T>::RmChild(const Groups *self) {
+  typename std::vector<Groups*>::iterator it;
+  for (it = __child.begin();  it != __child.end(); it++) {
+    if (*it == self) {
+      __child.erase(it);
+      return true;
+    }
+  }
+  return false;
+}
+
 
 /// @brief find the first instance with the same name
 /// @brief the T value must have a 'GetName'

@@ -1,5 +1,4 @@
 #include "IceFactory.hpp"
-#include "HideIceFactory.hpp"
 
 
 bool IceFactory::IceFactoryInitRayLib(void) {

@@ -14,9 +14,9 @@ __type(OBJECT_TYPE), __position((Vector3){0,0,0})
   }
   else {
     size_t len = strlen(name);
-    if (len > 98) {
-      memcpy(__name, name, 98);
-      __name[99] = 0;
+    if (len > MAX_NAME_LEN) {
+      memcpy(__name, name, MAX_NAME_LEN - 1);
+      __name[MAX_NAME_LEN] = 0;
     }
     else {
       memcpy(__name, name, len);
@@ -25,13 +25,13 @@ __type(OBJECT_TYPE), __position((Vector3){0,0,0})
   }
 }
 
-Object::Object(const std::string name): 
+Object::Object(const std::string& name): 
 __type(OBJECT_TYPE), __position((Vector3) {0,0,0})
 {
   size_t len = name.length();
-  if (len > 98) {
-    memcpy(__name, name.c_str(), 98);
-    __name[99] = 0;
+  if (len > MAX_NAME_LEN) {
+    memcpy(__name, name.c_str(), MAX_NAME_LEN - 1);
+    __name[MAX_NAME_LEN] = 0;
   }
   else {
     memcpy(__name, name.c_str(), len);

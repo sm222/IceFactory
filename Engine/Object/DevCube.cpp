@@ -8,7 +8,7 @@ DevCube::DevCube(const char* name): Object(name) {
   __type = DEV_CUBE_TYPE;
 }
 
-DevCube::DevCube(const std::string name): Object(name) {
+DevCube::DevCube(const std::string& name): Object(name) {
   __type = DEV_CUBE_TYPE;
 }
 

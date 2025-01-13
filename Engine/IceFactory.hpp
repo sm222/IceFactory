@@ -9,6 +9,7 @@
 # include "Type/Type.hpp"
 //
 # include "Object/Object.hpp"
+# include "Object/MeshObject.hpp"
 # include "Groups/Groups.hpp"
 # include "Render/Render.hpp"
 # include "Camera/FpsCamera.hpp"
@@ -22,6 +23,7 @@ class IceFactory {
   public:
     int                initEngine(void);
     static int         GetEngineStatus(void);
+    //
     bool               initRaylib(void);
     bool               closeRaylib(void);
     bool               closeEngine(void);
@@ -44,6 +46,8 @@ class IceFactory {
     //
     Vector2            GiveWindowSize(void);
 
+    //! debug and error
+    Model*             GiveWhatModel(void);
     //
     IceFactory(void);
     ~IceFactory(void);
@@ -71,35 +75,14 @@ class IceFactory {
       //
       static float                      __timeScale;
       //static 
+      // debug / errors tools
+      Model                             __what;
+      float                             __whatA;
   };
 };
 
 using Engine::IceFactory;
 
-/*
-    class Singleton {
-    public:
-        static Singleton* Instance();
-    protected:
-        Singleton();
-    private:
-        static Singleton* _instance;
-    };
-
-    Singleton* Singleton::_instance = 0;
-    
-    Singleton* Singleton::Instance () {
-        if (_instance == 0) {
-            _instance = new Singleton;
-        }
-        return _instance;
-    }
-*/
-
 int  getStatusEngine(void);
-
-
-
-
 
 #endif

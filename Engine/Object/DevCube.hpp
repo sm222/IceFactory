@@ -10,7 +10,7 @@ class DevCube : public Object {
   public:
     DevCube(void);
     DevCube(const char* name);
-    DevCube(const std::string name);
+    DevCube(const std::string& name);
     ~DevCube(void);
     //
     void Draw(void);

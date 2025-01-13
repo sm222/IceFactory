@@ -18,6 +18,8 @@ __gameName("def") {
   __keyMapBind[K_left]     = KEY_A;
   __keyMapBind[K_right]    = KEY_D;
   __keyMapBind[K_Pause]    = KEY_BACKSPACE;
+  // error and debug
+  __whatA = 0;
 }
 
 IceFactory::~IceFactory(void) {}
@@ -64,6 +66,9 @@ bool IceFactory::initRaylib(void) {
     __screenSize = getMonitorSize();
     SetWindowSize(__screenSize.x, __screenSize.y);
     __raylib = true;
+    __what = LoadModel(ERR_MESH);
+    if (IsModelValid(__what))
+      printf("ready to go\n");
   }
   else {
 
@@ -82,8 +87,11 @@ bool IceFactory::closeRaylib(void) {
 }
 
 bool IceFactory::closeEngine(void) {
-  CloseWindow();
+  if ( IsModelValid(__what))
+    UnloadModel(__what);
   __engineStatus = S_EngineStop;
+  //!last step
+  CloseWindow();
   return true;
 }
 
@@ -129,6 +137,7 @@ int   IceFactory::UpdateEngine(void) {
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = getWindowSize();
   }
+  __whatA++;
   return status;
 }
 
@@ -149,4 +158,13 @@ void   IceFactory::setTimeScale(float scale) {
 
 Vector2 IceFactory::GiveWindowSize(void) {
   return __screenSize;
+}
+
+
+/*!
+//!
+//!
+*/
+Model*  IceFactory::GiveWhatModel(void) {
+  return &__what;
 }

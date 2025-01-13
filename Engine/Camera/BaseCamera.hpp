@@ -7,6 +7,11 @@
 
 # define BASE_CAMERA "base_camera"
 
+typedef enum {
+  none,
+  camera_texture, // output all inside of a 2DrenderTexture
+} t_camera_mode;
+
 class BaseCamera : public Object {
   
   public:
@@ -29,6 +34,7 @@ class BaseCamera : public Object {
     bool            Stop(void);
     void            DrawFrame(const Vector2 Position, const float angle, const float scale = 1.0f);
     bool            Clear(void);
+    bool            SetMode(const t_camera_mode mode);
     //
     const Texture2D GetFrame(void);
     const Vector2   GetFrameSize(void);
@@ -48,6 +54,7 @@ class BaseCamera : public Object {
     //
     unsigned int             __CameraID;
     static unsigned int      __cameraNumber;
+    t_camera_mode            __mode;
     //
     Color                    __clean;
     Color                    __tint;

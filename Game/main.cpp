@@ -12,7 +12,7 @@ void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
     (Vector3) { engine.GetAnalogInput(MouseHorizontal) * 0.05f, // Rotation: yaw
                 engine.GetAnalogInput(MouseVertical)   * 0.05f, // Rotation: pitch
                 0.0f /* Rotation: roll*/ },
-                GetMouseWheelMove());
+                0);
   }
 }
 
@@ -27,6 +27,7 @@ void loop(IceFactory& engine) {
   PlayerCamera.SetTarget(Vector3 {0,0,0});
   HideCursor();
   DisableCursor();
+  std::cout << PlayerCamera.SetMode(t_camera_mode::none) << "\n";
   while (!WindowShouldClose()) {
     engine.UpdateEngine();
     if (engine.ReadEnvent(Event_window_resized)) { 
@@ -77,6 +78,7 @@ int main(void) {
   int run = 1;
   Object* ptr = new Object();
   DevCube* c = new DevCube();
+  MeshObject* m = new MeshObject();
   Groups<Object*> newGroup;
   while (run) {
     switch (getStatusEngine()) {
@@ -87,7 +89,9 @@ int main(void) {
         engine.initRaylib();
         break;
       case S_EngineRun:
+        m->SetErrorModel(engine.GiveWhatModel());
         engine._mainGroups.Add(ptr);
+        engine._mainGroups.Add(m);
         engine._mainGroups.AddChild(&newGroup);
         newGroup.Add(c);
         SetTraceLogLevel(LOG_DEBUG);
@@ -95,6 +99,7 @@ int main(void) {
         engine.closeEngine();
         engine._mainGroups.Rm(ptr);
         newGroup.RmI(0);
+        engine._mainGroups.RmChild(0);
         break;
       case S_EngineStop:
         run = 0;
@@ -105,5 +110,6 @@ int main(void) {
   }
   delete ptr;
   delete c;
+  delete m;
   return 0;
 }

@@ -24,7 +24,8 @@ Engine/Object/DevCube.cpp
 Engine/Groups/Groups.tpp
 Engine/Camera/BaseCamera.cpp
 Engine/Camera/FpsCamera.cpp
-Engine/IceFactoryInit.cpp 
+Engine/IceFactoryInit.cpp
+Engine/Object/MeshObject.cpp
 )
 
 add_executable(${PROJECT_NAME} ${src})

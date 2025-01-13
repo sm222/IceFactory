@@ -12,13 +12,13 @@
 
 class Object {
   protected:
-    char        __name[100];
+    char        __name[MAX_NAME_LEN + 1];
     const char* __type;
     Vector3     __position;
   public:
     Object(void);
     Object(const char* name);
-    Object(const std::string name);
+    Object(const std::string& name);
     virtual ~Object(void);
     //
     virtual void Draw(void);             // must be public
