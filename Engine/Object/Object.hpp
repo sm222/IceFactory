@@ -12,6 +12,12 @@
 
 # define ZERO_NONE_PTR(var)    bzero(&var, sizeof(var))
 
+typedef enum RenderMode {
+  R_Normal = 0,
+  R_Wires,
+  R_Points
+} t_RenderMode;
+
 class Object {
   protected:
     char        __name[MAX_NAME_LEN + 1];
@@ -24,8 +30,8 @@ class Object {
     Object(const std::string& name);
     virtual ~Object(void);
     //
-    virtual void Draw(void);             // must be public
-    static void  CallDraw(Object* self); // this one too
+    virtual void Draw(int metod);        // must be public
+    static void  CallDraw(Object* self, int mode); // this one too
     // get
     const char*    GetName(void)     const;
     const char*    GetType(void)     const;

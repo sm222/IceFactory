@@ -56,17 +56,17 @@ bool Groups<T>::Rm(const T self) {
 /// @param type use to select only one type at the time
 /// @return 
 template <typename T>
-bool Groups<T>::Run(void(*ft)(T), unsigned int depth, const char* type) {
+bool Groups<T>::Run(void(*ft)(T, int), int setting, unsigned int depth, const char* type) {
   if (!ft)
     return false;
   for (size_t i = 0; i < __list.size(); i++) {
     if (type == nullptr || strncmp(type, __list[i]->GetType(), strlen(type) + 1) == 0) {
-      ft(__list[i]);
+      ft(__list[i], setting);
     }
   }
   if (depth) {
     for (size_t i = 0; i < __child.size(); i++) {
-      __child[i]->Run(ft, --depth, type);
+      __child[i]->Run(ft, setting, --depth, type);
     }
   }
   return true;
@@ -145,17 +145,41 @@ void  Groups<T>::MoveToward(const Vector3& direction, const float ammout) {
 }
 
 
+#if 0
+/// @brief T need to be a ptr and have a MoveToward define 
+/// @tparam T 
+/// @param direction 
+/// @param ammout 
+template <typename T, typename D>
+void  Groups<T>::MoveToward(void (*ft)(T, D), const D data) {
+  typename std::vector<T>::iterator it = __list.begin();
+  while (it != __list.end()) {
+    try { ft(*it, data); }
+    catch(const std::exception& e) {
+      std::cerr << e.what() << '\n';
+    }
+    
+    it++;
+  }
+}
+#endif
+
+
 
 /// @brief call Delete on evry element in the group
 /// @tparam T 
 template <typename T>
 void  Groups<T>::Delete(unsigned int depth, const char* type) {
   typename std::vector<T>::iterator it = __list.begin();
+  if (depth) {
+    size_t i = __child.size();
+    while (i--) {
+      __child[i]->Delete(--depth, type);
+    }
+  }
   while (it != __list.end()) {
     T tmp = *it;
     __list.erase(it);
     delete tmp;
   }
-  (void)depth;
-  (void)type;
 }

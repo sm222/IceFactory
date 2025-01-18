@@ -116,15 +116,16 @@ static void __showPose(Object *self) {
   DrawLine3D(self->GetPosition(), newPoint, RED);
 }
 
-void Object::Draw(void) {
+void Object::Draw(int metod) {
+  (void)metod;
   __showPose(this);
 }
 
 
 
-void Object::CallDraw(Object* self) {
+void Object::CallDraw(Object* self, int mode) {
   if (self)
-    self->Draw();
+    self->Draw(mode);
 }
 
 void Object::Zero(void) {

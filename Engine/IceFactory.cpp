@@ -54,6 +54,14 @@ int  IceFactory::initEngine(void) {
   return 1;
 }
 
+bool IceFactory::IceFactoryInitRayLib(void) {
+  InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
+  __engineStatus = S_EngineRun;
+  SetWindowState(FLAG_WINDOW_RESIZABLE);
+  SetWindowMinSize(600, 600);
+  return true;
+}
+
 int IceFactory::GetEngineStatus(void) {
   return __engineStatus;
 }

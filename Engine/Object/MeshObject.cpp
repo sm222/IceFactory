@@ -21,10 +21,15 @@ void MeshObject::Zero(void) {
   ZERO_NONE_PTR(__model);
   ZERO_NONE_PTR(__texture);
   ZERO_NONE_PTR(__bondingBox);
+  ZERO_NONE_PTR(__rotationAngle);
+  __scale = {1, 1 ,1};
+  ZERO_NONE_PTR(__tint);
+  
 }
 
 MeshObject::~MeshObject(void) {
-
+  if (IsModelValid(__model))
+    UnloadModel(__model);
 }
 
 bool MeshObject::SetErrorModel(Model* ptr) {
@@ -34,11 +39,39 @@ bool MeshObject::SetErrorModel(Model* ptr) {
   return true;
 }
 
-void MeshObject::Draw(void) {
+bool MeshObject::SetModel(const char* name) {
+  if (!name)
+    return false;
+  __model = LoadModel(name);
+  if (!IsModelValid(__model))
+    return false;
+  return true;
+}
+
+#include <iostream>
+
+void MeshObject::DrawModelMode(void(*ft)(Model , Vector3, Vector3, float, Vector3 , Color)) {
+  ft(__model, __position, __rotationAxis, __rotationAngle, __scale, WHITE);
+  std::cout << "ici\n";
+}
+
+void MeshObject::Draw(int metod) {
   const Vector3 errRotation = {0, 1 , 0};
   static float r = 0;
   if (IsModelValid(__model)) {
-    printf("yes\n");
+    switch (metod) {
+      case R_Normal:
+        DrawModelMode(&DrawModelEx);
+        break;
+      case R_Wires:
+        DrawModelMode(&DrawModelWiresEx);
+        break;
+      case R_Points:
+        DrawModelMode(&DrawModelPointsEx);
+        break;
+      default:
+        break;
+    }
   }
   else if (__errorModel) {
     DrawModelWiresEx(*__errorModel, __position, errRotation, r, {1, 1, 1}, WHITE);

@@ -17,7 +17,7 @@ class Groups {
     ssize_t Add(std::vector<T>& objs);
     bool    RmI(const unsigned int key);
     bool    Rm(const T self);
-    bool    Run(void(*ft)(T),  unsigned int depth = 0, const char* type = nullptr);
+    bool    Run(void(*ft)(T, int), int setting, unsigned int depth = 0, const char* type = nullptr);
     //
     T*      Find(const char* name, unsigned int depth = 0);
     //

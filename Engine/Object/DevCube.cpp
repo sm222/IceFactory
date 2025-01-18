@@ -17,7 +17,12 @@ DevCube::~DevCube(void) {
 
 }
 
-void DevCube::Draw(void) {
+void DevCube::Draw(int metod) {
   const float size = 0.1f;
-  DrawCube(__position, size, size, size, GREEN);
+  switch (metod) {
+  case 0:
+  default:
+    DrawCube(__position, size, size, size, GREEN);
+    break;
+  }
 }

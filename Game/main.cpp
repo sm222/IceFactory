@@ -16,11 +16,13 @@ void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
   }
 }
 
-
+int rm = 0;
 
 void loop(IceFactory& engine) {
   BaseCamera PlayerCamera;
-  Model cube = LoadModel("Engine/Resource/Models/cube.glb");
+  MeshObject* ptr = new MeshObject();
+  ptr->SetModel("Engine/Resource/Models/cube.glb");
+  engine._mainGroups.Add(ptr);
   SetTargetFPS(60);
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
   PlayerCamera.SetCanvas(engine.GiveWindowSize());
@@ -35,6 +37,11 @@ void loop(IceFactory& engine) {
     }
     UpatePlayer(engine, PlayerCamera);
     //
+    if (IsKeyPressed(KEY_L)) {
+      rm++;
+      if (rm > 2)
+        rm = 0;
+    }
     if (engine.ReadEnvent(Event_pause)) {
       if (IsCursorHidden()) {
         ShowCursor();
@@ -53,20 +60,17 @@ void loop(IceFactory& engine) {
       PlayerCamera.SetTarget((Vector3){0,0,0});
     }
     //
-    engine._mainGroups.MoveToward({0,1,0}, 0.01);
+    engine._mainGroups.MoveToward({0,1,0}, 0.001);
     BeginDrawing();
     PlayerCamera.Start();
-    engine._mainGroups.Run(Object::CallDraw);
+    engine._mainGroups.Run(Object::CallDraw, rm);
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
-    DrawModel(cube, {5, -0.5f, 5}, 0.5f, WHITE);
-    DrawModel(cube, {-5, 0.0f, -5}, 1.0f, GREEN);
     PlayerCamera.Stop();
     PlayerCamera.DrawFrame((Vector2){0, 0}, 0.0f);
     DrawFPS(0,0);
     EndDrawing();
     PlayerCamera.Clear();
   }
-  UnloadModel(cube);
 }
 
 //LoadRenderTexture
@@ -74,9 +78,9 @@ void loop(IceFactory& engine) {
 int main(void) {
   IceFactory engine;
   int run = 1;
-  Object* ptr = new Object();
-  DevCube* c = new DevCube();
-  MeshObject* m = new MeshObject();
+  Object*     ptr = new Object();
+  MeshObject* m   = new MeshObject();
+  DevCube*    c   = new DevCube();
   Groups<Object*> newGroup;
   while (run) {
     switch (getStatusEngine()) {
@@ -88,16 +92,14 @@ int main(void) {
         break;
       case S_EngineRun:
         m->SetErrorModel(engine.GiveWhatModel());
-        engine._mainGroups.Add(ptr);
         engine._mainGroups.Add(m);
+        engine._mainGroups.Add(ptr);
         engine._mainGroups.AddChild(&newGroup);
         newGroup.Add(c);
         SetTraceLogLevel(LOG_DEBUG);
         loop(engine);
+        engine._mainGroups.Delete(-1);
         engine.closeEngine();
-        engine._mainGroups.Rm(ptr);
-        newGroup.RmI(0);
-        engine._mainGroups.Delete();
         break;
       case S_EngineStop:
         run = 0;

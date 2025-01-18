@@ -13,7 +13,7 @@ class DevCube : public Object {
     DevCube(const std::string& name);
     ~DevCube(void);
     //
-    void Draw(void);
+    void Draw(int metod);
   private:
 };
 
