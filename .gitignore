@@ -26,7 +26,11 @@
 *.a
 *.lib
 
+# foldef
+/build/*
+
 # Executables
 *.exe
 *.out
 *.app
+./IceEngine
