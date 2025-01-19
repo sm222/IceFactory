@@ -20,7 +20,7 @@ BaseCamera::BaseCamera(const char* name) : Object(name) {
   __mode = camera_texture;
 }
 
-BaseCamera::BaseCamera(const std::string name) : Object(name) {
+BaseCamera::BaseCamera(const std::string& name) : Object(name) {
   Zero();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();

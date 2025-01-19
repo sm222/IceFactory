@@ -17,27 +17,27 @@ class BaseCamera : public Object {
   public:
     BaseCamera(void);
     BaseCamera(const char* name);
-    BaseCamera(const std::string name);
+    BaseCamera(const std::string& name);
     ~BaseCamera(void);
     //
-    const Camera3D  GetCamera(void) const;
-    void            SetPosition(const Vector3 position);
-    void            SetPosition(float x, float y, float z);
-    void            Update(Vector3 movement, Vector3 rotate, float zoom);
+    const Camera3D         GetCamera(void) const;
+    void                   SetPosition(const Vector3 position);
+    void                   SetPosition(float x, float y, float z);
+    void                   Update(Vector3 movement, Vector3 rotate, float zoom);
 
-    void            SetTarget(Vector3 position);
+    void                   SetTarget(Vector3 position);
     //Draw
-    void            Draw(void);
+    void                   Draw(void);
     //
-    bool            SetCanvas(const Vector2 size);
-    bool            Start(void);
-    bool            Stop(void);
-    void            DrawFrame(const Vector2 Position, const float angle, const float scale = 1.0f);
-    bool            Clear(void);
-    bool            SetMode(const t_camera_mode mode);
+    bool                   SetCanvas(const Vector2 size);
+    bool                   Start(void);
+    bool                   Stop(void);
+    void                   DrawFrame(const Vector2 Position, const float angle, const float scale = 1.0f);
+    bool                   Clear(void);
+    bool                   SetMode(const t_camera_mode mode);
     //
-    const Texture2D GetFrame(void);
-    const Vector2   GetFrameSize(void);
+    const Texture2D        GetFrame(void);
+    const Vector2          GetFrameSize(void);
     
     //
   private:

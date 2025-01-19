@@ -52,7 +52,6 @@ bool MeshObject::SetModel(const char* name) {
 
 void MeshObject::DrawModelMode(void(*ft)(Model , Vector3, Vector3, float, Vector3 , Color)) {
   ft(__model, __position, __rotationAxis, __rotationAngle, __scale, WHITE);
-  std::cout << "ici\n";
 }
 
 void MeshObject::Draw(int metod) {
