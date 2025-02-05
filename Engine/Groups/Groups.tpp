@@ -3,8 +3,30 @@
 # include <vector>
 
 template <typename T>
+unsigned int Groups<T>::__MakeId(void) {
+  static unsigned int id = 0;
+  return ++id;
+}
+
+template <typename T>
 Groups<T>::Groups(void) {
-  
+  __id = __MakeId();
+}
+
+template <typename T>
+Groups<T>* Groups<T>::GetGroupChildById(unsigned int id) {
+  typename std::vector<Groups*>::iterator it;
+  for (it = __child.begin();  it != __child.end(); it++) {
+    if ((*it)->GetId() == id) {
+      return *it;
+    }
+  }
+  return nullptr;
+}
+
+template <typename T>
+unsigned int Groups<T>::GetId(void) const {
+  return __id;
 }
 
 template <typename T>

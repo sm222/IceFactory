@@ -19,6 +19,9 @@ class Groups {
     bool    Rm(const T self);
     bool    Run(void(*ft)(T, int), int setting, unsigned int depth = 0, const char* type = nullptr);
     //
+    unsigned int GetId(void) const ;
+    //
+    Groups* GetGroupChildById(unsigned int id);
     T*      Find(const char* name, unsigned int depth = 0);
     //
     bool    AddChild(Groups* group);
@@ -32,8 +35,10 @@ class Groups {
     //
   protected:
   private:
+    static unsigned int  __MakeId(void);
     std::vector<T>       __list;
     std::vector<Groups*> __child;
+    unsigned int         __id;
     bool parant;
 };
 

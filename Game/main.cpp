@@ -26,11 +26,12 @@ void loop(IceFactory& engine) {
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
   PlayerCamera.SetCanvas(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
-  
+  //-------
   Wepon.SetPosition((Vector3){1, 0, 1});
   Wepon.SetCanvas(small);
   Wepon.SetTarget(Vector3 {0,0,0});
-
+  //
+  Groups<Object*>* weponModel = engine._mainGroups.GetGroupChildById(2);
   //
   HideCursor();
   DisableCursor();
@@ -38,9 +39,10 @@ void loop(IceFactory& engine) {
   std::cout << Wepon.SetMode(t_camera_mode::camera_texture) << "\n";
   while (!WindowShouldClose()) {
     engine.UpdateEngine();
-    //if (engine.ReadEnvent(Event_window_resized)) { 
-    //  PlayerCamera.SetCanvas(engine.GiveWindowSize()); 
-    //}
+    if (engine.ReadEnvent(Event_window_resized)) { 
+      PlayerCamera.SetCanvas(engine.GiveWindowSize());
+      Wepon.SetCanvas(engine.GiveWindowSize());
+    }
     UpatePlayer(engine, PlayerCamera);
     //
     if (IsKeyPressed(KEY_L)) {
@@ -66,24 +68,18 @@ void loop(IceFactory& engine) {
       PlayerCamera.SetTarget((Vector3){0,0,0});
     }
     //
-    engine._mainGroups.MoveToward({0,1,0}, 0.001);
     PlayerCamera.Start();
     engine._mainGroups.Run(Object::CallDraw, rm);
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
     Wepon.Start();
-    engine._mainGroups.Run(Object::CallDraw, rm);
     const float cs = 0.1f;
     DrawCube({0,0,0},cs,cs,cs, RED);
+    weponModel->Run(Object::CallDraw, rm);
     Wepon.Stop();
     BeginDrawing();
     PlayerCamera.DrawFrame({0,0});
     Wepon.DrawFrame({0,0});
-    //char s[6];
-    //bzero(s, 6);
-    //s[0] =  a + '0';
-    //Wepon.DrawFrame({0,0}, 0);
-    //DrawText(s, 5, 50, 20, RED);
     DrawFPS(0,0);
     EndDrawing();
     PlayerCamera.Clear();
@@ -98,8 +94,9 @@ int main(void) {
   int run = 1;
   Object*     ptr = new Object();
   MeshObject* m   = new MeshObject();
-  DevCube*    c   = new DevCube();
+  std::cout << "main group id " << engine._mainGroups.GetId() << "\n";
   Groups<Object*> newGroup;
+  std::cout << "newgroup id " << newGroup.GetId() << "\n";
   while (run) {
     switch (getStatusEngine()) {
       case S_EngineInit:
@@ -110,10 +107,10 @@ int main(void) {
         break;
       case S_EngineRun:
         m->SetErrorModel(engine.GiveWhatModel());
-        engine._mainGroups.Add(m);
+        m->SetModel("Engine/Resource/Models/Glock18.glb");
+        newGroup.Add(m);
         engine._mainGroups.Add(ptr);
         engine._mainGroups.AddChild(&newGroup);
-        newGroup.Add(c);
         SetTraceLogLevel(LOG_DEBUG);
         loop(engine);
         engine._mainGroups.Delete(-1);
