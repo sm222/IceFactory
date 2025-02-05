@@ -30,9 +30,9 @@ class BaseCamera : public Object {
     void                   Draw(void);
     //
     bool                   SetCanvas(const Vector2 size);
-    bool                   Start(void);
+    int                    Start(void);
     bool                   Stop(void);
-    void                   DrawFrame(const Vector2 Position, const float angle, const float scale = 1.0f);
+    void                   DrawFrame(const Vector2 Position);
     bool                   Clear(void);
     bool                   SetMode(const t_camera_mode mode);
     //
@@ -44,13 +44,11 @@ class BaseCamera : public Object {
     void                   Zero(void);
     static void            SetActive(unsigned int status);
     static unsigned int    GetNewID(void);
-    static int             GetActive(void);
+    static unsigned int    GetActive(void);
     //
     Camera3D                 __camera;
     bool                     __status;
-    Image                    __Iframe;
-    RenderTexture2D          __Tframe;
-    Texture2D                __frame;
+    RenderTexture2D          __RenderTexture;
     static unsigned int      __active;
     //
     unsigned int             __CameraID;

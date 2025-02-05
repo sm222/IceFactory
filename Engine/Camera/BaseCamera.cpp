@@ -36,8 +36,8 @@ bool BaseCamera::SetMode(const t_camera_mode mode) {
 }
 
 BaseCamera::~BaseCamera(void) {
-  if (IsRenderTextureValid(__Tframe)) {
-    UnloadRenderTexture(__Tframe);
+  if (IsRenderTextureValid(__RenderTexture)) {
+    UnloadRenderTexture(__RenderTexture);
   }
 }
 
@@ -66,11 +66,11 @@ void BaseCamera::Draw(void) {
 // return false if camera is not set in texture mode or LoadRenderTexture fail
 bool BaseCamera::SetCanvas(const Vector2 size) {
   if (__mode == camera_texture) {
-    if (IsRenderTextureValid(__Tframe)) {
-      UnloadRenderTexture(__Tframe);
-      __Tframe = LoadRenderTexture(size.x, size.y);
+    if (IsRenderTextureValid(__RenderTexture)) {
+      UnloadRenderTexture(__RenderTexture);
     }
-    return IsRenderTextureValid(__Tframe);
+    __RenderTexture = LoadRenderTexture((int)size.x, (int)size.y);
+    return IsRenderTextureValid(__RenderTexture);
   }
   return false;
 }
@@ -83,58 +83,54 @@ void BaseCamera::SetActive(unsigned int status) {
   __active = status;
 }
 
-int BaseCamera::GetActive(void) {
+unsigned int BaseCamera::GetActive(void) {
   return __active;
 }
 
-bool BaseCamera::Start(void) {
+int BaseCamera::Start(void) {
   if (BaseCamera::GetActive() < 1) {
     BaseCamera::SetActive(__CameraID);
-    if (__mode == camera_texture && IsRenderTextureValid(__Tframe)) {
-      BeginTextureMode(__Tframe);
+    if (__mode == camera_texture && IsRenderTextureValid(__RenderTexture)) {
+      BeginTextureMode(__RenderTexture);
       ClearBackground(BLANK);
     }
     else if (__mode == camera_texture)
-      return false;
+      return 1;
     BeginMode3D(__camera);
-    return true;
+    return 2;
   }
-  return false;
+  return 3;
 }
 
 bool BaseCamera::Stop(void) {
-  EndMode3D();
-  BaseCamera::SetActive(0);
-  if (IsRenderTextureValid(__Tframe) && __mode == camera_texture) {
+  if (BaseCamera::GetActive() == __CameraID) {
+    EndMode3D();
+    BaseCamera::SetActive(0);
+    if (IsRenderTextureValid(__RenderTexture) && __mode == camera_texture) {
       EndTextureMode();
-      __Iframe = LoadImageFromTexture(__Tframe.texture);
-      ImageFlipVertical(&__Iframe);
-      __frame = LoadTextureFromImage(__Iframe);
-      UnloadImage(__Iframe);
-  }
-  return true;
-}
-
-bool BaseCamera::Clear(void) {
-  if (IsTextureValid(__frame) && __mode == camera_texture) {
-    UnloadTexture(__frame);
+    }
     return true;
   }
   return false;
 }
 
+bool BaseCamera::Clear(void) {
+  return true;
+}
+
 const Vector2 BaseCamera::GetFrameSize(void) {
-  return ((Vector2){(float)__Tframe.texture.width, (float)__Tframe.texture.height});
+  return ((Vector2){(float)__RenderTexture.texture.width, (float)__RenderTexture.texture.height});
 }
 
 
-void  BaseCamera::DrawFrame(const Vector2 Position, const float angle, const float scale) {
+void  BaseCamera::DrawFrame(const Vector2 Position) {
+  (void)Position;
   if (__mode == t_camera_mode::camera_texture)
-    DrawTextureEx(__frame, Position, angle, scale, WHITE);
+    DrawTextureRec(__RenderTexture.texture, {Position.x, Position.y, (float)__RenderTexture.texture.width, -(float)__RenderTexture.texture.height}, {0,0}, WHITE);
 }
 
 const Texture2D BaseCamera::GetFrame(void) {
-  return __frame;
+  return __RenderTexture.texture;
 }
 
 // future problem ?
@@ -144,9 +140,7 @@ unsigned int BaseCamera::GetNewID(void) {
 
 void BaseCamera::Zero(void) {
   ZERO_NONE_PTR(__status);
-  ZERO_NONE_PTR(__Iframe);
-  ZERO_NONE_PTR(__Tframe);
-  ZERO_NONE_PTR(__frame);
+  ZERO_NONE_PTR(__RenderTexture);
   ZERO_NONE_PTR(__active);
   ZERO_NONE_PTR(__CameraID);
   ZERO_NONE_PTR(__mode);

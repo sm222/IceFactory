@@ -20,16 +20,21 @@ int rm = 0;
 
 void loop(IceFactory& engine) {
   BaseCamera PlayerCamera;
-  MeshObject* ptr = new MeshObject();
-  ptr->SetModel("Engine/Resource/Models/cube.glb");
-  engine._mainGroups.Add(ptr);
+  BaseCamera Wepon;
   SetTargetFPS(60);
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
   PlayerCamera.SetCanvas(engine.GiveWindowSize());
   PlayerCamera.SetTarget(Vector3 {0,0,0});
+  
+  Wepon.SetPosition((Vector3){1, 0, 1});
+  Wepon.SetCanvas(engine.GiveWindowSize());
+  Wepon.SetTarget(Vector3 {0,0,0});
+
+  //
   HideCursor();
   DisableCursor();
-  std::cout << PlayerCamera.SetMode(t_camera_mode::none) << "\n";
+  std::cout << PlayerCamera.SetMode(t_camera_mode::camera_texture) << "\n";
+  std::cout << Wepon.SetMode(t_camera_mode::camera_texture) << "\n";
   while (!WindowShouldClose()) {
     engine.UpdateEngine();
     if (engine.ReadEnvent(Event_window_resized)) { 
@@ -55,21 +60,31 @@ void loop(IceFactory& engine) {
       }
     }
     //SetMousePosition(GetMonitorWidth(0) / 2, GetMonitorHeight(0) / 2);
-    ClearBackground(BLACK);
+    ClearBackground(BLANK);
     if (IsKeyPressed(KEY_ENTER)) {
       PlayerCamera.SetTarget((Vector3){0,0,0});
     }
     //
     engine._mainGroups.MoveToward({0,1,0}, 0.001);
-    BeginDrawing();
     PlayerCamera.Start();
     engine._mainGroups.Run(Object::CallDraw, rm);
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
-    PlayerCamera.DrawFrame((Vector2){0, 0}, 0.0f);
+    Wepon.Start();
+    DrawCube({0,0,0},7,7,7, RED);
+    Wepon.Stop();
+    BeginDrawing();
+    PlayerCamera.DrawFrame({0,0});
+    Wepon.DrawFrame({0,0});
+    //char s[6];
+    //bzero(s, 6);
+    //s[0] =  a + '0';
+    //Wepon.DrawFrame({0,0}, 0);
+    //DrawText(s, 5, 50, 20, RED);
     DrawFPS(0,0);
     EndDrawing();
     PlayerCamera.Clear();
+    Wepon.Clear();
   }
 }
 
