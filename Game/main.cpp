@@ -21,13 +21,14 @@ int rm = 0;
 void loop(IceFactory& engine) {
   BaseCamera PlayerCamera;
   BaseCamera Wepon;
-  SetTargetFPS(60);
+  SetTargetFPS(144);
+  Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
-  PlayerCamera.SetCanvas(engine.GiveWindowSize());
+  PlayerCamera.SetCanvas(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
   
   Wepon.SetPosition((Vector3){1, 0, 1});
-  Wepon.SetCanvas(engine.GiveWindowSize());
+  Wepon.SetCanvas(small);
   Wepon.SetTarget(Vector3 {0,0,0});
 
   //
@@ -37,9 +38,9 @@ void loop(IceFactory& engine) {
   std::cout << Wepon.SetMode(t_camera_mode::camera_texture) << "\n";
   while (!WindowShouldClose()) {
     engine.UpdateEngine();
-    if (engine.ReadEnvent(Event_window_resized)) { 
-      PlayerCamera.SetCanvas(engine.GiveWindowSize()); 
-    }
+    //if (engine.ReadEnvent(Event_window_resized)) { 
+    //  PlayerCamera.SetCanvas(engine.GiveWindowSize()); 
+    //}
     UpatePlayer(engine, PlayerCamera);
     //
     if (IsKeyPressed(KEY_L)) {
@@ -71,7 +72,9 @@ void loop(IceFactory& engine) {
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
     Wepon.Start();
-    DrawCube({0,0,0},7,7,7, RED);
+    engine._mainGroups.Run(Object::CallDraw, rm);
+    const float cs = 0.1f;
+    DrawCube({0,0,0},cs,cs,cs, RED);
     Wepon.Stop();
     BeginDrawing();
     PlayerCamera.DrawFrame({0,0});

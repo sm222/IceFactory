@@ -124,9 +124,8 @@ const Vector2 BaseCamera::GetFrameSize(void) {
 
 
 void  BaseCamera::DrawFrame(const Vector2 Position) {
-  (void)Position;
   if (__mode == t_camera_mode::camera_texture)
-    DrawTextureRec(__RenderTexture.texture, {Position.x, Position.y, (float)__RenderTexture.texture.width, -(float)__RenderTexture.texture.height}, {0,0}, WHITE);
+    DrawTextureRec(__RenderTexture.texture, {Position.x, Position.y, (float)__RenderTexture.texture.width, -(float)__RenderTexture.texture.height}, Position, WHITE);
 }
 
 const Texture2D BaseCamera::GetFrame(void) {
