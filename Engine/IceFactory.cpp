@@ -135,8 +135,11 @@ void  IceFactory::ForceEnvent(const t_EngineEvents event) {
   __EngineEvent[event] = true;
 }
 
-bool  IceFactory::ReadEnvent(const t_EngineEvents event) {
-  return __EngineEvent[event];
+bool  IceFactory::ReadEnvent(const t_EngineEvents event) const {
+  std::map<t_EngineEvents, bool>::const_iterator it = __EngineEvent.find(event);
+  if (it != __EngineEvent.end())
+    return ((*it).second);
+  return false;
 }
 
 
@@ -153,9 +156,10 @@ int   IceFactory::UpdateEngine(void) {
 }
 
 
-float  IceFactory::GetAnalogInput(const t_Controls name) {
-  if (__analogMap.find(name) != __analogMap.end())
-    return __analogMap[name];
+float  IceFactory::GetAnalogInput(const t_Controls name) const {
+  std::map<t_Controls, float>::const_iterator it = __analogMap.find(name);
+  if (it != __analogMap.end())
+    return ((*it).second);
   return 0;
 }
 
