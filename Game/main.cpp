@@ -3,6 +3,17 @@
 # include "../Engine/Camera/BaseCamera.hpp"
 # include <iostream>
 
+typedef struct shot {
+  Ray   ray;
+  float time;
+  Color c;
+  void update(void) {
+    time -= 0.01;
+  }
+} t_shot;
+
+std::vector<t_shot*> bullet;
+
 void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
   if (engine.GetEngineStatus() != S_EnginePause) {
     PlayerCamera.Update(
@@ -27,7 +38,7 @@ void loop(IceFactory& engine) {
   PlayerCamera.SetCanvas(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
   //-------
-  Wepon.SetPosition((Vector3){1, 0, 1});
+  Wepon.SetPosition((Vector3){0, 0, 1});
   Wepon.SetCanvas(small);
   Wepon.SetTarget(Vector3 {0,0,0});
   //
@@ -67,14 +78,34 @@ void loop(IceFactory& engine) {
     if (IsKeyPressed(KEY_ENTER)) {
       PlayerCamera.SetTarget((Vector3){0,0,0});
     }
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+      t_shot* ptr = new t_shot;
+      ptr->time = 10;
+      const Vector2 mid = small / 2;
+      ptr->ray = GetScreenToWorldRay(mid, PlayerCamera.GetCamera());
+      SetRandomSeed(0);
+      ptr->c.b = (unsigned char)GetRandomValue(1, 255);
+      ptr->c.r = (unsigned char)GetRandomValue(1, 255);
+      ptr->c.g = (unsigned char)GetRandomValue(1, 255);
+      bullet.push_back(ptr);
+    }
     //
     PlayerCamera.Start();
     engine._mainGroups.Run(Object::CallDraw, rm);
+    std::vector<t_shot*>::iterator it;
+    for (it = bullet.begin(); it != bullet.end(); it++) {
+      (*it)->update();
+      if ((*it)->time > 0)
+        DrawRay((*it)->ray, (*it)->c);
+      else {
+        bullet.erase(it);
+        it--;
+      }
+    }
+    
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
     Wepon.Start();
-    const float cs = 0.1f;
-    DrawCube({0,0,0},cs,cs,cs, RED);
     weponModel->Run(Object::CallDraw, rm);
     Wepon.Stop();
     BeginDrawing();
@@ -108,6 +139,9 @@ int main(void) {
       case S_EngineRun:
         m->SetErrorModel(engine.GiveWhatModel());
         m->SetModel("Engine/Resource/Models/Glock18.glb");
+        m->SetRotationAngle(90.f);
+        m->SetPosition({0.5f,-2.3,-2});
+        m->SetRotationAxis({0,1,0});
         newGroup.Add(m);
         engine._mainGroups.Add(ptr);
         engine._mainGroups.AddChild(&newGroup);

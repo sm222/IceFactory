@@ -27,6 +27,30 @@ void MeshObject::Zero(void) {
   
 }
 
+void  MeshObject::SetRotationAngle(const float rotation) {
+  __rotationAngle = rotation;
+}
+
+void  MeshObject::SetRotationAxis(const Vector3& Axis) {
+  __rotationAxis = Axis;
+}
+
+void  MeshObject::SetScale(const Vector3& scale) {
+  __scale == scale;
+}
+
+float MeshObject::GetRotationAngle(void) const {
+  return __rotationAngle;
+}
+
+Vector3  MeshObject::GetRotationAxis(void) const {
+  return __rotationAxis;
+}
+
+Vector3  MeshObject::GetScale(void) const {
+  return __scale;
+}
+
 MeshObject::~MeshObject(void) {
   if (IsModelValid(__model))
     UnloadModel(__model);
@@ -47,8 +71,6 @@ bool MeshObject::SetModel(const char* name) {
     return false;
   return true;
 }
-
-#include <iostream>
 
 void MeshObject::DrawModelMode(void(*ft)(Model , Vector3, Vector3, float, Vector3 , Color)) {
   ft(__model, __position, __rotationAxis, __rotationAngle, __scale, WHITE);
