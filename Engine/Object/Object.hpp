@@ -10,7 +10,6 @@
 
 #define OBJECT_TYPE "Object"
 
-# define ZERO_NONE_PTR(var)    bzero(&var, sizeof(var))
 
 typedef enum RenderMode {
   R_Normal = 0,
