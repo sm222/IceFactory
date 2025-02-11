@@ -3,16 +3,39 @@
 # include "../Engine/Camera/BaseCamera.hpp"
 # include <iostream>
 
+//# define  CLAY_IMPLEMENTATION
+//# include "../Engine/include/clay.h"
+
 typedef struct shot {
   Ray   ray;
   float time;
   Color c;
   void update(void) {
     time -= 0.01;
+    SetRandomSeed((unsigned int)GetTime() / 2);
+    switch (GetRandomValue(0, 2)) {
+    case 0:
+      if (c.r > 0) {
+        c.r -= 1;
+      }
+      break;
+    case 1:
+      if (c.g > 0) {
+        c.g -= 1;
+      }
+      break;
+    case 2:
+      if (c.b > 0) {
+        c.b -= 1;
+      }
+      break;
+    default:
+      break;
+    }
   }
 } t_shot;
 
-std::vector<t_shot*> bullet;
+std::vector<t_shot*>    bullet;
 
 void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
   if (engine.GetEngineStatus() != S_EnginePause) {
@@ -33,6 +56,7 @@ void loop(IceFactory& engine) {
   BaseCamera PlayerCamera;
   BaseCamera Wepon;
   SetTargetFPS(144);
+  BaseUi* u = new BaseUi;
   Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
   PlayerCamera.SetCanvas(small);
@@ -43,11 +67,25 @@ void loop(IceFactory& engine) {
   Wepon.SetTarget(Vector3 {0,0,0});
   //
   Groups<Object*>* weponModel = engine._mainGroups.GetGroupChildById(2);
-  //
   HideCursor();
   DisableCursor();
-  std::cout << PlayerCamera.SetMode(t_camera_mode::camera_texture) << "\n";
-  std::cout << Wepon.SetMode(t_camera_mode::camera_texture) << "\n";
+  PlayerCamera.SetMode(t_camera_mode::camera_texture);
+  u->SetColor(BLACK);
+  u->SetData({{0, 0, 300, 300}, true, 0});
+  u->SetFirst();
+  TextBox* t = new TextBox;
+  t->SetColor(GREEN);
+  for (size_t i = 0; i < 10; i++) {
+    std::string ss = "ab";
+    for (size_t j = 0; j < i; j++) {
+      ss += "cdef";
+    }
+    t->pushText(ss);
+  }
+  
+  t->SetFontSize(20);
+  u->AddChild(t);
+  Wepon.SetMode(t_camera_mode::camera_texture);
   while (!WindowShouldClose()) {
     engine.UpdateEngine();
     if (engine.ReadEnvent(Event_window_resized)) { 
@@ -78,15 +116,15 @@ void loop(IceFactory& engine) {
     if (IsKeyPressed(KEY_ENTER)) {
       PlayerCamera.SetTarget((Vector3){0,0,0});
     }
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
       t_shot* ptr = new t_shot;
       ptr->time = 10;
       const Vector2 mid = small / 2;
       ptr->ray = GetScreenToWorldRay(mid, PlayerCamera.GetCamera());
-      SetRandomSeed(0);
-      ptr->c.b = (unsigned char)GetRandomValue(1, 255);
-      ptr->c.r = (unsigned char)GetRandomValue(1, 255);
-      ptr->c.g = (unsigned char)GetRandomValue(1, 255);
+      ptr->c.b = 255;
+      ptr->c.r = 255;
+      ptr->c.g = 255;
+      ptr->c.a = 255;
       bullet.push_back(ptr);
     }
     //
@@ -111,11 +149,14 @@ void loop(IceFactory& engine) {
     BeginDrawing();
     PlayerCamera.DrawFrame({0,0});
     Wepon.DrawFrame({0,0});
+    u->Draw(0);
     DrawFPS(0,0);
     EndDrawing();
     PlayerCamera.Clear();
     Wepon.Clear();
   }
+  delete u;
+  delete t;
 }
 
 //LoadRenderTexture

@@ -1,15 +1,17 @@
 #ifndef __TYPE_H__
 # define __TYPE_H__
 
-
 # include <raylib.h>
 # include <raymath.h>
+# include <cstring>
+# include <iostream>
 
 # include "KeysName.hpp"
 # include "Controls.hpp"
 
-# define TYPE_KEY KeyboardKey
+# include  <vector>
 
+# define TYPE_KEY KeyboardKey
 
 // use define to be redefine at compile time
 # ifndef  LOCAL_FILE_PATH
@@ -28,6 +30,7 @@
 #  define MAX_NAME_LEN       100
 # endif
 
+# define ZERO_NONE_PTR(var)    memset(&var, ZERO ,sizeof(var))
 typedef struct {
   Model        data;
   char         name[MAX_NAME_LEN + 1];
@@ -59,6 +62,16 @@ typedef struct {
   unsigned int targetFps;
   Vector2      targetWindowSize;
 } UserSeting;
+
+enum UiType {
+  Ui_base = 0,
+  Ui_consol
+};
+typedef struct ui {
+  Rectangle window;
+  bool      reSizeAble;
+  int       type;
+} t_ui;
 
 
 
