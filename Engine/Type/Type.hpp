@@ -63,6 +63,13 @@ typedef struct {
   Vector2      targetWindowSize;
 } UserSeting;
 
+typedef struct dataText {
+  int         type;
+  std::string s;
+  Color       c;
+} t_dataText;
+
+
 enum UiType {
   Ui_base = 0,
   Ui_consol

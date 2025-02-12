@@ -57,29 +57,13 @@ class BaseUi {
 
 class TextBox : public BaseUi {
   public:
-    TextBox(void) : __max(MAX_TEXT_BOX_SIZE), __pushIndex(0) {
-
-    }
-    ~TextBox(void) { };
+    TextBox(void);
+    ~TextBox(void) {};
     //
-    void Draw(int mode) const {
-      (void)mode;
-      for (size_t i = 0; !__text[i].empty() && i < __max; i++) {
-        DrawText(__text[i].c_str(), __data.window.x, __data.window.y + (i * __fontSize), __fontSize, __color);
-      }
-    }
+    void Draw(int mode) const;
     //
-    void pushText(const std::string& str) {
-      size_t i = 0;
-      while (__text[i].length() > 0) {
-        i++;
-      }
-      if (i < __max)
-        __text[i] = str;
-    }
-    void SetFontSize(const int& size) {
-      __fontSize = size;
-    }
+    void pushText(const std::string& str, int const type, Color const c);
+    void SetFontSize(const int& size);
   protected:
     //
     //
@@ -88,7 +72,7 @@ class TextBox : public BaseUi {
     const size_t                               __max;
     size_t                                     __pushIndex;
     int                                        __fontSize;
-    std::array<std::string, MAX_TEXT_BOX_SIZE> __text;
+    std::array<t_dataText , MAX_TEXT_BOX_SIZE> __text;
     //
 };
 

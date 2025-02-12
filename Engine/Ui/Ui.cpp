@@ -100,10 +100,36 @@ void BaseUi::Draw(int mode) const {
     EndTextureMode();
     Rectangle r = __data.window;
     r.height *= -1;
-    DrawTextureRec((*__canvas).texture, r, {r.x, r.y}, WHITE);
+    DrawTextureRec((*__canvas).texture, r, {__offset.x, __offset.y}, WHITE);
   }
 }
 
 void BaseUi::AddChild(BaseUi* ui) {
   __child.push_back(ui);
+}
+
+TextBox::TextBox(void): __max(MAX_TEXT_BOX_SIZE), __pushIndex(0) {
+
+}
+
+void  TextBox::Draw(int mode) const {
+  (void)mode;
+  for (size_t i = 0; !__text[i].s.empty() && i < __max; i++) {
+    Vector2 DrawP = {__data.window.x + __offset.x, __data.window.y + __offset.y};
+    DrawText(__text[i].s.c_str(), DrawP.x, DrawP.y + (i * __fontSize), __fontSize, __text[i].c);
+  }
+}
+
+void  TextBox::pushText(const std::string& str, int const type, Color const c) {
+  size_t i = 0;
+  while (__text[i].s.length() > 0) {
+    i++;
+  }
+  if (i < __max) {
+    __text[i] = {.type = type, .s = str, .c = c};
+  }
+}
+
+void  TextBox::SetFontSize(const int& size) {
+  __fontSize = size;
 }

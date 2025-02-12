@@ -71,18 +71,20 @@ void loop(IceFactory& engine) {
   DisableCursor();
   PlayerCamera.SetMode(t_camera_mode::camera_texture);
   u->SetColor(BLACK);
+  Vector2 offset = {0,0};
+  Vector2 offsetTxT = {0,0};
   u->SetData({{0, 0, 300, 300}, true, 0});
   u->SetFirst();
   TextBox* t = new TextBox;
   t->SetColor(GREEN);
+  t->SetData({{0,0,0,0}, true, 0});
   for (size_t i = 0; i < 10; i++) {
     std::string ss = "ab";
     for (size_t j = 0; j < i; j++) {
       ss += "cdef";
     }
-    t->pushText(ss);
+    t->pushText(ss, 0, RED);
   }
-  
   t->SetFontSize(20);
   u->AddChild(t);
   Wepon.SetMode(t_camera_mode::camera_texture);
@@ -126,6 +128,19 @@ void loop(IceFactory& engine) {
       ptr->c.g = 255;
       ptr->c.a = 255;
       bullet.push_back(ptr);
+    }
+    //
+    if (IsKeyDown(KEY_RIGHT)) {
+      offset.x++;
+      u->SetOffset(offset);
+    }
+    if (IsKeyDown(KEY_UP)) {
+      offsetTxT.y--;
+      t->SetOffset(offsetTxT);
+    }
+    if (IsKeyDown(KEY_DOWN)) {
+      offsetTxT.y++;
+      t->SetOffset(offsetTxT);
     }
     //
     PlayerCamera.Start();

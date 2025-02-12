@@ -1,0 +1,6 @@
+building ...
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/antoine/Documents/IceFactory/build
+done
+[ 11%] Building CXX object CMakeFiles/IceEngine.dir/Game/main.cpp.o
