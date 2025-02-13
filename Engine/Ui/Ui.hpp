@@ -10,6 +10,26 @@
 * 
 */
 
+
+class UiRenderZone {
+  public:
+  //
+    UiRenderZone(int const& width, int const& height);
+    UiRenderZone(Vector2 const& size);
+    ~UiRenderZone(void);
+  //
+  protected:
+  //
+  //
+  private:
+  //
+  Vector2               __position;
+  std::vector<void*>  __object;
+  RenderTexture2D*      __canvas;
+  Rectangle             __zone;
+  //
+};
+
 class BaseUi {
   public:
     //

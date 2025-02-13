@@ -1,5 +1,23 @@
 #include "Ui.hpp"
 
+
+UiRenderZone::UiRenderZone(int const& width, int const& height):
+  __position({0,0}), __canvas(nullptr),  __zone({0, 0, (float)width, (float)height}) {
+
+}
+
+
+
+
+
+
+//* //////////////////////////////
+//* //////////////////////////////
+
+//* //////////////////////////////
+//* //////////////////////////////
+
+
 void BaseUi::Zero(void) {
   ZERO_NONE_PTR(__data);
   ZERO_NONE_PTR(__color);
