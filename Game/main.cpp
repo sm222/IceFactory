@@ -54,27 +54,18 @@ int rm = 0;
 
 void loop(IceFactory& engine) {
   BaseCamera PlayerCamera;
-  BaseCamera Wepon;
   SetTargetFPS(144);
-  BaseUi* u = new BaseUi;
   Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
   PlayerCamera.SetCanvas(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
   //-------
-  Wepon.SetPosition((Vector3){0, 0, 1});
-  Wepon.SetCanvas(small);
-  Wepon.SetTarget(Vector3 {0,0,0});
   //
-  Groups<Object*>* weponModel = engine._mainGroups.GetGroupChildById(2);
   HideCursor();
   DisableCursor();
   PlayerCamera.SetMode(t_camera_mode::camera_texture);
-  u->SetColor(BLACK);
   Vector2 offset = {0,0};
   Vector2 offsetTxT = {0,0};
-  u->SetData({{0, 0, 300, 300}, true, 0});
-  u->SetFirst();
   TextBox* t = new TextBox;
   t->SetColor(GREEN);
   t->SetData({{0,0,0,0}, true, 0});
@@ -86,13 +77,10 @@ void loop(IceFactory& engine) {
     t->pushText(ss, 0, RED);
   }
   t->SetFontSize(20);
-  u->AddChild(t);
-  Wepon.SetMode(t_camera_mode::camera_texture);
   while (!WindowShouldClose()) {
     engine.UpdateEngine();
     if (engine.ReadEnvent(Event_window_resized)) { 
       PlayerCamera.SetCanvas(engine.GiveWindowSize());
-      Wepon.SetCanvas(engine.GiveWindowSize());
     }
     UpatePlayer(engine, PlayerCamera);
     //
@@ -132,7 +120,7 @@ void loop(IceFactory& engine) {
     //
     if (IsKeyDown(KEY_RIGHT)) {
       offset.x++;
-      u->SetOffset(offset);
+
     }
     if (IsKeyDown(KEY_UP)) {
       offsetTxT.y--;
@@ -144,7 +132,6 @@ void loop(IceFactory& engine) {
     }
     //
     PlayerCamera.Start();
-    engine._mainGroups.Run(Object::CallDraw, rm);
     std::vector<t_shot*>::iterator it;
     for (it = bullet.begin(); it != bullet.end(); it++) {
       (*it)->update();
@@ -158,19 +145,12 @@ void loop(IceFactory& engine) {
     
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
-    Wepon.Start();
-    weponModel->Run(Object::CallDraw, rm);
-    Wepon.Stop();
     BeginDrawing();
     PlayerCamera.DrawFrame({0,0});
-    Wepon.DrawFrame({0,0});
-    u->Draw(0);
     DrawFPS(0,0);
     EndDrawing();
     PlayerCamera.Clear();
-    Wepon.Clear();
   }
-  delete u;
   delete t;
 }
 
@@ -179,8 +159,6 @@ void loop(IceFactory& engine) {
 int main(void) {
   IceFactory engine;
   int run = 1;
-  Object*     ptr = new Object();
-  MeshObject* m   = new MeshObject();
   std::cout << "main group id " << engine._mainGroups.GetId() << "\n";
   Groups<Object*> newGroup;
   std::cout << "newgroup id " << newGroup.GetId() << "\n";
@@ -193,13 +171,6 @@ int main(void) {
         engine.initRaylib();
         break;
       case S_EngineRun:
-        m->SetErrorModel(engine.GiveWhatModel());
-        m->SetModel("Engine/Resource/Models/Glock18.glb");
-        m->SetRotationAngle(90.f);
-        m->SetPosition({0.5f,-2.3,-2});
-        m->SetRotationAxis({0,1,0});
-        newGroup.Add(m);
-        engine._mainGroups.Add(ptr);
         engine._mainGroups.AddChild(&newGroup);
         SetTraceLogLevel(LOG_DEBUG);
         loop(engine);

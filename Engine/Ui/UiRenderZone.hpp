@@ -1,8 +1,11 @@
 
-#ifndef  __UI_H__
-# define __UI_H__
+#ifndef  __UI_RENDER_ZONE_HPP__
+# define __UI_RENDER_ZONE_HPP__
 
 # include "../Type/Type.hpp"
+# include "UiBaseBlock.hpp" //
+
+class UiBaseBlock;
 
 /*
 *  Define all the default type for ui in one file
@@ -10,23 +13,42 @@
 * 
 */
 
-
 class UiRenderZone {
+  //
   public:
   //
-    UiRenderZone(int const& width, int const& height);
-    UiRenderZone(Vector2 const& size);
+    UiRenderZone(const char* name, int const& width, int const& height);
+    UiRenderZone(const std::string& name, int const& width, int const& height);
+    UiRenderZone(const std::string& name, const Vector2& size);
     ~UiRenderZone(void);
+  //
+    ssize_t            Add(UiBaseBlock* block);
+    //
+    ssize_t            Remove(size_t index);
+    ssize_t            Remove(const char* name);
+    ssize_t            Remove(const std::string& name);
+    //
+    void               SetSize(const Vector2& size);
+    void               SetZone(const Rectangle& zone);
+    void               SetPosition(const Vector2& position);
+  //
+    void               Render(void);
+    void               Draw(int mode);
+    //const Texture2D&   GetFrame(void) const;
   //
   protected:
   //
   //
   private:
-  //
-  Vector2               __position;
-  std::vector<void*>  __object;
-  RenderTexture2D*      __canvas;
-  Rectangle             __zone;
+    void                       Zero(void);
+    int                      __UpdateRender(void);
+    //
+    char                       __name[MAX_NAME_LEN];
+    Vector2                    __offset;
+    std::vector<UiBaseBlock*>  __objects;
+    RenderTexture2D            __canvas;
+    Rectangle                  __zone;
+    Color                      __color;
   //
 };
 

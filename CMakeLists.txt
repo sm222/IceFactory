@@ -29,7 +29,9 @@ Engine/Camera/BaseCamera.cpp
 Engine/Camera/FpsCamera.cpp
 Engine/IceFactoryInit.cpp
 Engine/Object/MeshObject.cpp
-Engine/Ui/Ui.cpp
+Engine/Ui/UiRenderZone.cpp
+Engine/Ui/UiBaseBlock.cpp
+Engine/Base/Base.cpp
 )
 
 add_executable(${PROJECT_NAME} ${src})

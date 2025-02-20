@@ -47,7 +47,6 @@ void BaseCamera::SetTarget(Vector3 position) {
 
 void BaseCamera::SetPosition(const Vector3 position) {
   __camera.position = position;
-  __position = position;
 }
 
 void BaseCamera::SetPosition(float x, float y, float z) {

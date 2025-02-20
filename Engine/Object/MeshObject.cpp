@@ -73,7 +73,7 @@ bool MeshObject::SetModel(const char* name) {
 }
 
 void MeshObject::DrawModelMode(void(*ft)(Model , Vector3, Vector3, float, Vector3 , Color)) {
-  ft(__model, __position, __rotationAxis, __rotationAngle, __scale, WHITE);
+  ft(__model, {0,0,0}, __rotationAxis, __rotationAngle, __scale, WHITE);
 }
 
 void MeshObject::Draw(int metod) {
@@ -95,7 +95,7 @@ void MeshObject::Draw(int metod) {
     }
   }
   else if (__errorModel) {
-    DrawModelWiresEx(*__errorModel, __position, errRotation, r, {1, 1, 1}, WHITE);
+    DrawModelWiresEx(*__errorModel, {0,0,0}, errRotation, r, {1, 1, 1}, WHITE);
     r += 1.5f;
   }
 }
