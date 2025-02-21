@@ -20,7 +20,7 @@ __gameName("def") {
   __keyMapBind[K_backward] = KEY_S;
   __keyMapBind[K_left]     = KEY_A;
   __keyMapBind[K_right]    = KEY_D;
-  __keyMapBind[K_Pause]    = KEY_BACKSPACE;
+  __keyMapBind[K_pause]    = KEY_BACKSPACE;
   // error and debug
   __whatA = 0;
 }
@@ -123,7 +123,7 @@ int      IceFactory::UpdateInpus(void) {
 }
 
 int   IceFactory::UpdateEvent(void) {
-  __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_Pause]);
+  __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_pause]);
   __EngineEvent[Event_window_resized] = IsWindowResized();
 
   return 0;

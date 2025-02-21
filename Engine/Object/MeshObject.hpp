@@ -7,7 +7,6 @@
 
 class MeshObject : public Object {
   public:
-    MeshObject(void);
     MeshObject(const char* name);
     MeshObject(const std::string& name);
     virtual ~MeshObject(void);

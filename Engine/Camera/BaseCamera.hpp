@@ -15,30 +15,29 @@ typedef enum {
 class BaseCamera : public Object {
   
   public:
-    BaseCamera(void);
     BaseCamera(const char* name);
     BaseCamera(const std::string& name);
     ~BaseCamera(void);
     //
     const Camera3D         GetCamera(void) const;
-    void                   SetPosition(const Vector3 position);
+    void                   SetPosition(const Vector3& position);
     void                   SetPosition(float x, float y, float z);
-    void                   Update(Vector3 movement, Vector3 rotate, float zoom);
+    void                   Update(const Vector3& movement, const Vector3& rotate, const float& zoom);
+    void                   Default(void);
 
-    void                   SetTarget(Vector3 position);
+    void                   SetTarget(const Vector3& position);
     //Draw
     void                   Draw(void);
     //
-    bool                   SetCanvas(const Vector2 size);
+    bool                   SetCanvas(const Vector2& size);
     int                    Start(void);
     bool                   Stop(void);
-    void                   DrawFrame(const Vector2 Position);
+    void                   DrawFrame(const Vector2& Position);
     bool                   Clear(void);
     bool                   SetMode(const t_camera_mode mode);
     //
     const Texture2D        GetFrame(void);
     const Vector2          GetFrameSize(void);
-    
     //
   private:
     void                   Zero(void);

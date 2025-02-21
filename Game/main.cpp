@@ -3,9 +3,6 @@
 # include "../Engine/Camera/BaseCamera.hpp"
 # include <iostream>
 
-//# define  CLAY_IMPLEMENTATION
-//# include "../Engine/include/clay.h"
-
 typedef struct shot {
   Ray   ray;
   float time;
@@ -53,7 +50,7 @@ void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
 int rm = 0;
 
 void loop(IceFactory& engine) {
-  BaseCamera PlayerCamera;
+  BaseCamera PlayerCamera("player");
   SetTargetFPS(144);
   Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
@@ -63,7 +60,7 @@ void loop(IceFactory& engine) {
   //
   HideCursor();
   DisableCursor();
-  PlayerCamera.SetMode(t_camera_mode::camera_texture);
+  //PlayerCamera.SetMode(t_camera_mode::camera_texture);
   Vector2 offset = {0,0};
   Vector2 offsetTxT = {0,0};
   TextBox* t = new TextBox;
@@ -142,7 +139,6 @@ void loop(IceFactory& engine) {
         it--;
       }
     }
-    
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
     BeginDrawing();

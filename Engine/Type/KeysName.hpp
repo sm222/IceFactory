@@ -4,11 +4,13 @@
 
 typedef enum ControlKeys {
   NoKey = 0,
-  K_Pause,
+  K_pause,
   K_forward,
   K_backward,
   K_left,
-  K_right
+  K_right,
+  K_use,
+  K_croutch,
 } t_ControlKeys;
 
 #endif
