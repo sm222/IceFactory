@@ -1,42 +1,43 @@
-#ifndef  __UI_BASE_BLOCK__
-# define __UI_BASE_BLOCK__
+#ifndef  __UI_BASE_BLOCK_HPP__
+# define __UI_BASE_BLOCK_HPP__
 
-# include "../Type/Type.hpp"
+# include "../Base/Base.hpp"
 # include "UiRenderZone.hpp"
 
 class UiRenderZone;
 
-class UiBaseBlock {
+class UiBaseBlock : public Base {
   friend class UiRenderZone;
   public:
-  //
-  UiBaseBlock(const char* name);
-  UiBaseBlock(const std::string& name);
-  UiBaseBlock(const char* name, const Vector2& position);
-  UiBaseBlock(const std::string& name, const Vector2& position);
-  //
+    //
+    UiBaseBlock(const char* name);
+    UiBaseBlock(const std::string& name);
+    UiBaseBlock(const char* name, const Vector2& position);
+    UiBaseBlock(const std::string& name, const Vector2& position);
+    ~UiBaseBlock(void);
+    //
     // Set
-
+    void              SetZone(const Rectangle& zone);
+    void              SetColor(const Color& color);
     // Get
     const Rectangle&  GetZone(void) const;
-    const char*       GetName(void) const;
-  //
+    //
   protected:
-  //
-  //
+    //
+    void              Zero(void);
+    void             _SetParant(UiRenderZone& parant);
+    void             _UnsetParant(void);
+    //
+    virtual void      Draw(int mode);
+    //
+    UiRenderZone* __parant;
+    Vector2       __position;
+    Rectangle     __zone;
+    Color         __color;
+    //
   private:
-  //
-  void       Zero(void);
-  void       SetParant(UiRenderZone& parant);
-  void       UnsetParant(void);
-  //
-  UiRenderZone* __parant;
-  //
-  Vector2       __position;
-  Rectangle     __zone;
-  Color         __color;
-  char          __name[MAX_NAME_LEN];
-  //
+    //
+    //
 };
 
 #endif

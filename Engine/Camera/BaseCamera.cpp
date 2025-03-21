@@ -15,7 +15,6 @@ BaseCamera::BaseCamera(const std::string& name) : Object(name) {
   Default();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
-
 }
 
 bool BaseCamera::SetMode(const t_camera_mode mode) {
@@ -132,7 +131,7 @@ void BaseCamera::Default(void) {
   __clean = BLACK;
   __tint = WHITE;
   __mode = camera_texture;
-  __camera.up = {0,1,0};
+  __camera.up = {0, 1, 0};
   __camera.fovy = 90;
 }
 
@@ -142,4 +141,5 @@ void BaseCamera::Zero(void) {
   ZERO_NONE_PTR(__active);
   ZERO_NONE_PTR(__CameraID);
   ZERO_NONE_PTR(__mode);
+  ZERO_NONE_PTR(__camera);
 }

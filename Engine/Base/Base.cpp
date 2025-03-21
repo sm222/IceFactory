@@ -51,13 +51,5 @@ void Base::SetName(const char* name) {
 }
 
 void Base::SetName(const std::string& name) {
-  size_t len = name.length();
-  if (len > MAX_NAME_LEN) {
-    memcpy(__name, name.c_str(), MAX_NAME_LEN - 1);
-    __name[MAX_NAME_LEN] = 0;
-  }
-  else {
-    memcpy(__name, name.c_str(), len);
-    __name[len] = 0;
-  }
+  SetName(name.c_str());
 }

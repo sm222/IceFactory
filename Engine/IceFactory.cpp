@@ -147,6 +147,7 @@ bool  IceFactory::ReadEnvent(const t_EngineEvents event) const {
 /// @param  
 /// @return 
 int   IceFactory::UpdateEngine(void) {
+  ClearBackground(BLANK);
   const int status = UpdateInpus() + UpdateEvent();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = getWindowSize();

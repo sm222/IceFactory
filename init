@@ -9,4 +9,4 @@ sleep $sleepTime2 ; echo -n "."
 mkdir -p $dir
 sleep $sleepTime2 ; echo -n "."
 cd $dir && sleep $sleepTime2 ; echo -n "." ; sleep $sleepTime ; echo ""
-cmake .. && echo done && sleep 1 && make && cd .. && cp $dir/bin/IceEngine .
+cmake .. && echo done && sleep 1 && make && cd .. && cp $dir/IceEngine .

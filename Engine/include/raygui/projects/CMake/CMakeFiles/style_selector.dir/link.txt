@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/style_selector.dir/home/antoine/Documents/IceFactory/Engine/include/raygui/examples/style_selector/style_selector.c.o -o style_selector  -Wl,-rpath,/usr/local/lib /usr/local/lib/libraylib.so 
