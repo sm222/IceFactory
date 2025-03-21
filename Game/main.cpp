@@ -1,6 +1,7 @@
 # include "../Engine/IceFactory.hpp"
 # include "../Engine/Object/DevCube.hpp"
 # include "../Engine/Camera/BaseCamera.hpp"
+# include "../Engine/Ui/UiBaseTextBox.hpp"
 # include <iostream>
 
 void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
@@ -18,22 +19,29 @@ void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
 
 int rm = 0;
 
+static void Button004(void) {
+
+}
+
 void loop(IceFactory& engine) {
-  BaseCamera PlayerCamera;
-  MeshObject* ptr = new MeshObject();
-  ptr->SetModel("Engine/Resource/Models/cube.glb");
-  engine._mainGroups.Add(ptr);
-  SetTargetFPS(60);
+
+  BaseCamera    PlayerCamera("player");
+  UiRenderZone  uiTest("uiTest", 400, 400);
+  UiBaseBlock   uiBlock("block");
+  SetTargetFPS(144);
+  Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
-  PlayerCamera.SetCanvas(engine.GiveWindowSize());
+  PlayerCamera.SetCanvas(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
+  //-------
+  //
   HideCursor();
   DisableCursor();
-  std::cout << PlayerCamera.SetMode(t_camera_mode::none) << "\n";
+  //
   while (!WindowShouldClose()) {
     engine.UpdateEngine();
-    if (engine.ReadEnvent(Event_window_resized)) { 
-      PlayerCamera.SetCanvas(engine.GiveWindowSize()); 
+    if (engine.ReadEnvent(Event_window_resized)) {
+      PlayerCamera.SetCanvas(engine.GiveWindowSize());
     }
     UpatePlayer(engine, PlayerCamera);
     //
@@ -54,33 +62,29 @@ void loop(IceFactory& engine) {
         engine.SetEngineStatus(S_EngineRun);
       }
     }
-    //SetMousePosition(GetMonitorWidth(0) / 2, GetMonitorHeight(0) / 2);
-    ClearBackground(BLACK);
     if (IsKeyPressed(KEY_ENTER)) {
       PlayerCamera.SetTarget((Vector3){0,0,0});
     }
     //
-    engine._mainGroups.MoveToward({0,1,0}, 0.001);
-    BeginDrawing();
+    //
+    uiTest.Render();
     PlayerCamera.Start();
-    engine._mainGroups.Run(Object::CallDraw, rm);
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
-    PlayerCamera.DrawFrame((Vector2){0, 0}, 0.0f);
+    BeginDrawing();
+    PlayerCamera.DrawFrame({0,0});
+    uiTest.Draw(0);
     DrawFPS(0,0);
+    //
+    //
     EndDrawing();
     PlayerCamera.Clear();
   }
 }
 
-//LoadRenderTexture
-
 int main(void) {
   IceFactory engine;
   int run = 1;
-  Object*     ptr = new Object();
-  MeshObject* m   = new MeshObject();
-  DevCube*    c   = new DevCube();
   Groups<Object*> newGroup;
   while (run) {
     switch (getStatusEngine()) {
@@ -91,11 +95,7 @@ int main(void) {
         engine.initRaylib();
         break;
       case S_EngineRun:
-        m->SetErrorModel(engine.GiveWhatModel());
-        engine._mainGroups.Add(m);
-        engine._mainGroups.Add(ptr);
         engine._mainGroups.AddChild(&newGroup);
-        newGroup.Add(c);
         SetTraceLogLevel(LOG_DEBUG);
         loop(engine);
         engine._mainGroups.Delete(-1);

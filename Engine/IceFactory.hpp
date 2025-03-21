@@ -5,6 +5,7 @@
 #  define VERTION 0
 # endif
 
+
 //
 # include "Type/Type.hpp"
 //
@@ -12,10 +13,12 @@
 # include "Object/MeshObject.hpp"
 # include "Groups/Groups.hpp"
 # include "Render/Render.hpp"
-# include "Camera/FpsCamera.hpp"
+# include "Camera/BaseCamera.hpp"
+# include "Ui/UiRenderZone.hpp"
 
 # include <raylib.h>
 # include <raymath.h>
+
 # include <string>
 # include <map>
 namespace Engine {
@@ -34,17 +37,18 @@ class IceFactory {
     int                UpdateEngine(void);
     //
     int                UpdateInpus(void);
-    float              GetAnalogInput(const t_Controls name);
-    //bool               
+    float              GetAnalogInput(const t_Controls name) const ;
     //
     int                UpdateEvent(void);
     void               ForceEnvent(const t_EngineEvents envent);
-    bool               ReadEnvent(const t_EngineEvents event);
+    bool               ReadEnvent(const t_EngineEvents event) const;
     //
     static float       timeScale(float in);
     static void        setTimeScale(float scale);
     //
     Vector2            GiveWindowSize(void);
+    //! Update
+    bool               AddCameraToUpdateList(BaseCamera& camera);
 
     //! debug and error
     Model*             GiveWhatModel(void);
@@ -52,7 +56,7 @@ class IceFactory {
     IceFactory(void);
     ~IceFactory(void);
     //
-    Groups<Object*>    _mainGroups;
+    Groups<Object*>    _mainGroups; //* root
     //
     protected:
     //! - - - - - -
@@ -63,6 +67,8 @@ class IceFactory {
       //
       static t_EngineStatus             __engineStatus;
       static bool                       __raylib;
+      //
+      std::vector<BaseCamera*>          __autoReSizeCamera;
       //
       Vector2                           __screenSize;
       std::string                       __gameName;

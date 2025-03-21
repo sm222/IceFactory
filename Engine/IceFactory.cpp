@@ -20,7 +20,7 @@ __gameName("def") {
   __keyMapBind[K_backward] = KEY_S;
   __keyMapBind[K_left]     = KEY_A;
   __keyMapBind[K_right]    = KEY_D;
-  __keyMapBind[K_Pause]    = KEY_BACKSPACE;
+  __keyMapBind[K_pause]    = KEY_BACKSPACE;
   // error and debug
   __whatA = 0;
 }
@@ -123,7 +123,7 @@ int      IceFactory::UpdateInpus(void) {
 }
 
 int   IceFactory::UpdateEvent(void) {
-  __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_Pause]);
+  __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_pause]);
   __EngineEvent[Event_window_resized] = IsWindowResized();
 
   return 0;
@@ -135,8 +135,11 @@ void  IceFactory::ForceEnvent(const t_EngineEvents event) {
   __EngineEvent[event] = true;
 }
 
-bool  IceFactory::ReadEnvent(const t_EngineEvents event) {
-  return __EngineEvent[event];
+bool  IceFactory::ReadEnvent(const t_EngineEvents event) const {
+  std::map<t_EngineEvents, bool>::const_iterator it = __EngineEvent.find(event);
+  if (it != __EngineEvent.end())
+    return ((*it).second);
+  return false;
 }
 
 
@@ -144,6 +147,7 @@ bool  IceFactory::ReadEnvent(const t_EngineEvents event) {
 /// @param  
 /// @return 
 int   IceFactory::UpdateEngine(void) {
+  ClearBackground(BLANK);
   const int status = UpdateInpus() + UpdateEvent();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = getWindowSize();
@@ -153,9 +157,10 @@ int   IceFactory::UpdateEngine(void) {
 }
 
 
-float  IceFactory::GetAnalogInput(const t_Controls name) {
-  if (__analogMap.find(name) != __analogMap.end())
-    return __analogMap[name];
+float  IceFactory::GetAnalogInput(const t_Controls name) const {
+  std::map<t_Controls, float>::const_iterator it = __analogMap.find(name);
+  if (it != __analogMap.end())
+    return ((*it).second);
   return 0;
 }
 

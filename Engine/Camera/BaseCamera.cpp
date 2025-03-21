@@ -5,26 +5,16 @@ unsigned int BaseCamera::__active = 0;
 unsigned int BaseCamera::__cameraNumber = 0;
 
 
-BaseCamera::BaseCamera(void) : Object(), 
-__camera((Camera3D){{0, 0, 0}, {0,0,0}, {0,1,0}, 90, 0}) , __status(false) {
-  Zero();
-  __type = BASE_CAMERA;
-  __CameraID = GetNewID();
-  __mode = camera_texture;
-}
-
 BaseCamera::BaseCamera(const char* name) : Object(name) {
-  Zero();
+  Default();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
-  __mode = camera_texture;
 }
 
 BaseCamera::BaseCamera(const std::string& name) : Object(name) {
-  Zero();
+  Default();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
-  __mode = camera_texture;
 }
 
 bool BaseCamera::SetMode(const t_camera_mode mode) {
@@ -36,18 +26,17 @@ bool BaseCamera::SetMode(const t_camera_mode mode) {
 }
 
 BaseCamera::~BaseCamera(void) {
-  if (IsRenderTextureValid(__Tframe)) {
-    UnloadRenderTexture(__Tframe);
+  if (IsRenderTextureValid(__RenderTexture)) {
+    UnloadRenderTexture(__RenderTexture);
   }
 }
 
-void BaseCamera::SetTarget(Vector3 position) {
+void BaseCamera::SetTarget(const Vector3& position) {
   __camera.target = position;
 }
 
-void BaseCamera::SetPosition(const Vector3 position) {
+void BaseCamera::SetPosition(const Vector3& position) {
   __camera.position = position;
-  __position = position;
 }
 
 void BaseCamera::SetPosition(float x, float y, float z) {
@@ -64,18 +53,18 @@ void BaseCamera::Draw(void) {
 }
 
 // return false if camera is not set in texture mode or LoadRenderTexture fail
-bool BaseCamera::SetCanvas(const Vector2 size) {
+bool BaseCamera::SetCanvas(const Vector2& size) {
   if (__mode == camera_texture) {
-    if (IsRenderTextureValid(__Tframe)) {
-      UnloadRenderTexture(__Tframe);
-      __Tframe = LoadRenderTexture(size.x, size.y);
+    if (IsRenderTextureValid(__RenderTexture)) {
+      UnloadRenderTexture(__RenderTexture);
     }
-    return IsRenderTextureValid(__Tframe);
+    __RenderTexture = LoadRenderTexture((int)size.x, (int)size.y);
+    return IsRenderTextureValid(__RenderTexture);
   }
   return false;
 }
 
-void  BaseCamera::Update(Vector3 movement, Vector3 rotate, float zoom) {
+void  BaseCamera::Update(const Vector3& movement, const Vector3& rotate, const float& zoom) {
   UpdateCameraPro(&__camera, movement, rotate, zoom);
 }
 
@@ -83,58 +72,53 @@ void BaseCamera::SetActive(unsigned int status) {
   __active = status;
 }
 
-int BaseCamera::GetActive(void) {
+unsigned int BaseCamera::GetActive(void) {
   return __active;
 }
 
-bool BaseCamera::Start(void) {
+int BaseCamera::Start(void) {
   if (BaseCamera::GetActive() < 1) {
     BaseCamera::SetActive(__CameraID);
-    if (__mode == camera_texture && IsRenderTextureValid(__Tframe)) {
-      BeginTextureMode(__Tframe);
+    if (__mode == camera_texture && IsRenderTextureValid(__RenderTexture)) {
+      BeginTextureMode(__RenderTexture);
       ClearBackground(BLANK);
     }
     else if (__mode == camera_texture)
-      return false;
+      return 1;
     BeginMode3D(__camera);
-    return true;
+    return 2;
   }
-  return false;
+  return 3;
 }
 
 bool BaseCamera::Stop(void) {
-  EndMode3D();
-  BaseCamera::SetActive(0);
-  if (IsRenderTextureValid(__Tframe) && __mode == camera_texture) {
+  if (BaseCamera::GetActive() == __CameraID) {
+    EndMode3D();
+    BaseCamera::SetActive(0);
+    if (IsRenderTextureValid(__RenderTexture) && __mode == camera_texture) {
       EndTextureMode();
-      __Iframe = LoadImageFromTexture(__Tframe.texture);
-      ImageFlipVertical(&__Iframe);
-      __frame = LoadTextureFromImage(__Iframe);
-      UnloadImage(__Iframe);
-  }
-  return true;
-}
-
-bool BaseCamera::Clear(void) {
-  if (IsTextureValid(__frame) && __mode == camera_texture) {
-    UnloadTexture(__frame);
+    }
     return true;
   }
   return false;
 }
 
+bool BaseCamera::Clear(void) {
+  return true;
+}
+
 const Vector2 BaseCamera::GetFrameSize(void) {
-  return ((Vector2){(float)__Tframe.texture.width, (float)__Tframe.texture.height});
+  return ((Vector2){(float)__RenderTexture.texture.width, (float)__RenderTexture.texture.height});
 }
 
 
-void  BaseCamera::DrawFrame(const Vector2 Position, const float angle, const float scale) {
+void  BaseCamera::DrawFrame(const Vector2& Position) {
   if (__mode == t_camera_mode::camera_texture)
-    DrawTextureEx(__frame, Position, angle, scale, WHITE);
+    DrawTextureRec(__RenderTexture.texture, {Position.x, Position.y, (float)__RenderTexture.texture.width, -(float)__RenderTexture.texture.height}, Position, WHITE);
 }
 
 const Texture2D BaseCamera::GetFrame(void) {
-  return __frame;
+  return __RenderTexture.texture;
 }
 
 // future problem ?
@@ -142,14 +126,20 @@ unsigned int BaseCamera::GetNewID(void) {
   return ++__cameraNumber;
 }
 
+void BaseCamera::Default(void) {
+  Zero();
+  __clean = BLACK;
+  __tint = WHITE;
+  __mode = camera_texture;
+  __camera.up = {0, 1, 0};
+  __camera.fovy = 90;
+}
+
 void BaseCamera::Zero(void) {
   ZERO_NONE_PTR(__status);
-  ZERO_NONE_PTR(__Iframe);
-  ZERO_NONE_PTR(__Tframe);
-  ZERO_NONE_PTR(__frame);
+  ZERO_NONE_PTR(__RenderTexture);
   ZERO_NONE_PTR(__active);
   ZERO_NONE_PTR(__CameraID);
   ZERO_NONE_PTR(__mode);
-  ZERO_NONE_PTR(__clean);
-  ZERO_NONE_PTR(__tint);
+  ZERO_NONE_PTR(__camera);
 }

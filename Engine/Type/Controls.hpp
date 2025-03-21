@@ -8,7 +8,9 @@ typedef enum Controls {
   ForwardBackward,
   LeftRight,
   MouseVertical,
-  MouseHorizontal
+  MouseHorizontal,
+  UseKey,
+  Crouch,
 } t_Controls;
 
 

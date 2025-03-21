@@ -1,49 +1,27 @@
 //! Object
-#ifndef __OBJECT__
-# define __OBJECT__
+#ifndef  __OBJECT_HPP__
+# define __OBJECT_HPP__
 
-# include <string>
-# include <vector>
-# include "../Type/Type.hpp"
-# include <string.h>
-# include <strings.h>
+# include "../Base/Base.hpp"
 
-#define OBJECT_TYPE "Object"
+# define TYPE_OBJECT "Object"
 
-# define ZERO_NONE_PTR(var)    bzero(&var, sizeof(var))
+/* 
+* this class existe to regroup 2d and 3d
+* if something is use by a 2d obj and a 3d one add the option here
+  TODO: add Draw here
+*/
 
-typedef enum RenderMode {
-  R_Normal = 0,
-  R_Wires,
-  R_Points
-} t_RenderMode;
-
-class Object {
-  protected:
-    char        __name[MAX_NAME_LEN + 1];
-    const char* __type;
-    Vector3     __position;
-    void        Zero(void);
+class Object : public Base {
   public:
-    Object(void);
     Object(const char* name);
     Object(const std::string& name);
     virtual ~Object(void);
-    //
-    virtual void Draw(int metod);        // must be public
-    static void  CallDraw(Object* self, int mode); // this one too
-    // get
-    const char*    GetName(void)     const;
-    const char*    GetType(void)     const;
-    const Vector3  GetPosition(void) const;
-    // set
-    virtual void SetPosition(const Vector3 position);
-    virtual void SetPosition(float x, float y, float z);
-    //
-    virtual void MoveTowards(const Vector3& direction, const float speed = 1.0f);
-    //  /
-    void SetName(const char* NewName);
-    void SetName(const std::string& NewName);
+  protected:
+    void           Zero(void);
+  //  virtual void   Draw(int mode) = 0;
+  private:
+
 };
 
 #endif

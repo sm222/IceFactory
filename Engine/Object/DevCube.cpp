@@ -1,6 +1,6 @@
 #include "DevCube.hpp"
 
-DevCube::DevCube(void): Object() {
+DevCube::DevCube(void): Object("Dev") {
   __type = DEV_CUBE_TYPE;
 }
 
@@ -22,7 +22,7 @@ void DevCube::Draw(int metod) {
   switch (metod) {
   case 0:
   default:
-    DrawCube(__position, size, size, size, GREEN);
+    DrawCube({0,0,0}, size, size, size, GREEN);
     break;
   }
 }
