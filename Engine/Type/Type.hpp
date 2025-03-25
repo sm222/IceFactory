@@ -12,22 +12,7 @@
 
 # include  <vector>
 
-# ifndef  TXT_COLORS
-#  define TXT_COLORS
-#  define CS	"\001" //*start code
-#  define CE	"\002" //*end   code 
-#  define TXT_RED	CS "\e[31m" CE
-#  define TXT_GRN	CS "\e[32m" CE
-#  define TXT_YEL	CS "\e[33m" CE
-#  define TXT_BLU	CS "\e[34m" CE
-#  define TXT_MAG	CS "\e[35m" CE
-#  define TXT_CYN	CS "\e[36m" CE
-#  define TXT_WHT	CS "\e[37m" CE
-#  define TXT_ORG	CS "\e[38;5;202m"  CE
-#  define TXT_PIK	CS "\e[38;5;176m"  CE
-#  define TXT_RESET	CS "\e[0m\022"   CE
-#  define TXT_CLE	CS "\e[1;1H\x1b[2J" CE
-# endif
+# include "Debug.h"
 
 # define TYPE_KEY KeyboardKey
 

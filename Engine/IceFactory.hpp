@@ -15,6 +15,7 @@
 # include "Render/Render.hpp"
 # include "Camera/BaseCamera.hpp"
 # include "Ui/UiRenderZone.hpp"
+# include "Import/Model/ModelManager.hpp"
 
 # include <raylib.h>
 # include <raymath.h>
@@ -55,6 +56,7 @@ class IceFactory {
     //
     IceFactory(void);
     ~IceFactory(void);
+    ModelManager        Models;
     //
     Groups<Object*>    _mainGroups; //* root
     //

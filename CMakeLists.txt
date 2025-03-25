@@ -31,6 +31,7 @@ Engine/Ui/UiRenderZone.cpp
 Engine/Ui/UiBaseBlock.cpp
 Engine/Ui/UiBaseTextBox.cpp
 Engine/Base/Base.cpp
+Engine/Import/Model/ModelManager.cpp
 )
 
 add_executable(${PROJECT_NAME} ${src})

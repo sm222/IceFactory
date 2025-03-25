@@ -9,11 +9,11 @@ bool             IceFactory::__raylib       = false;
 t_EngineStatus   IceFactory::__engineStatus = S_EngineInit;
 float            IceFactory::__timeScale    = 1;
 
-IceFactory::IceFactory(void): 
+IceFactory::IceFactory(void):
 __screenSize((Vector2) {1000, 1000}),
 __gameName("def") {
   //
-  __userSeting.targetFps = 30;
+  __userSeting.targetFps = 60;
   __userSeting.targetWindowSize = {600, 600};
   //
   __keyMapBind[K_forward]  = KEY_W;
@@ -23,6 +23,7 @@ __gameName("def") {
   __keyMapBind[K_pause]    = KEY_BACKSPACE;
   // error and debug
   __whatA = 0;
+  C_DEBUG("start IceFactory");
 }
 
 IceFactory::~IceFactory(void) {}
@@ -56,6 +57,11 @@ int  IceFactory::initEngine(void) {
 
 bool IceFactory::IceFactoryInitRayLib(void) {
   InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
+  if (!IsWindowReady()) {
+    Debug(red, "fail to start");
+    return false;
+  }
+  Debug(green, "Begin");
   __engineStatus = S_EngineRun;
   SetWindowState(FLAG_WINDOW_RESIZABLE);
   SetWindowMinSize(600, 600);
@@ -77,8 +83,9 @@ bool IceFactory::initRaylib(void) {
     __screenSize = getMonitorSize();
     SetWindowSize(__screenSize.x, __screenSize.y);
     __raylib = true;
+    Models.Add(ERR_MESH);
     __what = LoadModel(ERR_MESH);
-    if (IsModelValid(__what))
+    if (IsModelValid(Models.Get(ERR_MESH)))
       printf("ready to go\n");
   }
   else {
@@ -91,18 +98,18 @@ bool IceFactory::closeRaylib(void) {
   if (__raylib) {
     __raylib = false;
   }
-  else { 
+  else {
 
   }
   return true;
 }
 
+// Rap around raylib
 bool IceFactory::closeEngine(void) {
-  if ( IsModelValid(__what))
-    UnloadModel(__what);
   __engineStatus = S_EngineStop;
-  //!last step
+  Models.Clear();
   CloseWindow();
+  //!last step
   return true;
 }
 
