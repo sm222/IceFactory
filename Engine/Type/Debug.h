@@ -67,10 +67,14 @@ static void Debug(int m = 0, const char* s = "", ...) {
 
 # define DEBUG(mode, msg)  Debug(mode, msg "\n%d : %s", __LINE__, __FILE__)
 
-# define E_DEBUG(msg)      DEBUG(red,   msg) // error
-# define C_DEBUG(msg)      DEBUG(blue,  msg) // class
-# define W_DEBUG(msg)      DEBUG(yello, msg) // warning
-# define L_DEBUG(msg)      DEBUG(green, msg) // log
+// error
+# define E_DEBUG(msg)      DEBUG(red,   msg) 
+// class
+# define C_DEBUG(msg)      DEBUG(blue,  msg) 
+// warning
+# define W_DEBUG(msg)      DEBUG(yello, msg) 
+// log
+# define L_DEBUG(msg)      DEBUG(green, msg) 
 
 
 

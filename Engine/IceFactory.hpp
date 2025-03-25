@@ -25,13 +25,14 @@
 namespace Engine {
 class IceFactory {
   public:
-    int                initEngine(void);
-    static int         GetEngineStatus(void);
+    int                  initEngine(void);
+    static int           GetEngineStatus(void);
+    static const Vector2 GetMonitorSize(void);
+    static const Vector2 GetWindowSize(void);
     //
-    bool               initRaylib(void);
-    bool               closeRaylib(void);
-    bool               closeEngine(void);
-    static Vector2     flaotToVec2(float angle);
+    bool                 InitRaylib(void);
+    bool                 closeEngine(void);
+    static Vector2       flaotToVec2(float angle);
     //
     void               SetEngineStatus(const t_EngineStatus status);
     //
@@ -49,8 +50,8 @@ class IceFactory {
     //
     Vector2            GiveWindowSize(void);
     //! Update
-    bool               AddCameraToUpdateList(BaseCamera& camera);
-
+    //? bool               AddCameraToUpdateList(BaseCamera& camera);
+    
     //! debug and error
     Model*             GiveWhatModel(void);
     //
@@ -63,8 +64,9 @@ class IceFactory {
     protected:
     //! - - - - - -
     private:
-      bool              IceFactoryInitRayLib(void);
-      //
+    bool                 CloseRaylib(void);
+    bool                 IceFactoryInitRayLib(void);
+    //
       UserSeting                        __userSeting;
       //
       static t_EngineStatus             __engineStatus;
@@ -86,7 +88,6 @@ class IceFactory {
       //static 
       // debug / errors tools
       Model                             __what;
-      float                             __whatA;
   };
 };
 

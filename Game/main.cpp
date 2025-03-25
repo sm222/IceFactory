@@ -92,7 +92,7 @@ int main(void) {
         engine.initEngine();
         break;
       case S_EngineStart:
-        engine.initRaylib();
+        engine.InitRaylib();
         break;
       case S_EngineRun:
         engine._mainGroups.AddChild(&newGroup);

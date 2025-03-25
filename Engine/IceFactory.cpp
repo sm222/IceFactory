@@ -10,8 +10,7 @@ t_EngineStatus   IceFactory::__engineStatus = S_EngineInit;
 float            IceFactory::__timeScale    = 1;
 
 IceFactory::IceFactory(void):
-__screenSize((Vector2) {1000, 1000}),
-__gameName("def") {
+__screenSize((Vector2) {1000, 1000}), __gameName("def") {
   //
   __userSeting.targetFps = 60;
   __userSeting.targetWindowSize = {600, 600};
@@ -22,11 +21,10 @@ __gameName("def") {
   __keyMapBind[K_right]    = KEY_D;
   __keyMapBind[K_pause]    = KEY_BACKSPACE;
   // error and debug
-  __whatA = 0;
   C_DEBUG("start IceFactory");
 }
 
-IceFactory::~IceFactory(void) {}
+IceFactory::~IceFactory(void) { C_DEBUG("IceFactory GoodBye"); }
 // - - - - - - - - - - - - - - - -
 
 void  IceFactory::SetEngineStatus(const t_EngineStatus status) {
@@ -35,15 +33,21 @@ void  IceFactory::SetEngineStatus(const t_EngineStatus status) {
 
 // - - - - - - - - - - - - - - - -
 
-static const Vector2 getMonitorSize(void) {
-  const int m = GetCurrentMonitor();
-  const float w = GetMonitorWidth(m) ;
-  const float h = GetMonitorHeight(m);
-  return ((Vector2){w, h});
+const Vector2 IceFactory::GetMonitorSize(void) {
+  L_DEBUG("getMonitorSize");
+  if (IceFactory::GetEngineStatus()) {
+    const int monitor  = GetCurrentMonitor();
+    const float width  = GetMonitorWidth(monitor) ;
+    const float height = GetMonitorHeight(monitor);
+    return ((Vector2){width, height});
+  }
+  return ((Vector2){0, 0});
 }
 
-static const Vector2 getWindowSize(void) {
-  return ((Vector2){(float)GetRenderWidth() ,(float)GetRenderHeight()});
+const Vector2 IceFactory::GetWindowSize(void) {
+  if (IceFactory::GetEngineStatus())
+    return ((Vector2){(float)GetRenderWidth() ,(float)GetRenderHeight()});
+  return ((Vector2){0, 0});
 }
 
 
@@ -58,10 +62,10 @@ int  IceFactory::initEngine(void) {
 bool IceFactory::IceFactoryInitRayLib(void) {
   InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
   if (!IsWindowReady()) {
-    Debug(red, "fail to start");
+    W_DEBUG("raylib FAIL!!!");
     return false;
   }
-  Debug(green, "Begin");
+  L_DEBUG("Begin Raylib");
   __engineStatus = S_EngineRun;
   SetWindowState(FLAG_WINDOW_RESIZABLE);
   SetWindowMinSize(600, 600);
@@ -77,29 +81,27 @@ int getStatusEngine(void) {
 }
 
 
-bool IceFactory::initRaylib(void) {
+bool IceFactory::InitRaylib(void) {
   if (!__raylib) {
-    IceFactoryInitRayLib();
-    __screenSize = getMonitorSize();
+    __raylib = IceFactoryInitRayLib();
+    if (!__raylib)
+      return false;
+    __screenSize = IceFactory::GetMonitorSize();
     SetWindowSize(__screenSize.x, __screenSize.y);
-    __raylib = true;
     Models.Add(ERR_MESH);
     __what = LoadModel(ERR_MESH);
     if (IsModelValid(Models.Get(ERR_MESH)))
       printf("ready to go\n");
   }
   else {
-
+    W_DEBUG("Raylib is all ready runing");
   }
   return true;
 }
 
-bool IceFactory::closeRaylib(void) {
+bool IceFactory::CloseRaylib(void) {
   if (__raylib) {
     __raylib = false;
-  }
-  else {
-
   }
   return true;
 }
@@ -108,8 +110,9 @@ bool IceFactory::closeRaylib(void) {
 bool IceFactory::closeEngine(void) {
   __engineStatus = S_EngineStop;
   Models.Clear();
-  CloseWindow();
   //!last step
+  CloseWindow();
+  CloseRaylib();
   return true;
 }
 
@@ -123,7 +126,7 @@ int      IceFactory::UpdateInpus(void) {
   //
   const Vector2 Mdelata = GetMouseDelta();
   __analogMap[ForwardBackward] = (IsKeyDown(__keyMapBind[K_forward]) - (IsKeyDown(__keyMapBind[K_backward])));
-  __analogMap[LeftRight] = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );
+  __analogMap[LeftRight]       = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );
   __analogMap[MouseVertical]   = Mdelata.y;
   __analogMap[MouseHorizontal] = Mdelata.x;
   return 0;
@@ -132,7 +135,6 @@ int      IceFactory::UpdateInpus(void) {
 int   IceFactory::UpdateEvent(void) {
   __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_pause]);
   __EngineEvent[Event_window_resized] = IsWindowResized();
-
   return 0;
 }
 
@@ -157,9 +159,8 @@ int   IceFactory::UpdateEngine(void) {
   ClearBackground(BLANK);
   const int status = UpdateInpus() + UpdateEvent();
   if (__EngineEvent[Event_window_resized]) {
-    __screenSize = getWindowSize();
+    __screenSize = IceFactory::GetWindowSize();
   }
-  __whatA++;
   return status;
 }
 
