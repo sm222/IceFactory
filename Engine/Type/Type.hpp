@@ -60,6 +60,10 @@ typedef enum EngineStatus{
   S_EngineStop
 } t_EngineStatus;
 
+typedef enum InputType {
+  KeybordMouse = 0,
+  Gamepad,
+} t_InputType;
 
 typedef struct {
   unsigned int targetFps;

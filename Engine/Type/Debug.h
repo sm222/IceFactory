@@ -32,7 +32,7 @@ typedef enum {
   yello,
 } e_debug_color;
 
-static void Debug(int m = 0, const char* s = "", ...) {
+static void Debug(int m, const char* s, ...) {
   # if DEBUG_STATUS
   {
     char b[1001];
@@ -51,6 +51,7 @@ static void Debug(int m = 0, const char* s = "", ...) {
         break;
       case yello:
         printf("%sLOG -> %s%s\n", TXT_YEL, b, TXT_RESET);
+        break;
       default:
         printf("LOG -> %s\n", b);
         break;

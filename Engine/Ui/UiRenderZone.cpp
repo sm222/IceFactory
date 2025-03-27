@@ -93,14 +93,12 @@ void  UiRenderZone::SetPosition(const Vector2& position) {
 int  UiRenderZone::__UpdateRender(void) {
   if (!IsRenderTextureValid(__canvas)) {
     __canvas = LoadRenderTexture(__zone.width, __zone.height);
-    std::cout << "there2\n";
     return IsRenderTextureValid(__canvas);
   }
   const Vector2 v1 = {(float)__canvas.texture.width, (float)__canvas.texture.height};
   const Vector2 v2 = {__zone.width, __zone.height};
   if (IsRenderTextureValid(__canvas) && v1 != v2) {
     UnloadRenderTexture(__canvas);
-    std::cout << "there1\n";
     return __UpdateRender();
   }
   return true;

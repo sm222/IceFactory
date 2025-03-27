@@ -9,17 +9,26 @@ bool             IceFactory::__raylib       = false;
 t_EngineStatus   IceFactory::__engineStatus = S_EngineInit;
 float            IceFactory::__timeScale    = 1;
 
+
+void IceFactory::_SetFpsControl(void) {
+  SetKeyMapToKey(K_forward,  KEY_W);
+  SetKeyMapToKey(K_backward, KEY_S);
+  SetKeyMapToKey(K_left,     KEY_A);
+  SetKeyMapToKey(K_right,    KEY_D);
+  SetKeyMapToKey(K_pause,    KEY_BACKSPACE);
+}
+
 IceFactory::IceFactory(void):
 __screenSize((Vector2) {1000, 1000}), __gameName("def") {
   //
   __userSeting.targetFps = 60;
   __userSeting.targetWindowSize = {600, 600};
-  //
-  __keyMapBind[K_forward]  = KEY_W;
-  __keyMapBind[K_backward] = KEY_S;
-  __keyMapBind[K_left]     = KEY_A;
-  __keyMapBind[K_right]    = KEY_D;
-  __keyMapBind[K_pause]    = KEY_BACKSPACE;
+  __inputSelect = KeybordMouse;
+  __numberGamepads = 0;
+  for (int i = 0; i < t_ControlKeys::K_End; i++) {
+    __keyMapBind[(t_ControlKeys)i] = KEY_NULL;
+  }
+  _SetFpsControl();
   // error and debug
   C_DEBUG("start IceFactory");
 }
@@ -76,10 +85,6 @@ int IceFactory::GetEngineStatus(void) {
   return __engineStatus;
 }
 
-int getStatusEngine(void) {
-  return IceFactory::GetEngineStatus();
-}
-
 
 bool IceFactory::InitRaylib(void) {
   if (!__raylib) {
@@ -90,8 +95,10 @@ bool IceFactory::InitRaylib(void) {
     SetWindowSize(__screenSize.x, __screenSize.y);
     Models.Add(ERR_MESH);
     __what = LoadModel(ERR_MESH);
-    if (IsModelValid(Models.Get(ERR_MESH)))
-      printf("ready to go\n");
+    if (IsModelValid(Models.Get(ERR_MESH))) {
+      L_DEBUG("ready to go!");
+      // add pre chek if all defaut stuff are load in
+    }
   }
   else {
     W_DEBUG("Raylib is all ready runing");
@@ -101,6 +108,7 @@ bool IceFactory::InitRaylib(void) {
 
 bool IceFactory::CloseRaylib(void) {
   if (__raylib) {
+    CloseWindow();
     __raylib = false;
   }
   return true;
@@ -111,7 +119,6 @@ bool IceFactory::closeEngine(void) {
   __engineStatus = S_EngineStop;
   Models.Clear();
   //!last step
-  CloseWindow();
   CloseRaylib();
   return true;
 }
@@ -124,11 +131,10 @@ Vector2  IceFactory::flaotToVec2(float angle) {
 
 int      IceFactory::UpdateInpus(void) {
   //
-  const Vector2 Mdelata = GetMouseDelta();
-  __analogMap[ForwardBackward] = (IsKeyDown(__keyMapBind[K_forward]) - (IsKeyDown(__keyMapBind[K_backward])));
-  __analogMap[LeftRight]       = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );
-  __analogMap[MouseVertical]   = Mdelata.y;
-  __analogMap[MouseHorizontal] = Mdelata.x;
+  const Vector2 mouseDelta = GetMouseDelta();
+  UpdateKeybord();
+  __analogMap[MouseVertical]   = mouseDelta.y;
+  __analogMap[MouseHorizontal] = mouseDelta.x;
   return 0;
 }
 
@@ -192,3 +198,29 @@ Vector2 IceFactory::GiveWindowSize(void) {
 Model*  IceFactory::GiveWhatModel(void) {
   return &__what;
 }
+
+
+//*                  *//*                  *//
+//*                                        *//
+//*                 KEYBORD                *//
+//*                                        *//
+//*                                        *//
+//*                  *//*                  *//
+
+
+void   IceFactory::SetKeyMapToKey(t_ControlKeys action, KeyboardKey key) {
+  __keyMapBind[action] = key;
+}
+
+void IceFactory::UpdateKeybord(void) {
+  __analogMap[ForwardBackward] = (IsKeyDown(__keyMapBind[K_forward]) - (IsKeyDown(__keyMapBind[K_backward])));
+  __analogMap[LeftRight]       = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );
+}
+
+
+//*                  *//*                  *//
+//*                                        *//
+//*                 GAMEPAD                *//
+//*                                        *//
+//*                                        *//
+//*                  *//*                  *//

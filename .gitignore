@@ -26,11 +26,13 @@
 *.a
 *.lib
 
-# foldef
-/build/*
+# folder
+build/
+.vscode/
 
 # Executables
 *.exe
 *.out
 *.app
-./IceEngine
+IceEngine
+

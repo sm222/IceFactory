@@ -29,7 +29,7 @@ class IceFactory {
     static int           GetEngineStatus(void);
     static const Vector2 GetMonitorSize(void);
     static const Vector2 GetWindowSize(void);
-    //
+    // Raylib
     bool                 InitRaylib(void);
     bool                 closeEngine(void);
     static Vector2       flaotToVec2(float angle);
@@ -63,10 +63,16 @@ class IceFactory {
     //
     protected:
     //! - - - - - -
+    // Raylib
     private:
-    bool                 CloseRaylib(void);
-    bool                 IceFactoryInitRayLib(void);
-    //
+      bool                 CloseRaylib(void);
+      bool                 IceFactoryInitRayLib(void);
+      //! - - - - - - - - - - - - - - - - -
+      //* - - - KEYBORD
+      void                 SetKeyMapToKey(t_ControlKeys action, KeyboardKey key);
+      void                 UpdateKeybord(void);
+      void                _SetFpsControl(void);
+      //
       UserSeting                        __userSeting;
       //
       static t_EngineStatus             __engineStatus;
@@ -81,6 +87,8 @@ class IceFactory {
       //
       std::map<t_Controls, bool>        __numericMap;
       std::map<t_Controls, float>       __analogMap;
+      int                               __inputSelect;
+      unsigned int                      __numberGamepads;
       //
       std::map<t_ControlKeys, TYPE_KEY> __keyMapBind;
       //
@@ -92,7 +100,5 @@ class IceFactory {
 };
 
 using Engine::IceFactory;
-
-int  getStatusEngine(void);
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef  __KEYS_NAME_H__
 # define __KEYS_NAME_H__
 
-
+// NEVER set value manually, alway have to be between 'NoKey' and 'K_End'
 typedef enum ControlKeys {
   NoKey = 0,
   K_pause,
@@ -11,6 +11,7 @@ typedef enum ControlKeys {
   K_right,
   K_use,
   K_croutch,
+  K_End,
 } t_ControlKeys;
 
 #endif

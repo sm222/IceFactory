@@ -62,9 +62,6 @@ void loop(IceFactory& engine) {
         engine.SetEngineStatus(S_EngineRun);
       }
     }
-    if (IsKeyPressed(KEY_ENTER)) {
-      PlayerCamera.SetTarget((Vector3){0,0,0});
-    }
     //
     //
     uiTest.Render();
@@ -87,7 +84,7 @@ int main(void) {
   int run = 1;
   Groups<Object*> newGroup;
   while (run) {
-    switch (getStatusEngine()) {
+    switch (IceFactory::GetEngineStatus()) {
       case S_EngineInit:
         engine.initEngine();
         break;
@@ -96,7 +93,7 @@ int main(void) {
         break;
       case S_EngineRun:
         engine._mainGroups.AddChild(&newGroup);
-        SetTraceLogLevel(LOG_DEBUG);
+        SetTraceLogLevel(LOG_WARNING);
         loop(engine);
         engine._mainGroups.Delete(-1);
         engine.closeEngine();
