@@ -17,6 +17,7 @@ class Object : public Base {
     Object(const char* name);
     Object(const std::string& name);
     virtual ~Object(void);
+    static void Info(Base& self, t_types i);
   protected:
     void           Zero(void);
   //  virtual void   Draw(int mode) = 0;

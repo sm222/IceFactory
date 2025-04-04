@@ -6,21 +6,18 @@ unsigned int BaseCamera::__cameraNumber = 0;
 
 
 BaseCamera::BaseCamera(const char* name) : Object(name) {
-  C_DEBUG("BaseCamera:: char");
   Default();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
 }
 
 BaseCamera::BaseCamera(const std::string& name) : Object(name) {
-  C_DEBUG("BaseCamera:: std::string");
   Default();
   __type = BASE_CAMERA;
   __CameraID = GetNewID();
 }
 
 bool BaseCamera::SetMode(const t_camera_mode mode) {
-  C_DEBUG("BaseCamera::SetMode");
   if (!__active) {
     __mode = mode;
     return true;
@@ -29,7 +26,6 @@ bool BaseCamera::SetMode(const t_camera_mode mode) {
 }
 
 BaseCamera::~BaseCamera(void) {
-  C_DEBUG("BaseCamera::~");
   if (IsRenderTextureValid(__RenderTexture)) {
     UnloadRenderTexture(__RenderTexture);
   }

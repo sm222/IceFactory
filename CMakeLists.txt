@@ -31,7 +31,9 @@ Engine/Object/MeshObject.cpp
 Engine/Ui/UiRenderZone.cpp
 Engine/Ui/UiBaseBlock.cpp
 Engine/Ui/UiBaseTextBox.cpp
+
 Engine/Base/Base.cpp
+Engine/Groups/BeseGroups.cpp
 Engine/Import/Model/ModelManager.cpp
 )
 

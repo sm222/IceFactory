@@ -11,6 +11,7 @@
 # include "Controls.hpp"
 
 # include  <vector>
+# include <array>
 
 # include "Debug.h"
 
@@ -87,6 +88,30 @@ typedef struct ui {
   int       type;
 } t_ui;
 
+typedef enum {
+  t_none = -1,
+  t_float,
+  t_int,
+  t_vector2,
+  t_vector3,
+} t_typesValue;
+
+typedef struct {
+  int returnValue;
+  int val1;
+  int val2;
+  int val3;
+} t_prototype;
+
+# define prototype(returnValue, val1, val2, val3) (t_prototype){returnValue, val1, val2, val3}
+
+// valid type
+union t_types {
+  float   f;
+  int     i;
+  Vector2 vec2;
+  Vector3 vec3;
+};
 
 
 #endif

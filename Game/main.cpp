@@ -24,7 +24,6 @@ static void Button004(void) {
 }
 
 void loop(IceFactory& engine) {
-
   BaseCamera    PlayerCamera("player");
   UiRenderZone  uiTest("uiTest", 400, 400);
   UiBaseBlock   uiBlock("block");
@@ -34,6 +33,10 @@ void loop(IceFactory& engine) {
   PlayerCamera.SetCanvas(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
   //-------
+  Object t("test");
+  t_BaseInterface V;
+  t.interface.Get(0, V);
+  V._ft.v_v(t);
   //
   HideCursor();
   DisableCursor();

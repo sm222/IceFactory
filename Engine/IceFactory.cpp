@@ -30,10 +30,12 @@ __screenSize((Vector2) {1000, 1000}), __gameName("def") {
   }
   _SetFpsControl();
   // error and debug
-  C_DEBUG("start IceFactory");
+  DEBUG(PROJECT_ROOT, magenta, "IceFactory::");
 }
 
-IceFactory::~IceFactory(void) { C_DEBUG("IceFactory GoodBye"); }
+IceFactory::~IceFactory(void) {
+  DEBUG(PROJECT_ROOT, magenta, "IceFactory::~");
+}
 // - - - - - - - - - - - - - - - -
 
 void  IceFactory::SetEngineStatus(const t_EngineStatus status) {
@@ -43,7 +45,7 @@ void  IceFactory::SetEngineStatus(const t_EngineStatus status) {
 // - - - - - - - - - - - - - - - -
 
 const Vector2 IceFactory::GetMonitorSize(void) {
-  L_DEBUG("getMonitorSize");
+
   if (IceFactory::GetEngineStatus()) {
     const int monitor  = GetCurrentMonitor();
     const float width  = GetMonitorWidth(monitor) ;
@@ -71,10 +73,8 @@ int  IceFactory::initEngine(void) {
 bool IceFactory::IceFactoryInitRayLib(void) {
   InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
   if (!IsWindowReady()) {
-    W_DEBUG("raylib FAIL!!!");
     return false;
   }
-  L_DEBUG("Begin Raylib");
   __engineStatus = S_EngineRun;
   SetWindowState(FLAG_WINDOW_RESIZABLE);
   SetWindowMinSize(600, 600);
@@ -96,12 +96,10 @@ bool IceFactory::InitRaylib(void) {
     Models.Add(ERR_MESH);
     __what = LoadModel(ERR_MESH);
     if (IsModelValid(Models.Get(ERR_MESH))) {
-      L_DEBUG("ready to go!");
       // add pre chek if all defaut stuff are load in
     }
   }
   else {
-    W_DEBUG("Raylib is all ready runing");
   }
   return true;
 }

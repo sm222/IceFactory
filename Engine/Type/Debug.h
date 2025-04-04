@@ -30,53 +30,52 @@ typedef enum {
   red,
   blue,
   yello,
+  magenta,
 } e_debug_color;
 
-static void Debug(int m, const char* s, ...) {
+# define PROJECT_ROOT "IceFactory"
+
+static void Debug(const char* file_no_null, int line, const char* root, e_debug_color color, const char* s, ...) {
   # if DEBUG_STATUS
   {
-    char b[1001];
+    char buff[1001];
     va_list va;
     va_start(va, s);
-    vsnprintf(b, 1000, s, va);
-    switch (m) {
-      case green:
-        printf("%sLOG -> %s%s\n", TXT_GRN, b, TXT_RESET);
-        break;
-      case red:
-        printf("%sLOG -> %s%s\n", TXT_RED, b, TXT_RESET);
-        break;
-      case blue:
-        printf("%sLOG -> %s%s\n", TXT_BLU, b, TXT_RESET);
-        break;
-      case yello:
-        printf("%sLOG -> %s%s\n", TXT_YEL, b, TXT_RESET);
-        break;
-      default:
-        printf("LOG -> %s\n", b);
-        break;
+    vsnprintf(buff, 1000, s, va);
+    size_t i = 0;
+    if (root) {
+      i = strlen(file_no_null);
+      size_t rootNameLen = strlen(root);
+      while (strncmp(file_no_null + i, root, rootNameLen) != 0) {
+        i--;
+      }
     }
+    const char* c = TXT_WHT;
+    if (color == blue)
+      c = TXT_BLU;
+    if (color == red)
+      c = TXT_RED;
+    if (color == green)
+      c = TXT_GRN;
+    if (color == yello)
+      c = TXT_YEL;
+    if (color == magenta)
+      c = TXT_MAG;
+    fprintf(stderr, "%s%s:%d%s %s\n", c, file_no_null + i, line, TXT_RESET, buff);
     va_end(va);
   }
   # else
   {
-    (void)m;
+    (void)file_no_null;
+    (void)line;
+    (void)color;
+    (void)dep;
     (void)s;
   }
   #endif
 }
 
-# define DEBUG(mode, msg)  Debug(mode, msg "\n%d : %s", __LINE__, __FILE__)
-
-// error
-# define E_DEBUG(msg)      DEBUG(red,   msg) 
-// class
-# define C_DEBUG(msg)      DEBUG(blue,  msg) 
-// warning
-# define W_DEBUG(msg)      DEBUG(yello, msg) 
-// log
-# define L_DEBUG(msg)      DEBUG(green, msg) 
-
+# define DEBUG(root, color, s, ...)    Debug(__FILE__, __LINE__, root, color, s, ##__VA_ARGS__)
 
 
 #endif

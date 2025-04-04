@@ -2,12 +2,10 @@
 #include "ModelManager.hpp"
 
 ModelManager::ModelManager(void): IImport() {
-  C_DEBUG("ModelManager Start");
 }
 
 
 ModelManager::~ModelManager(void) {
-  C_DEBUG("ModelManager end");
 }
 
 
@@ -15,7 +13,6 @@ ModelManager::~ModelManager(void) {
 /// @param name 
 /// @return 
 const Model& ModelManager::Get(const char* name) const {
-  C_DEBUG("ModelManager::Get");
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end())
     return it->second;
@@ -26,7 +23,6 @@ const Model& ModelManager::Get(const char* name) const {
 /// @param name 
 /// @return -1 duplicate, 1 was add, 0 model not valid
 int  ModelManager::Add(const char* name) {
-  C_DEBUG("ModelManager::Add");
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end()) {
     return -1;
@@ -42,7 +38,6 @@ int  ModelManager::Add(const char* name) {
 
 
 int  ModelManager::Remove(const char* name) {
-  C_DEBUG("ModelManager::Remove");
   MapModel::iterator  it = __data.find(name);
   if (it == __data.end())
     return -1;
@@ -56,7 +51,6 @@ int  ModelManager::Remove(const char* name) {
 
 // unloadmodel all model and reset the map to empty
 void ModelManager::Clear(void) {
-  C_DEBUG("ModelManager::Clear");
   MapModel::const_iterator it;
   for (it = __data.begin(); it != __data.end(); it++ ) {
     Model m = it->second;
