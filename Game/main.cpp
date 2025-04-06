@@ -38,7 +38,7 @@ void loop(IceFactory& engine) {
   BaseGroup newG("mewG");
   t_BaseInterface V;
   t.interface.Get(0, V);
-  V._ft.v_v(t);
+  V._ft.void_void(t);
   newG.Add(&t);
   engine._root.Add(&newG);
   engine._root.Add(&newG);

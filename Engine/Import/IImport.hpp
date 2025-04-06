@@ -15,17 +15,18 @@
 template <typename T>
 class IImport {
   public:
-    IImport(void) { __total = 0; };
-    virtual  ~IImport(void) {/*\*/}; // clean what was import
+    IImport(void) { __total = 0; DEBUG_P(magenta, "IImport::");  };
+    virtual  ~IImport(void)    { DEBUG_P(magenta, "IImport::~"); }; // clean what was import
     // Get
-      virtual const T& Get(const char* name)        const = 0;
+      virtual const T  Get(const char* name)            const = 0;
+      virtual    bool  IsAllReadyLoad(const char* name) const = 0;
     // Set
       // Add
-      virtual int      Add(const char* name)              = 0;
+      virtual int      Add(const char* name)                  = 0;
       // Rm
-      virtual int      Remove(const char* name)           = 0;
+      virtual int      Remove(const char* name)               = 0;
       // Rm all
-      virtual void     Clear(void)                        = 0;
+      virtual void     Clear(void)                            = 0;
     //
   protected:
     //
@@ -36,7 +37,6 @@ class IImport {
     //
     //
 };
-
 
 
 #endif

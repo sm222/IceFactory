@@ -5,17 +5,22 @@
 
 class Base;
 //* void
-typedef void(*v__v)(Base& self);
+typedef    void(*void__void)(Base& self);
 
 //* void whit param 1 to 3
-typedef void(*v__1)(Base& self, t_types v1);
-typedef void(*v__2)(Base& self, t_types v1, t_types v2);
-typedef void(*v__3)(Base& self, t_types v1, t_types v2, t_types v3);
+typedef    void(*void__1)(Base& self, t_types v1);
+typedef    void(*void__2)(Base& self, t_types v1, t_types v2);
+typedef    void(*void__3)(Base& self, t_types v1, t_types v2, t_types v3);
 
 //* int whit param 1 to 3
-typedef int(*i__1)(Base& self, t_types v1);
-typedef int(*i__2)(Base& self, t_types v1, t_types v2);
-typedef int(*i__3)(Base& self, t_types v1, t_types v2, t_types v3);
+typedef     int(*int__1)(Base& self, t_types v1);
+typedef     int(*int__2)(Base& self, t_types v1, t_types v2);
+typedef     int(*int__3)(Base& self, t_types v1, t_types v2, t_types v3);
+
+//* int whit param 1 to 3
+typedef   float(*float__1)(Base& self, t_types v1);
+typedef   float(*float__2)(Base& self, t_types v1, t_types v2);
+typedef   float(*float__3)(Base& self, t_types v1, t_types v2, t_types v3);
 
 //* vec2 whit param 1 to 3
 typedef Vector2(*vec2__1)(Base& self, t_types v1);
@@ -31,23 +36,27 @@ typedef Vector3(*vec3__3)(Base& self, t_types v1, t_types v2, t_types v3);
 /// @brief name on the right is number of params
 union function_type {
   void*  ptr; // null check at run time
-  v__v   v_v;
+  void__void   void_void;
   // void
-  v__1   v_1;
-  v__2   v_2;
-  v__3   v_3;
+  void__1   void_1;
+  void__2   void_2;
+  void__3   void_3;
   // int
-  i__1   i_1;
-  i__2   i_2;
-  i__3   i_3;
+  int__1    int_1;
+  int__2    int_2;
+  int__3    int_3;
+  // float
+  float__1  float_1;
+  float__2  float_2;
+  float__3  float_3;
   // vec2
-  vec2__1  vec2_1;
-  vec2__2  vec2_2;
-  vec2__3  vec2_3;
+  vec2__1   vec2_1;
+  vec2__2   vec2_2;
+  vec2__3   vec2_3;
   // vec3
-  vec3__1  vec3_1;
-  vec3__2  vec3_2;
-  vec3__3  vec3_3;
+  vec3__1   vec3_1;
+  vec3__2   vec3_2;
+  vec3__3   vec3_3;
 };
 
 typedef struct s_BaseInterface {
@@ -63,11 +72,32 @@ class BaseInterface {
     BaseInterface(void);
     ~BaseInterface(void);
     //
-    bool Add(v__v ft, t_prototype types, const char* name, const char* description);
+    bool Add(void__void ft, const char* name, const char* description);
+    //
+    bool Add(void__1 ft, t_prototype types, const char* name, const char* description);
+    bool Add(void__2 ft, t_prototype types, const char* name, const char* description);
+    bool Add(void__3 ft, t_prototype types, const char* name, const char* description);
+    //
+    bool Add(int__1 ft, t_prototype types, const char* name, const char* description);
+    bool Add(int__2 ft, t_prototype types, const char* name, const char* description);
+    bool Add(int__3 ft, t_prototype types, const char* name, const char* description);
+    //
+    bool Add(float__1 ft, t_prototype types, const char* name, const char* description);
+    bool Add(float__2 ft, t_prototype types, const char* name, const char* description);
+    bool Add(float__3 ft, t_prototype types, const char* name, const char* description);
+    //
+    bool Add(vec2__1 ft, t_prototype types, const char* name, const char* description);
+    bool Add(vec2__2 ft, t_prototype types, const char* name, const char* description);
+    bool Add(vec2__3 ft, t_prototype types, const char* name, const char* description);
+    //
+    bool Add(vec3__1 ft, t_prototype types, const char* name, const char* description);
+    bool Add(vec3__2 ft, t_prototype types, const char* name, const char* description);
+    bool Add(vec3__3 ft, t_prototype types, const char* name, const char* description);
+    //
     bool Get(size_t i, t_BaseInterface& get);
     //
   private:
-    void __Add(t_prototype types, const char* name, const char* description);
+    bool __Add(t_prototype types, const char* name, const char* description);
     size_t                             __i;
     std::array<t_BaseInterface, max>   __list;
 };

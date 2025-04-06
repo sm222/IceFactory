@@ -2,22 +2,38 @@
 #include "ModelManager.hpp"
 
 ModelManager::ModelManager(void): IImport() {
+  DEBUG_P(magenta, "ModelManager::");
 }
 
 
 ModelManager::~ModelManager(void) {
+  DEBUG_P(magenta, "ModelManager::~");
 }
 
 
 /// @brief throw
 /// @param name 
 /// @return 
-const Model& ModelManager::Get(const char* name) const {
+const Model ModelManager::Get(const char* name) const {
   MapModel::const_iterator it = __data.find(name);
-  if (it != __data.end())
+  if (it != __data.end()) {
+    DEBUG_P(orange, "ModelManager::Get %s", name);
     return it->second;
-  throw std::runtime_error("missing model");
+  }
+  Model  null;
+  bzero(&null, sizeof(Model));
+  return null;
 }
+
+bool  ModelManager::IsAllReadyLoad(const char* name) const {
+  Model   ref;
+  bzero(&ref, sizeof(Model));
+  ref = Get(name);
+  if (IsModelValid(ref))
+    return true;
+  return false;
+}
+
 
 /// @brief 
 /// @param name 
@@ -25,14 +41,17 @@ const Model& ModelManager::Get(const char* name) const {
 int  ModelManager::Add(const char* name) {
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end()) {
+    DEBUG_P(red, "ModelManager::Add %s is all ready looded", name);
     return -1;
   }
   Model m = LoadModel(name);
   if (IsModelValid(m)) {
     __data[name] = m;
     __total++;
+    DEBUG_P(green, "ModelManager::Add %s was load", name);
     return 1;
   }
+  DEBUG_P(red, "ModelManager::Add fail to load %s", name);
   return 0;
 }
 

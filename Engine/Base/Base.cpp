@@ -1,42 +1,40 @@
 #include "Base.hpp"
 
-void  Base::SetFtList(void) {
-  interface.Add(Base::Hello, prototype(t_none, t_none, t_none, t_none), "hello", "say hello");
-}
+t_id  Base::__totalId = 0; // id 
 
-
-void    Base::Hello(Base& self) {
-  char buff[100];
-  snprintf(buff, 99, "Hello from %s", self.GetName());
-  DEBUG_P(yello, buff);
-}
-
-Base::Base(const char* name) : __type(TYPE_BASE) {
-  DEBUG_P(blue, "Base::char");
+Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
+  DEBUG_P(magenta, "Base::char");
   SetName(name);
   SetFtList();
+  #if (PRINT_ID_AT_BUILD)
+    PrintId();
+  #endif
 }
 
-Base::Base(const std::string& name) : __type(TYPE_BASE) {
-  DEBUG_P(blue, "Base::string");
+Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
+  DEBUG_P(magenta, "Base::string");
   SetName(name);
   SetFtList();
+  #if (PRINT_ID_AT_BUILD)
+    PrintId();
+  #endif
 }
 
 Base::~Base(void) {
-  DEBUG_P(blue, "Base::~");
+  DEBUG_P(magenta, "Base::~");
 }
 
-
 //*                  *//*                  *//
 //*                                        *//
-//*                                        *//
-//*                                        *//
+//*                  Name                  *//
+//*                    &                   *//
+//*                  Type                  *//
 //*                                        *//
 //*                  *//*                  *//
 
-
-// GET
+//* //
+//* Get
+//* //
 
 const char* Base::GetName(void) const {
   return __name;
@@ -46,7 +44,23 @@ const char* Base::GetType(void) const {
   return __type;
 }
 
-// SET
+const t_id Base::GetId(void) const {
+  return __id;
+}
+
+// print name, type and id
+void      Base::PrintId(void) const {
+  DEBUG_P(cyan, "Name:%s Type:%s Id:%u", this->__name, this->__type, this->__id);
+}
+
+/// @brief return the total of Base made from the start of icefactory
+t_id     Base::GetCurrentMaxId(void) {
+  return __totalId;
+}
+
+//* //
+//* Set
+//* //
 
 void Base::SetName(const char* name) {
   if (!name) {
@@ -72,6 +86,33 @@ void Base::SetName(const std::string& name) {
 void  Base::Help(void) {
   DEBUG_P(blue, "Base::Help");
 }
+
+void    Base::Hello(Base& self) {
+  DEBUG_P(yello, "Hello from %s, Type:%s Id:%u", self.GetName(), self.GetType(), self.GetId());
+}
+
+void  Base::SetFtList(void) {
+  interface.Add(Base::Hello, "hello", "say hello");
+}
+
+
+
+t_id  Base::MakeId(void) {
+  return ++__totalId;
+}
+
+//*                  *//*                  *//
+//*                                        *//
+//*                                        *//
+//*                                        *//
+//*                                        *//
+//*                  *//*                  *//
+
+
+
+
+// SET
+
 
 
 /// @brief set the parant to addr of parant

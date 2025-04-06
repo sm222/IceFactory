@@ -92,7 +92,7 @@ typedef struct ui {
 } t_ui;
 
 typedef enum {
-  t_none = -1,
+  t_none = -1, // void
   t_float,
   t_int,
   t_vector2,

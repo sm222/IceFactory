@@ -7,6 +7,13 @@
 
 # define BASE_CAMERA "base_camera"
 
+# define CAMEA_LOGS 1
+
+enum {
+  camera_blank = 3,
+  camera_run = 2,
+};
+
 typedef enum {
   none,
   camera_texture, // output all inside of a 2DrenderTexture
@@ -39,7 +46,7 @@ class BaseCamera : public Object {
     const Texture2D        GetFrame(void);
     const Vector2          GetFrameSize(void);
     //
-  private:
+  protected:
     void                   Zero(void);
     static void            SetActive(unsigned int status);
     static unsigned int    GetNewID(void);
@@ -56,6 +63,8 @@ class BaseCamera : public Object {
     //
     Color                    __clean;
     Color                    __tint;
+  private:
+    //
 };
 
 

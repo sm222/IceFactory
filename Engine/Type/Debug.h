@@ -33,6 +33,7 @@ typedef enum {
   magenta,
   orange,
   pink,
+  cyan,
 } e_debug_color;
 
 
@@ -66,6 +67,8 @@ static void Debug(const char* file_no_null, int line, const char* root, e_debug_
       c = TXT_ORG;
     if (color == pink)
       c = TXT_PIK;
+    if (color == cyan)
+      c = TXT_CYN;
     fprintf(stderr, "%s%s:%d%s %s\n", c, file_no_null + i, line, TXT_RESET, buff);
     va_end(va);
   }

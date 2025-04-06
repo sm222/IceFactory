@@ -12,7 +12,8 @@ class ModelManager : public IImport<Model> {
       ModelManager(void);
       virtual ~ModelManager(void);
     //
-    const Model&   Get(const char* name)        const;
+    const Model    Get(const char* name)            const;
+    bool           IsAllReadyLoad(const char* name) const;
     // Set
       // Add
         int        Add(const char* name);
