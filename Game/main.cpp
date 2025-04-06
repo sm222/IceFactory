@@ -27,6 +27,7 @@ void loop(IceFactory& engine) {
   BaseCamera    PlayerCamera("player");
   UiRenderZone  uiTest("uiTest", 400, 400);
   UiBaseBlock   uiBlock("block");
+  engine._root.Add(&PlayerCamera);
   SetTargetFPS(144);
   Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
@@ -34,9 +35,18 @@ void loop(IceFactory& engine) {
   PlayerCamera.SetTarget(Vector3 {0,0,0});
   //-------
   Object t("test");
+  BaseGroup newG("mewG");
   t_BaseInterface V;
   t.interface.Get(0, V);
   V._ft.v_v(t);
+  newG.Add(&t);
+  engine._root.Add(&newG);
+  engine._root.Add(&newG);
+  engine._root.Remove("mewG");
+  engine._root.Add(&newG);
+  engine._root.PrintTree();
+  engine._root.Remove("mewG");
+  engine._root.Remove("mewG");
   //
   HideCursor();
   DisableCursor();

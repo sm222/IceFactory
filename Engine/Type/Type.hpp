@@ -20,10 +20,13 @@
 // use define to be redefine at compile time
 # ifndef  LOCAL_FILE_PATH
 #  define LOCAL_FILE_PATH
+#  define PROJECT_ROOT "IceFactory"
 #  define RESOURCE "Engine/Resource/"
 #  define MODEL    "Models/"
 #  define ERR_MESH RESOURCE MODEL "what.glb"
 # endif
+
+# define DEBUG_P(color, s, ...)   DEBUG(PROJECT_ROOT, color, s, ##__VA_ARGS__)
 
 # ifndef ENGINE_DEF
 #  define ENGINE_DEF

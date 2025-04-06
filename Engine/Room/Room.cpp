@@ -1,8 +1,8 @@
 
 #include "Room.hpp"
 
-Room::Room(const char* name) {
-  DEBUG(PROJECT_ROOT, magenta, "Room::name");
+Room::Room(const char* name) : Root("root") {
+  DEBUG_P(magenta, "Room::name");
   if (name) {
     const size_t len = strlen(name);
     if (len < MAX_NAME_LEN) {
@@ -21,6 +21,6 @@ Room::Room(const char* name) {
 
 
 Room::~Room(void) {
-  DEBUG(PROJECT_ROOT, magenta, "Room::~");
+  DEBUG_P(magenta, "Room::~");
 }
 

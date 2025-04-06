@@ -12,11 +12,14 @@ class BaseGroup : public Base {
     ~BaseGroup(void);
     //
     // Get
-
+    void                PrintTree(void) const;
     // Set
-      bool              Select(const char* name, const char* type);
+    bool                Select(const char* name, const char* type);
+    bool                Add(Base* obj);
+    bool                Remove(const char* name);
   protected:
-  //
+    //
+    void                PrintTree(int def) const;
     void                Zero(void);
   //
   private:

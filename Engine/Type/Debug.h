@@ -31,17 +31,18 @@ typedef enum {
   blue,
   yello,
   magenta,
+  orange,
+  pink,
 } e_debug_color;
 
-# define PROJECT_ROOT "IceFactory"
 
 static void Debug(const char* file_no_null, int line, const char* root, e_debug_color color, const char* s, ...) {
-  # if DEBUG_STATUS
+  #if DEBUG_STATUS
   {
-    char buff[1001];
+    char buff[10001];
     va_list va;
     va_start(va, s);
-    vsnprintf(buff, 1000, s, va);
+    vsnprintf(buff, 10000, s, va);
     size_t i = 0;
     if (root) {
       i = strlen(file_no_null);
@@ -61,6 +62,10 @@ static void Debug(const char* file_no_null, int line, const char* root, e_debug_
       c = TXT_YEL;
     if (color == magenta)
       c = TXT_MAG;
+    if (color == orange)
+      c = TXT_ORG;
+    if (color == pink)
+      c = TXT_PIK;
     fprintf(stderr, "%s%s:%d%s %s\n", c, file_no_null + i, line, TXT_RESET, buff);
     va_end(va);
   }

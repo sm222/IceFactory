@@ -16,6 +16,7 @@
 # include "Camera/BaseCamera.hpp"
 # include "Ui/UiRenderZone.hpp"
 # include "Import/Model/ModelManager.hpp"
+# include "Groups/BaseGroups.hpp"
 
 # include <raylib.h>
 # include <raymath.h>
@@ -60,11 +61,14 @@ class IceFactory {
     ModelManager        Models;
     //
     Groups<Object*>    _mainGroups; //* root
+    BaseGroup          _root;       //
     //
     protected:
     //! - - - - - -
     // Raylib
     private:
+      
+      //
       bool                 CloseRaylib(void);
       bool                 IceFactoryInitRayLib(void);
       //! - - - - - - - - - - - - - - - - -

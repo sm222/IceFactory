@@ -8,23 +8,23 @@ void  Base::SetFtList(void) {
 void    Base::Hello(Base& self) {
   char buff[100];
   snprintf(buff, 99, "Hello from %s", self.GetName());
-  DEBUG(PROJECT_ROOT, yello, buff);
+  DEBUG_P(yello, buff);
 }
 
 Base::Base(const char* name) : __type(TYPE_BASE) {
-  DEBUG(PROJECT_ROOT, blue, "Base::char");
+  DEBUG_P(blue, "Base::char");
   SetName(name);
   SetFtList();
 }
 
 Base::Base(const std::string& name) : __type(TYPE_BASE) {
-  DEBUG(PROJECT_ROOT, blue, "Base::string");
+  DEBUG_P(blue, "Base::string");
   SetName(name);
   SetFtList();
 }
 
 Base::~Base(void) {
-  DEBUG(PROJECT_ROOT, blue, "Base::~");
+  DEBUG_P(blue, "Base::~");
 }
 
 
@@ -70,5 +70,28 @@ void Base::SetName(const std::string& name) {
 }
 
 void  Base::Help(void) {
-  DEBUG(PROJECT_ROOT, blue, "Base::Help");
+  DEBUG_P(blue, "Base::Help");
+}
+
+
+/// @brief set the parant to addr of parant
+/// @return return false if parent was all ready set
+bool Base::__SetParent(const Base& parant) {
+  if (__parent)
+    return false;
+  DEBUG_P(pink, "set parant to %p", &parant);
+  __parent = &parant;
+  return true;
+}
+
+/// @brief set parant ptr to nullptr
+/// @return return false if ptr all ready at nullptr
+bool Base::__SetParantNone(void) {
+  bool rm = false;
+  if (__parent) {
+    __parent = nullptr;
+    rm = true;
+    DEBUG_P(pink, "remove parant %p", __parent);
+  }
+  return rm;
 }

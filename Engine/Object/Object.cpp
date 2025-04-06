@@ -8,19 +8,19 @@ void   Object::Info(Base& self, t_types i) {
 }
 
 Object::Object(const char* name) : Base(name) {
-  DEBUG(PROJECT_ROOT, yello, "Object::char");
+  DEBUG_P(yello, "Object::char");
   __type = TYPE_OBJECT;
   Zero();
 }
 
 Object::Object(const std::string& name) : Base(name) {
-  DEBUG(PROJECT_ROOT, yello, "Object::string");
+  DEBUG_P(yello, "Object::string");
   __type = TYPE_OBJECT;
   Zero();
 }
 
 Object::~Object(void) {
-  DEBUG(PROJECT_ROOT, yello, "Object::~");
+  DEBUG_P(yello, "Object::~");
 }
 
 void Object::Zero(void) {

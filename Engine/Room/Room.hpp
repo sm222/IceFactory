@@ -3,14 +3,14 @@
 # define __ROOM__
 
 # include "../Type/Type.hpp"
-
-# include <string.h>
+# include "../Groups/BaseGroups.hpp"
 
 class Room {
   public:
     //
     Room (const char* name);
     ~Room(void);
+    BaseGroup     Root;
     //
   protected:
     //

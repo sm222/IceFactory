@@ -19,22 +19,22 @@ void IceFactory::_SetFpsControl(void) {
 }
 
 IceFactory::IceFactory(void):
-__screenSize((Vector2) {1000, 1000}), __gameName("def") {
+__screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
+  DEBUG_P(magenta, "IceFactory::");
   //
   __userSeting.targetFps = 60;
   __userSeting.targetWindowSize = {600, 600};
   __inputSelect = KeybordMouse;
-  __numberGamepads = 0;
+  __numberGamepads = 0; // TODO defalut, add look up
   for (int i = 0; i < t_ControlKeys::K_End; i++) {
     __keyMapBind[(t_ControlKeys)i] = KEY_NULL;
   }
-  _SetFpsControl();
+  _SetFpsControl(); // defalut gamemode
   // error and debug
-  DEBUG(PROJECT_ROOT, magenta, "IceFactory::");
 }
 
 IceFactory::~IceFactory(void) {
-  DEBUG(PROJECT_ROOT, magenta, "IceFactory::~");
+  DEBUG_P(magenta, "IceFactory::~");
 }
 // - - - - - - - - - - - - - - - -
 
@@ -45,19 +45,22 @@ void  IceFactory::SetEngineStatus(const t_EngineStatus status) {
 // - - - - - - - - - - - - - - - -
 
 const Vector2 IceFactory::GetMonitorSize(void) {
-
   if (IceFactory::GetEngineStatus()) {
     const int monitor  = GetCurrentMonitor();
     const float width  = GetMonitorWidth(monitor) ;
     const float height = GetMonitorHeight(monitor);
+    DEBUG_P(green, "IceFactory::GetMonitorSize monitor:%d width%f height%f", monitor, width, height);
     return ((Vector2){width, height});
   }
   return ((Vector2){0, 0});
 }
 
 const Vector2 IceFactory::GetWindowSize(void) {
-  if (IceFactory::GetEngineStatus())
-    return ((Vector2){(float)GetRenderWidth() ,(float)GetRenderHeight()});
+  if (IceFactory::GetEngineStatus()) {
+    const Vector2  WindowSize = (Vector2){(float)GetRenderWidth() ,(float)GetRenderHeight()};
+    DEBUG_P(green, "IceFactory::GetWindowSize Width:%f Height:%f", WindowSize.x, WindowSize.y);
+    return (WindowSize);
+  }
   return ((Vector2){0, 0});
 }
 
@@ -73,6 +76,7 @@ int  IceFactory::initEngine(void) {
 bool IceFactory::IceFactoryInitRayLib(void) {
   InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
   if (!IsWindowReady()) {
+
     return false;
   }
   __engineStatus = S_EngineRun;
@@ -207,6 +211,7 @@ Model*  IceFactory::GiveWhatModel(void) {
 
 
 void   IceFactory::SetKeyMapToKey(t_ControlKeys action, KeyboardKey key) {
+  DEBUG_P(orange, "action[%d] key%d", action, key);
   __keyMapBind[action] = key;
 }
 
