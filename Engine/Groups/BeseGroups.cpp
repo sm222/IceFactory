@@ -106,3 +106,19 @@ bool  BaseGroup::Remove(const char* name) {
   DEBUG_P(red, "BaseGroup::Remove %s: can't fine %s", this->GetName(), name);
   return false;
 }
+
+size_t  BaseGroup::Size(void) const {
+  return __root.size();
+}
+
+size_t  BaseGroup::TotalSize(void) const {
+  size_t size = this->Size();
+  std::vector<Base*>::const_iterator it;
+  for (it = __root.begin(); it < __root.end(); it++) {
+    if (strcmp((*it)->GetType(), TYPE_BASE_GROUP) == 0) {
+      const BaseGroup& ref = (BaseGroup&)(*it);
+      size += ref.TotalSize();
+    }
+  }
+  return size;
+}

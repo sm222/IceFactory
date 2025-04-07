@@ -36,6 +36,8 @@ class Base {
     BaseInterface<MAX_CHILD_FT>   interface;
   protected:
     //
+    virtual void        Draw(int metod) const = 0;
+    //
     static t_id         MakeId(void);
     virtual void        Zero(void) = 0;
     void                SetFtList(void);

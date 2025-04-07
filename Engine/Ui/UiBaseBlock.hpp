@@ -28,7 +28,7 @@ class UiBaseBlock : public Base {
     void             _SetParant(UiRenderZone& parant);
     void             _UnsetParant(void);
     //
-    virtual void      Draw(int mode);
+    virtual void      Draw(int metod) const;
     //
     UiRenderZone* __parant;
     Vector2       __position;

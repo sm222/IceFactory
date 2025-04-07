@@ -19,6 +19,7 @@ class Object : public Base {
     virtual ~Object(void);
     //
     static void Info(Base& self);
+    void        Draw(int metod) const { (void)metod; };
   protected:
     void           Zero(void);
   //  virtual void   Draw(int mode) = 0;

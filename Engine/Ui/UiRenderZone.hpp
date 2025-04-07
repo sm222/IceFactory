@@ -35,7 +35,7 @@ class UiRenderZone : public Base {
     void               SetPosition(const Vector2& position);
   //
     void               Render(void);
-    virtual void       Draw(int mode);
+    virtual void       Draw(int metod) const;
     //const Texture2D&   GetFrame(void) const;
   //
   protected:

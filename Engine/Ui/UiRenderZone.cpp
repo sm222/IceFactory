@@ -116,8 +116,8 @@ void  UiRenderZone::Render(void) {
   EndTextureMode();
 }
 
-void  UiRenderZone::Draw(int mode) {
-  (void)mode;
+void  UiRenderZone::Draw(int metod) const {
+  (void)metod;
   Rectangle r = __zone;
   r.height *= -1;
   DrawTextureRec(__canvas.texture, r, __offset, __color);

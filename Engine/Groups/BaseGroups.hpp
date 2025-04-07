@@ -17,6 +17,9 @@ class BaseGroup : public Base {
     bool                Select(const char* name, const char* type);
     bool                Add(Base* obj);
     bool                Remove(const char* name);
+    void                Draw(int metod) const  { (void)metod; };
+    size_t              Size(void) const;
+    size_t              TotalSize(void) const;
   protected:
     //
     void                PrintTree(int def) const;

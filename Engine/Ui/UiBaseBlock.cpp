@@ -46,9 +46,9 @@ void UiBaseBlock::_UnsetParant(void) {
   __parant = nullptr;
 }
 
-void  UiBaseBlock::Draw(int mode) {
-  if (mode == 0)
+void  UiBaseBlock::Draw(int metod) const {
+  if (metod == 0)
     DrawRectangleRec(__zone, __color);
-  else if (mode > 0)
-    DrawRectangleLinesEx(__zone, mode, __color);
+  else if (metod > 0)
+    DrawRectangleLinesEx(__zone, metod, __color);
 }

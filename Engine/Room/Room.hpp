@@ -19,10 +19,16 @@ class Room {
     //
     Room (const char* name);
     ~Room(void);
-    BaseGroup     Root;
+    BaseGroup         root;
     //
     void              SetRoomType(const t_roomType& type);
     const t_roomType  GetRoomType(void)                    const ;
+    // Camera stuff
+    bool              AddCamera(BaseCamera* camera);
+    bool              RemoveCamera(const char* name);
+    size_t            GetNumberOfCameras(void) const;
+    const BaseCamera* GetCamera(size_t i) const;
+    //bool            RemoveCamera(const t_id id); // todo
     //
   protected:
     //

@@ -2,7 +2,7 @@
 #include "Room.hpp"
 
 Room::Room(const char* name) :
-Root("root"), __engineUi("EngineUi"), __cameraList("cameraList")
+root("root"), __engineUi("EngineUi"), __cameraList("cameraList")
 {
   DEBUG_P(magenta, "Room::name");
   if (name) {
@@ -33,6 +33,29 @@ void Room::SetRoomType(const t_roomType& type) {
 
 const t_roomType Room::GetRoomType(void) const {
   return __roomType;
+}
+
+bool Room::AddCamera(BaseCamera* camera) {
+  if (!camera || strcmp(camera->GetType(), BASE_CAMERA) != 0) {
+    DEBUG_P(red, "Room::AddCamera no camera or invalid");
+    return false;
+  }
+  __cameraList.Add(camera);
+  return true;
+}
+
+bool Room::RemoveCamera(const char* name) {
+  return __cameraList.Remove(name);
+}
+
+size_t  Room::GetNumberOfCameras(void) const {
+  return __cameraList.Size();
+}
+
+const BaseCamera* Room::GetCamera(size_t i) const {
+  if (GetNumberOfCameras() <= i)
+    return nullptr;
+  return (BaseCamera)__cameraList;
 }
 
 void   Room::BuildUiEngine(void) {

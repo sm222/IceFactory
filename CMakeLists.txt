@@ -34,6 +34,7 @@ Engine/Ui/UiBaseTextBox.cpp
 Engine/Room/Room.cpp
 Engine/Base/Base.cpp
 Engine/Groups/BeseGroups.cpp
+Engine/Render/Render.cpp
 Engine/Import/Model/ModelManager.cpp
 )
 

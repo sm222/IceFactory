@@ -34,7 +34,7 @@ class BaseCamera : public Object {
 
     void                   SetTarget(const Vector3& position);
     //Draw
-    void                   Draw(void);
+    void                   Draw(int metod) const;
     //
     bool                   SetCanvas(const Vector2& size);
     int                    Start(void);

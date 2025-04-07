@@ -34,6 +34,7 @@ __screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
   if (!__roomsEngine[0])
     throw std::runtime_error("new room fail");
   __roomsEngine[0]->SetRoomType(room_noType);
+  __renderEngine.SetRoom(__roomsEngine[0]);
   // error and debug
 }
 
@@ -170,7 +171,8 @@ bool  IceFactory::ReadEnvent(const t_EngineEvents event) const {
 /// @param  
 /// @return 
 int   IceFactory::UpdateEngine(void) {
-  ClearBackground(BLANK);
+  //ClearBackground(BLANK); //! render job?
+  __renderEngine.Draw();
   const int status = UpdateInpus() + UpdateEvent();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = IceFactory::GetWindowSize();

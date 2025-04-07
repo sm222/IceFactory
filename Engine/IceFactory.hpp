@@ -20,6 +20,8 @@
 # include "Room/Room.hpp"
 # define  MAX_ROOM 3
 
+# include "Render/Render.hpp"
+
 # include <raylib.h>
 # include <raymath.h>
 
@@ -88,6 +90,8 @@ class IceFactory {
     static t_EngineStatus             __engineStatus;
     static bool                       __raylib;
     //
+    Render                            __renderEngine;
+    //
     std::vector<BaseCamera*>          __autoReSizeCamera;
     //
     Vector2                           __screenSize;
@@ -102,7 +106,7 @@ class IceFactory {
     //
     std::map<t_ControlKeys, TYPE_KEY> __keyMapBind;
     //
-    static float                      __timeScale;
+    static float                      __timeScale; // defalut 1
     //static 
     // debug / errors tools
     Model                             __what;

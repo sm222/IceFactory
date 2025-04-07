@@ -60,8 +60,8 @@ const Camera3D BaseCamera::GetCamera(void) const {
   return __camera;
 }
 
-void BaseCamera::Draw(void) {
-  return ;
+void BaseCamera::Draw(int metod) const {
+  (void)metod;
 }
 
 // return false if camera is not set in texture mode or LoadRenderTexture fail

@@ -81,14 +81,14 @@ void loop(IceFactory& engine) {
     PlayerCamera.Start();
     DrawPlane({0,-1, 0}, {40, 40}, GRAY);
     PlayerCamera.Stop();
-    BeginDrawing();
-    PlayerCamera.DrawFrame({0,0});
-    uiTest.Draw(0);
-    DrawFPS(0,0);
-    //
-    //
-    EndDrawing();
-    PlayerCamera.Clear();
+    //BeginDrawing();
+    //PlayerCamera.DrawFrame({0,0});
+    //uiTest.Draw(0);
+    //DrawFPS(0,0);
+    ////
+    ////
+    //EndDrawing();
+    //PlayerCamera.Clear();
   }
 }
 
