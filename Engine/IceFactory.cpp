@@ -30,6 +30,10 @@ __screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
     __keyMapBind[(t_ControlKeys)i] = KEY_NULL;
   }
   _SetFpsControl(); // defalut gamemode
+  __roomsEngine[0] = new Room("backup");
+  if (!__roomsEngine[0])
+    throw std::runtime_error("new room fail");
+  __roomsEngine[0]->SetRoomType(room_noType);
   // error and debug
 }
 
@@ -70,6 +74,7 @@ const Vector2 IceFactory::GetWindowSize(void) {
 
 int  IceFactory::initEngine(void) {
   __engineStatus = S_EngineStart;
+  __currentRoom = __roomsEngine[0];
   return 1;
 }
 
@@ -120,6 +125,7 @@ bool IceFactory::CloseRaylib(void) {
 bool IceFactory::closeEngine(void) {
   __engineStatus = S_EngineStop;
   Models.Clear();
+  delete __roomsEngine[0];
   //!last step
   CloseRaylib();
   return true;

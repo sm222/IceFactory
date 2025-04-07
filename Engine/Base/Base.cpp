@@ -3,7 +3,7 @@
 t_id  Base::__totalId = 0; // id 
 
 Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
-  DEBUG_P(magenta, "Base::char");
+  DEBUG_P(magenta, "Base::char %s", name);
   SetName(name);
   SetFtList();
   #if (PRINT_ID_AT_BUILD)
@@ -12,7 +12,7 @@ Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
 }
 
 Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
-  DEBUG_P(magenta, "Base::string");
+  DEBUG_P(magenta, "Base::string %s", name);
   SetName(name);
   SetFtList();
   #if (PRINT_ID_AT_BUILD)

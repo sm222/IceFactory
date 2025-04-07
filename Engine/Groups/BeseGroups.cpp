@@ -7,12 +7,12 @@ void   BaseGroup::Zero(void) {
 
 BaseGroup::BaseGroup(const char* name) : Base(name) {
   __type = TYPE_BASE_GROUP;
-  DEBUG_P(magenta, "BaseGroup::char");
+  DEBUG_P(magenta, "BaseGroup::char %s", name);
   SetName(name);
 }
 
 BaseGroup::BaseGroup(const std::string& name) : BaseGroup(name.c_str()) { 
-  DEBUG_P(magenta, "BaseGroup::string");
+  DEBUG_P(magenta, "BaseGroup::string %s", name);
 }
 
 BaseGroup::~BaseGroup(void) { 

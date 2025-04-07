@@ -17,6 +17,8 @@
 # include "Ui/UiRenderZone.hpp"
 # include "Import/Model/ModelManager.hpp"
 # include "Groups/BaseGroups.hpp"
+# include "Room/Room.hpp"
+# define  MAX_ROOM 3
 
 # include <raylib.h>
 # include <raymath.h>
@@ -35,29 +37,31 @@ class IceFactory {
     bool                 closeEngine(void);
     static Vector2       flaotToVec2(float angle);
     //
-    void               SetEngineStatus(const t_EngineStatus status);
+    void                 SetEngineStatus(const t_EngineStatus status);
     //
-    int                UpdateEngine(void);
+    int                  UpdateEngine(void);
     //
-    int                UpdateInpus(void);
-    float              GetAnalogInput(const t_Controls name) const ;
+    int                  UpdateInpus(void);
+    float                GetAnalogInput(const t_Controls name) const ;
     //
-    int                UpdateEvent(void);
-    void               ForceEnvent(const t_EngineEvents envent);
-    bool               ReadEnvent(const t_EngineEvents event) const;
+    int                  UpdateEvent(void);
+    void                 ForceEnvent(const t_EngineEvents envent);
+    bool                 ReadEnvent(const t_EngineEvents event) const;
     //
-    static float       timeScale(float in);
-    static void        setTimeScale(float scale);
+    static float         timeScale(float in);
+    static void          setTimeScale(float scale);
     //
-    Vector2            GiveWindowSize(void);
+    Vector2              GiveWindowSize(void);
     //! Update
     //? bool               AddCameraToUpdateList(BaseCamera& camera);
     
     //! debug and error
-    Model*             GiveWhatModel(void);
+    Model*               GiveWhatModel(void);
     //
     IceFactory(void);
     ~IceFactory(void);
+    //? Engine data
+    
     ModelManager        Models;
     //
     Groups<Object*>    _mainGroups; //* root
@@ -66,40 +70,42 @@ class IceFactory {
     protected:
     //! - - - - - -
     // Raylib
-    private:
-      
-      //
-      bool                 CloseRaylib(void);
-      bool                 IceFactoryInitRayLib(void);
-      //! - - - - - - - - - - - - - - - - -
-      //* - - - KEYBORD
-      void                 SetKeyMapToKey(t_ControlKeys action, KeyboardKey key);
-      void                 UpdateKeybord(void);
-      void                _SetFpsControl(void);
-      //
-      UserSeting                        __userSeting;
-      //
-      static t_EngineStatus             __engineStatus;
-      static bool                       __raylib;
-      //
-      std::vector<BaseCamera*>          __autoReSizeCamera;
-      //
-      Vector2                           __screenSize;
-      std::string                       __gameName;
-      //
-      std::map<t_EngineEvents, bool>    __EngineEvent;
-      //
-      std::map<t_Controls, bool>        __numericMap;
-      std::map<t_Controls, float>       __analogMap;
-      int                               __inputSelect;
-      unsigned int                      __numberGamepads;
-      //
-      std::map<t_ControlKeys, TYPE_KEY> __keyMapBind;
-      //
-      static float                      __timeScale;
-      //static 
-      // debug / errors tools
-      Model                             __what;
+  private:
+    //! room 0 is alway here as a backup
+    std::array<Room*, MAX_ROOM + 1>  __roomsEngine;
+    const Room*                      __currentRoom;
+    //
+    bool                 CloseRaylib(void);
+    bool                 IceFactoryInitRayLib(void);
+    //! - - - - - - - - - - - - - - - - -
+    //* - - - KEYBORD
+    void                 SetKeyMapToKey(t_ControlKeys action, KeyboardKey key);
+    void                 UpdateKeybord(void);
+    void                _SetFpsControl(void);
+    //
+    UserSeting                        __userSeting;
+    //
+    static t_EngineStatus             __engineStatus;
+    static bool                       __raylib;
+    //
+    std::vector<BaseCamera*>          __autoReSizeCamera;
+    //
+    Vector2                           __screenSize;
+    std::string                       __gameName;
+    //
+    std::map<t_EngineEvents, bool>    __EngineEvent;
+    //
+    std::map<t_Controls, bool>        __numericMap;
+    std::map<t_Controls, float>       __analogMap;
+    int                               __inputSelect;
+    unsigned int                      __numberGamepads;
+    //
+    std::map<t_ControlKeys, TYPE_KEY> __keyMapBind;
+    //
+    static float                      __timeScale;
+    //static 
+    // debug / errors tools
+    Model                             __what;
   };
 };
 
