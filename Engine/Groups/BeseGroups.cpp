@@ -36,6 +36,24 @@ bool    BaseGroup::Select(const char* name, const char* type = nullptr) {
   return false;
 }
 
+/// @brief if return false, __select alway set back to nullptr
+/// @param name
+/// @return 
+bool    BaseGroup::SelectById(const t_id id) {
+  std::vector<Base*>::iterator it;
+  for (it = __root.begin(); it != __root.end(); it++) {
+    Base& ref = *(*it);
+    if (ref.GetId() == id) {
+      __select = (*it);
+      return true;
+    }
+  }
+  __select = nullptr;
+  return false;
+}
+
+Base*   BaseGroup::GetByName(const char* name) {}
+
 void BaseGroup::PrintTree(void) const {
   const char* name = this->GetName();
   Debug("", 0, nullptr, green, name);

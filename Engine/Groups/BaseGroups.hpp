@@ -15,6 +15,9 @@ class BaseGroup : public Base {
     void                PrintTree(void) const;
     // Set
     bool                Select(const char* name, const char* type);
+    bool                SelectById(const t_id id);
+    Base*               GetByName(const char* name);
+    Base*               GetById(const t_id id);
     bool                Add(Base* obj);
     bool                Remove(const char* name);
     void                Draw(int metod) const  { (void)metod; };
