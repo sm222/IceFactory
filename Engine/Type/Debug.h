@@ -1,6 +1,10 @@
 #ifndef   __DEBUG__
 # define  __DEBUG__
 
+// Made by Antoine
+//* https://github.com/sm222
+//
+
 # include <stdio.h>
 # include <stdarg.h>
 
@@ -9,7 +13,7 @@
 # ifndef  TXT_COLORS
 #  define TXT_COLORS
 #  define CS	"\001" //*start code
-#  define CE	"\002" //*end   code 
+#  define CE	"\002" //*end   code
 #  define TXT_RED	CS "\e[31m" CE
 #  define TXT_GRN	CS "\e[32m" CE
 #  define TXT_YEL	CS "\e[33m" CE
@@ -37,7 +41,7 @@ typedef enum {
 } e_debug_color;
 
 
-static void Debug(const char* file_no_null, int line, const char* root, e_debug_color color, const char* s, ...) {
+inline void Debug(const char* file_no_null, int line, const char* root, e_debug_color color, const char* s, ...) {
   #if DEBUG_STATUS
   {
     char buff[10001];
@@ -69,7 +73,7 @@ static void Debug(const char* file_no_null, int line, const char* root, e_debug_
       c = TXT_PIK;
     if (color == cyan)
       c = TXT_CYN;
-    fprintf(stderr, "%s%s:%d%s %s\n", c, file_no_null + i, line, TXT_RESET, buff);
+    fprintf(stdout, "%s%s:%d%s %s\n", c, file_no_null + i, line, TXT_RESET, buff);
     va_end(va);
   }
   # else

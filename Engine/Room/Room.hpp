@@ -7,12 +7,20 @@
 # include "../Groups/BaseGroups.hpp"
 //# include "../Ui/UiBaseBlock.hpp"
 
+# define ROOM_MAX_CAMERA 10
+
 typedef enum {
   room_noType = 0,
   room_menu,
   room_game,
   room_loading,
 } t_roomType;
+
+struct RoomRenderCamera {
+  BaseCamera*    camera;
+  BaseGroup*     toRender;
+};
+
 
 class Room {
   public:
@@ -27,21 +35,27 @@ class Room {
     bool              AddCamera(BaseCamera* camera);
     bool              RemoveCamera(const char* name);
     size_t            GetNumberOfCameras(void) const;
-    const BaseCamera* GetCamera(size_t i) const;
+    BaseCamera*       GetCamera(size_t i) const;
     //bool            RemoveCamera(const t_id id); // todo
+    bool              SetToRender(size_t index, BaseGroup* group, size_t cameraIndex);
+    bool              UnbindToRender(size_t index);
+    RoomRenderCamera  GetRenderData(size_t index) const;
     //
   protected:
     //
     //
   private:
-    BaseGroup                  __cameraList;
+    BaseGroup                                          __cameraList;
+    std::array<RoomRenderCamera, ROOM_MAX_CAMERA + 1>  __renderlist;
+    //*      last one ( [ROOM_MAX_CAMERA] ) is reserve for the engine ui
+    //*                           (consol, debug, fps overlay and other)
     //
     void                        BuildUiEngine(void);
     t_roomType                __roomType;
     BaseGroup                 __engineUi;
     
     //
-    char          __name[MAX_NAME_LEN + 1];
+    char                      __name[MAX_NAME_LEN + 1];
     //
 };
 

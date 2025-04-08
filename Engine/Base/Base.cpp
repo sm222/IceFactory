@@ -6,6 +6,8 @@ Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
   DEBUG_P(magenta, "Base::char %s", name);
   SetName(name);
   SetFtList();
+  __metod = -1;
+  __parent = nullptr;
   #if (PRINT_ID_AT_BUILD)
     PrintId();
   #endif
@@ -15,6 +17,8 @@ Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
   DEBUG_P(magenta, "Base::string %s", name);
   SetName(name);
   SetFtList();
+  __metod = -1;
+  __parent = nullptr;
   #if (PRINT_ID_AT_BUILD)
     PrintId();
   #endif
@@ -22,6 +26,12 @@ Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
 
 Base::~Base(void) {
   DEBUG_P(magenta, "Base::~");
+}
+
+
+void Base::Draw(int metod) const {
+  (void)metod;
+  return;
 }
 
 //*                  *//*                  *//
@@ -101,6 +111,11 @@ t_id  Base::MakeId(void) {
   return ++__totalId;
 }
 
+int Base::GetMetod(void) const {
+  return __metod;
+}
+
+
 //*                  *//*                  *//
 //*                                        *//
 //*                                        *//
@@ -113,6 +128,9 @@ t_id  Base::MakeId(void) {
 
 // SET
 
+void    Base::SetMetod(const int metod) {
+  __metod = metod;
+}
 
 
 /// @brief set the parant to addr of parant
@@ -130,9 +148,9 @@ bool Base::__SetParent(const Base& parant) {
 bool Base::__SetParantNone(void) {
   bool rm = false;
   if (__parent) {
+    DEBUG_P(pink, "remove parant %p", __parent);
     __parent = nullptr;
     rm = true;
-    DEBUG_P(pink, "remove parant %p", __parent);
   }
   return rm;
 }

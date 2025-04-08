@@ -19,6 +19,10 @@ root("root"), __engineUi("EngineUi"), __cameraList("cameraList")
     memcpy(__name, "no_name", 8);
   }
   __roomType = room_noType;
+  for (size_t i = 0; i < ROOM_MAX_CAMERA + 1; i++) {
+    __renderlist[i].camera = nullptr;
+    __renderlist[i].toRender = nullptr;
+  }
   BuildUiEngine();
 }
 
@@ -40,6 +44,10 @@ bool Room::AddCamera(BaseCamera* camera) {
     DEBUG_P(red, "Room::AddCamera no camera or invalid");
     return false;
   }
+  if (GetNumberOfCameras() >= ROOM_MAX_CAMERA) {
+    DEBUG_P(red, "too many camera: max set by engine is %d", ROOM_MAX_CAMERA);
+    return false;
+  }
   __cameraList.Add(camera);
   return true;
 }
@@ -52,10 +60,54 @@ size_t  Room::GetNumberOfCameras(void) const {
   return __cameraList.Size();
 }
 
-const BaseCamera* Room::GetCamera(size_t i) const {
-  if (GetNumberOfCameras() <= i)
+BaseCamera* Room::GetCamera(size_t i) const {
+  const size_t n = GetNumberOfCameras();
+  if (n <= i) {
+    DEBUG_P(red, "Room::GetCamera out of bound i%u nbr Camera %u", i, n);
     return nullptr;
-  return (BaseCamera)__cameraList;
+  }
+  Base* ptr = __cameraList.GetByIndex(i);
+  return (BaseCamera*)ptr;
+}
+
+bool  Room::SetToRender(size_t index, BaseGroup* group, size_t cameraIndex) {
+  if (!group) {
+    DEBUG_P(red, "Room::SetToRender no groups");
+    return false;
+  }
+  if (index >= ROOM_MAX_CAMERA) {
+    DEBUG_P(red, "Room::SetToRender bad index, max value is %d", ROOM_MAX_CAMERA);
+    return false;
+  }
+  BaseCamera* camera = GetCamera(cameraIndex);
+  if (!camera)
+    return false;
+  DEBUG_P(green, "Room::SetToRender set at %u", index);
+  __renderlist[index].camera = camera;
+  __renderlist[index].toRender = group;
+  return true;
+}
+
+bool Room::UnbindToRender(size_t index) {
+  if (index >= ROOM_MAX_CAMERA) {
+    DEBUG_P(red, "Room::UnbindToRender out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
+    return false;
+  }
+  __renderlist[index].camera   = nullptr;
+  __renderlist[index].toRender = nullptr;
+  return true;
+}
+
+RoomRenderCamera Room::GetRenderData(size_t index) const {
+  RoomRenderCamera data;
+  data.camera = nullptr;
+  data.toRender = nullptr;
+  if (index >= ROOM_MAX_CAMERA) {
+    DEBUG_P(red, "Room::GetRenderData out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
+    return data;
+  }
+  data = __renderlist[index];
+  return data;
 }
 
 void   Room::BuildUiEngine(void) {

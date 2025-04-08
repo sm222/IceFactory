@@ -34,7 +34,14 @@ void loop(IceFactory& engine) {
   PlayerCamera.SetCanvas(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
   //-------
+  engine.AddCameraToUpdateList(&PlayerCamera);
+  Room* r = engine.GetRoom(0);
   Object t("test");
+  DevCube cube("cube");
+  BaseGroup  GameTest("gametest");
+  GameTest.Add(&t);
+  GameTest.Add(&cube);
+  r->SetToRender(0, &GameTest, 0);
   BaseGroup newG("mewG");
   t_BaseInterface V;
   t.interface.Get(0, V);

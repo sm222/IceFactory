@@ -26,6 +26,11 @@ bool BaseCamera::SetMode(const t_camera_mode mode) {
   return false;
 }
 
+t_camera_mode BaseCamera::GetMode(void) const {
+  return __mode;
+}
+
+
 BaseCamera::~BaseCamera(void) {
   if (IsRenderTextureValid(__RenderTexture)) {
     UnloadRenderTexture(__RenderTexture);
@@ -52,6 +57,10 @@ void BaseCamera::SetPosition(float x, float y, float z) {
   # if (CAMEA_LOGS)
     DEBUG_P(green, "BaseCamera::SetPosition x:%f y:%f z:%f", x, y, z);
   # endif
+}
+
+Vector3 BaseCamera::GetPosition(void) const {
+  return __camera.position;
 }
 
 
@@ -139,7 +148,20 @@ const Texture2D BaseCamera::GetFrame(void) {
   return __RenderTexture.texture;
 }
 
-// future problem ?
+void  BaseCamera::SetColors(Color clean, Color tint) {
+  __clean = clean;
+  __tint = tint;
+}
+
+Color  BaseCamera::GetCleanColor(void) const {
+  return __clean;
+}
+
+Color  BaseCamera::GetTintColor(void) const {
+  return __tint;
+}
+
+//! future problem ? //? switch for t_id ?
 unsigned int BaseCamera::GetNewID(void) {
   return ++__cameraNumber;
 }

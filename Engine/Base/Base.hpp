@@ -11,6 +11,8 @@
 typedef unsigned int   t_id;
 # define PRINT_ID_AT_BUILD 1
 
+
+
 class BaseGroup;
 
 class Base {
@@ -25,6 +27,8 @@ class Base {
     const t_id          GetId(void)   const ;
     void                PrintId(void) const ;
     static t_id         GetCurrentMaxId(void);
+    //
+    virtual void        Draw(int metod) const;
     // Set
     void                SetName(const char* name);
     void                SetName(const std::string& name);
@@ -33,10 +37,12 @@ class Base {
     // child Ft
     static void         Hello(Base& self);
     //
+    int                 GetMetod(void)   const ;
+    void                SetMetod(const int metod);
     BaseInterface<MAX_CHILD_FT>   interface;
   protected:
     //
-    virtual void        Draw(int metod) const = 0;
+    int               __metod;
     //
     static t_id         MakeId(void);
     virtual void        Zero(void) = 0;

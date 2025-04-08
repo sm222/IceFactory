@@ -55,8 +55,8 @@ class IceFactory {
     //
     Vector2              GiveWindowSize(void);
     //! Update
-    //? bool               AddCameraToUpdateList(BaseCamera& camera);
-    
+    bool                 AddCameraToUpdateList(BaseCamera* camera);
+    Room*                GetRoom(size_t index);                    //! Debug
     //! debug and error
     Model*               GiveWhatModel(void);
     //
@@ -75,7 +75,7 @@ class IceFactory {
   private:
     //! room 0 is alway here as a backup
     std::array<Room*, MAX_ROOM + 1>  __roomsEngine;
-    const Room*                      __currentRoom;
+    Room*                            __currentRoom;
     //
     bool                 CloseRaylib(void);
     bool                 IceFactoryInitRayLib(void);

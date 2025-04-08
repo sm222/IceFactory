@@ -52,7 +52,24 @@ bool    BaseGroup::SelectById(const t_id id) {
   return false;
 }
 
-Base*   BaseGroup::GetByName(const char* name) {}
+Base*   BaseGroup::GetByName(const char* name) const {
+  if (!name)
+    return nullptr;
+  std::vector<Base*>::const_iterator it;
+  const size_t nameLen = strlen(name);
+  for (it = __root.begin(); it != __root.end(); it++) {
+    const char* refName = (*it)->GetName();
+    if (strncmp(name, refName, nameLen + 1) == 0)
+      return (*it);
+  }
+  return nullptr;
+}
+
+Base*   BaseGroup::GetByIndex(const size_t index) const {
+  if (index >= __root.size())
+    return nullptr;
+  return __root.at(index);
+}
 
 void BaseGroup::PrintTree(void) const {
   const char* name = this->GetName();
@@ -125,6 +142,24 @@ bool  BaseGroup::Remove(const char* name) {
   return false;
 }
 
+size_t  BaseGroup::SetDrawMetod(int metod, size_t dep = 0) {
+  std::vector<Base*>::iterator it;
+  size_t total = 0;
+  for ( it = __root.begin(); it != __root.end(); it++) {
+    const char* type = (*it)->GetType();
+    if (strcmp(type, TYPE_BASE_GROUP) == 0 && dep) {
+      BaseGroup* ptr = (BaseGroup*)(*it);
+      total += ptr->SetDrawMetod(dep - 1, metod);
+    }
+    else {
+      (*it)->SetMetod(metod);
+      total++;
+    }
+  }
+  return total;
+}
+
+
 size_t  BaseGroup::Size(void) const {
   return __root.size();
 }
@@ -134,7 +169,7 @@ size_t  BaseGroup::TotalSize(void) const {
   std::vector<Base*>::const_iterator it;
   for (it = __root.begin(); it < __root.end(); it++) {
     if (strcmp((*it)->GetType(), TYPE_BASE_GROUP) == 0) {
-      const BaseGroup& ref = (BaseGroup&)(*it);
+      const BaseGroup& ref = (BaseGroup&)(*(*it));
       size += ref.TotalSize();
     }
   }

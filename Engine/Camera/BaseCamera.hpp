@@ -16,11 +16,11 @@ enum {
 
 typedef enum {
   none,
-  camera_texture, // output all inside of a 2DrenderTexture
+  camera_texture,      // output all inside of a 2DrenderTexture
+  camera_texture_keep, // to use on a bilbord or on a model
 } t_camera_mode;
 
 class BaseCamera : public Object {
-  
   public:
     BaseCamera(const char* name);
     BaseCamera(const std::string& name);
@@ -31,7 +31,9 @@ class BaseCamera : public Object {
     void                   SetPosition(float x, float y, float z);
     void                   Update(const Vector3& movement, const Vector3& rotate, const float& zoom);
     void                   Default(void);
-
+    //
+    Vector3                GetPosition(void) const ;
+    
     void                   SetTarget(const Vector3& position);
     //Draw
     void                   Draw(int metod) const;
@@ -42,9 +44,14 @@ class BaseCamera : public Object {
     void                   DrawFrame(const Vector2& Position);
     bool                   Clear(void);
     bool                   SetMode(const t_camera_mode mode);
+    t_camera_mode          GetMode(void) const;
     //
     const Texture2D        GetFrame(void);
     const Vector2          GetFrameSize(void);
+    //
+    void                   SetColors(Color clean, Color tint);
+    Color                  GetCleanColor(void) const;
+    Color                  GetTintColor(void) const;
     //
   protected:
     void                   Zero(void);

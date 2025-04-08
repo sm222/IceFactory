@@ -171,7 +171,7 @@ bool  IceFactory::ReadEnvent(const t_EngineEvents event) const {
 /// @param  
 /// @return 
 int   IceFactory::UpdateEngine(void) {
-  //ClearBackground(BLANK); //! render job?
+  //ClearBackground(BLANK); //! render job? yes :>
   __renderEngine.Draw();
   const int status = UpdateInpus() + UpdateEvent();
   if (__EngineEvent[Event_window_resized]) {
@@ -208,6 +208,26 @@ Vector2 IceFactory::GiveWindowSize(void) {
 Model*  IceFactory::GiveWhatModel(void) {
   return &__what;
 }
+
+bool  IceFactory::AddCameraToUpdateList(BaseCamera* camera) {
+  if (!camera) {
+    DEBUG_P(red, "IceFactory::AddCameraToUpdateList no camera");
+    return false;
+  }
+  if (!__currentRoom) {
+    DEBUG_P(red, "IceFactory::AddCameraToUpdateList no room!?");
+    return false;
+  }
+  __currentRoom->AddCamera(camera);
+  return true;
+}
+
+
+Room* IceFactory::GetRoom(size_t index) {
+  return __roomsEngine[index];
+}
+
+
 
 
 //*                  *//*                  *//

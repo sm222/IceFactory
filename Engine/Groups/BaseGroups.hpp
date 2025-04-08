@@ -16,11 +16,15 @@ class BaseGroup : public Base {
     // Set
     bool                Select(const char* name, const char* type);
     bool                SelectById(const t_id id);
-    Base*               GetByName(const char* name);
-    Base*               GetById(const t_id id);
+    Base*               GetByName(const char* name) const;
+    Base*               GetByIndex(const size_t index) const;
+    //Base*             GetById(const t_id id); // todo: add by id
     bool                Add(Base* obj);
     bool                Remove(const char* name);
+    //!   Draw
     void                Draw(int metod) const  { (void)metod; };
+    size_t              SetDrawMetod(int metod, size_t dep);
+    //
     size_t              Size(void) const;
     size_t              TotalSize(void) const;
   protected:

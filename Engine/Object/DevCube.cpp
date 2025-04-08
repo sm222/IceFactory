@@ -17,7 +17,7 @@ DevCube::~DevCube(void) {
 
 }
 
-void DevCube::Draw(int metod) {
+void DevCube::Draw(int metod) const {
   const float size = 0.1f;
   switch (metod) {
   case 0:

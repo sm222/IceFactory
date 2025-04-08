@@ -11,20 +11,42 @@ Render::~Render(void) {
 }
 
 
+
+void   __DrawGroup(const BaseGroup* group, const RoomRenderCamera data) {
+  for (size_t i = 0; i < group->Size(); i++) {
+    const Base* ptr = data.toRender->GetByIndex(i);
+    const char* type = ptr->GetType();
+    if (strcmp(type, TYPE_BASE_GROUP) == 0)
+      __DrawGroup((const BaseGroup*)ptr, data);
+    else
+      ptr->Draw(ptr->GetMetod());
+  }
+}
+
 void Render::DrawRoom(const Room& room) const {
-  //DEBUG_P(cyan, "DrawRoom");
-  if (room.GetRoomType() == room_noType) {
+  if (room.GetRoomType() == room_noType && 0) {
     BeginDrawing();
     ClearBackground(BLANK);
     EndDrawing();
     return;
   }
-  
-  for (size_t i = 0; i < 10; i++)
-  {
-    /* code */
+  for (size_t i = 0; i < ROOM_MAX_CAMERA; i++) {
+    RoomRenderCamera data = room.GetRenderData(i);
+    if (data.camera) {
+      data.camera->Start();
+      ClearBackground(data.camera->GetCleanColor());
+      __DrawGroup(data.toRender, data);
+      DrawCube({0,0,0}, 0.01, 0.01, 0.01, BLUE);
+      data.camera->Stop();
+    }
   }
-  
+  BeginDrawing();
+  for (size_t i = 0; i < ROOM_MAX_CAMERA; i++) {
+    RoomRenderCamera data = room.GetRenderData(i);
+    if (data.camera && data.camera->GetMode() == camera_texture)
+      data.camera->DrawFrame({0,0});
+  }
+  EndDrawing();
 }
 
 
