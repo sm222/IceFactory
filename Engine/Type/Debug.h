@@ -81,7 +81,7 @@ inline void Debug(const char* file_no_null, int line, const char* root, e_debug_
     (void)file_no_null;
     (void)line;
     (void)color;
-    (void)dep;
+    (void)root;
     (void)s;
   }
   #endif

@@ -28,6 +28,7 @@ root("root"), __engineUi("EngineUi"), __cameraList("cameraList")
 
 
 Room::~Room(void) {
+  root.DeAllocAll();
   DEBUG_P(magenta, "Room::~");
 }
 
@@ -80,8 +81,10 @@ bool  Room::SetToRender(size_t index, BaseGroup* group, size_t cameraIndex) {
     return false;
   }
   BaseCamera* camera = GetCamera(cameraIndex);
-  if (!camera)
+  if (!camera) {
+    DEBUG_P(red, "HERE");
     return false;
+  }
   DEBUG_P(green, "Room::SetToRender set at %u", index);
   __renderlist[index].camera = camera;
   __renderlist[index].toRender = group;
@@ -109,6 +112,11 @@ RoomRenderCamera Room::GetRenderData(size_t index) const {
   data = __renderlist[index];
   return data;
 }
+
+BaseGroup*  Room::GetRoot(void) {
+  return &root;
+}
+
 
 void   Room::BuildUiEngine(void) {
   // Todo: build terminal and main menu

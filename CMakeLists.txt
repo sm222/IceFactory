@@ -33,6 +33,7 @@ Engine/Ui/UiBaseBlock.cpp
 Engine/Ui/UiBaseTextBox.cpp
 Engine/Room/Room.cpp
 Engine/Base/Base.cpp
+Engine/Object/Object3D.cpp
 Engine/Groups/BeseGroups.cpp
 Engine/Render/Render.cpp
 Engine/Import/Model/ModelManager.cpp

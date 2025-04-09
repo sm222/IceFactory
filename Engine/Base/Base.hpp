@@ -11,7 +11,14 @@
 typedef unsigned int   t_id;
 # define PRINT_ID_AT_BUILD 1
 
-
+enum {
+  draw_invalid = 0 ,
+  draw_solid   = 0b00000001,
+  draw_mesh    = 0b00000010,
+  draw_points  = 0b00000100,
+  draw_hitbox  = 0b00001000,
+  draw_texture = 0b00010000,
+};
 
 class BaseGroup;
 
@@ -39,6 +46,8 @@ class Base {
     //
     int                 GetMetod(void)   const ;
     void                SetMetod(const int metod);
+    void                SetIsAlloc(bool);
+    bool                GetIsAlloc(void);
     BaseInterface<MAX_CHILD_FT>   interface;
   protected:
     //
@@ -57,6 +66,7 @@ class Base {
     friend              BaseGroup; // use for 
     bool              __SetParent(const Base& parant);
     bool              __SetParantNone(void);
+    bool              __isAlloc;
     //
   private:
   //

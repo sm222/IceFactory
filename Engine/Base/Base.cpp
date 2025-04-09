@@ -1,6 +1,6 @@
 #include "Base.hpp"
 
-t_id  Base::__totalId = 0; // id 
+t_id  Base::__totalId = 0; // id
 
 Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
   DEBUG_P(magenta, "Base::char %s", name);
@@ -8,6 +8,7 @@ Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
   SetFtList();
   __metod = -1;
   __parent = nullptr;
+  __isAlloc = false;
   #if (PRINT_ID_AT_BUILD)
     PrintId();
   #endif
@@ -19,6 +20,7 @@ Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
   SetFtList();
   __metod = -1;
   __parent = nullptr;
+  __isAlloc = false;
   #if (PRINT_ID_AT_BUILD)
     PrintId();
   #endif
@@ -132,6 +134,13 @@ void    Base::SetMetod(const int metod) {
   __metod = metod;
 }
 
+void  Base::SetIsAlloc(bool v) {
+  __isAlloc = v;
+}
+
+bool  Base::GetIsAlloc(void) {
+  return __isAlloc;
+}
 
 /// @brief set the parant to addr of parant
 /// @return return false if parent was all ready set

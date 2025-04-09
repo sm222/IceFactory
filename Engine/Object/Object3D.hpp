@@ -5,12 +5,12 @@
 
 # define TYPE_OBJECT3D "Object3D"
 
-class Object3D : Object {
+class Object3D : public Object {
   public:
     //
     Object3D(const char* name);
     Object3D(const std::string& name);
-    ~Object3D(void);
+    virtual ~Object3D(void);
     //
     const Vector3&  GetPosition(void) const ;
     const Vector3&  GetRotation(void) const ;
@@ -19,9 +19,9 @@ class Object3D : Object {
     void            SetRotation(const Vector3& rotation);
     //
   protected:
-  virtual void   Zero(void);
-    Vector3    __position;
-    Vector3    __rotation;
+    virtual void   Zero(void);
+    Vector3      __position;
+    Vector3      __rotation;
   private:
 };
 

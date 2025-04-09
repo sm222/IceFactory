@@ -40,6 +40,7 @@ class Room {
     bool              SetToRender(size_t index, BaseGroup* group, size_t cameraIndex);
     bool              UnbindToRender(size_t index);
     RoomRenderCamera  GetRenderData(size_t index) const;
+    BaseGroup*        GetRoot(void);
     //
   protected:
     //

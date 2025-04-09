@@ -142,6 +142,24 @@ bool  BaseGroup::Remove(const char* name) {
   return false;
 }
 
+void   BaseGroup::DeAllocAll(void) {
+  DEBUG_P(pink, "BaseGroup::DeAllocAll from %s", this->__name);
+  std::vector<Base*>::iterator it;
+  for (it = __root.begin(); it != __root.end() ; it++) {
+    const char* type = (*it)->GetType();
+    const bool alloc = (*it)->GetIsAlloc();
+    if (strcmp(type, TYPE_BASE_GROUP) == 0) {
+      BaseGroup* ptr = (BaseGroup*)(*it);
+      ptr->DeAllocAll();
+    }
+    if (alloc) {
+      delete (*it);
+    }
+    (*it) = nullptr;
+  }
+  __root.clear();
+}
+
 size_t  BaseGroup::SetDrawMetod(int metod, size_t dep = 0) {
   std::vector<Base*>::iterator it;
   size_t total = 0;
@@ -175,3 +193,4 @@ size_t  BaseGroup::TotalSize(void) const {
   }
   return size;
 }
+

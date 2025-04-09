@@ -10,17 +10,17 @@ Render::~Render(void) {
   DEBUG_P(magenta, "Render::~");
 }
 
-
-
-void   __DrawGroup(const BaseGroup* group, const RoomRenderCamera data) {
+int   __DrawGroup(const BaseGroup* group, const RoomRenderCamera data) {
+  int totalPass = 1;
   for (size_t i = 0; i < group->Size(); i++) {
     const Base* ptr = data.toRender->GetByIndex(i);
     const char* type = ptr->GetType();
     if (strcmp(type, TYPE_BASE_GROUP) == 0)
-      __DrawGroup((const BaseGroup*)ptr, data);
+      totalPass += __DrawGroup((const BaseGroup*)ptr, data);
     else
       ptr->Draw(ptr->GetMetod());
   }
+  return totalPass;
 }
 
 void Render::DrawRoom(const Room& room) const {
@@ -36,7 +36,6 @@ void Render::DrawRoom(const Room& room) const {
       data.camera->Start();
       ClearBackground(data.camera->GetCleanColor());
       __DrawGroup(data.toRender, data);
-      DrawCube({0,0,0}, 0.01, 0.01, 0.01, BLUE);
       data.camera->Stop();
     }
   }

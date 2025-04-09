@@ -38,6 +38,9 @@ void loop(IceFactory& engine) {
   Room* r = engine.GetRoom(0);
   Object t("test");
   DevCube cube("cube");
+  cube.SetSize({0.5, 0.5, 0.5});
+  cube.SetShape(0);
+  cube.SetMetod(draw_solid | draw_mesh);
   BaseGroup  GameTest("gametest");
   GameTest.Add(&t);
   GameTest.Add(&cube);

@@ -55,13 +55,14 @@ typedef enum EngineEvents {
   Event_window_resized,
 } t_EngineEvents;
 
-typedef enum EngineStatus{
+typedef enum EngineStatus {
   S_EngineInit = ZERO,
   S_EngineStart,
   S_EngineRun,
   S_EnginePause,
   S_EngineUnload,
-  S_EngineStop
+  S_EngineStop,
+  S_EngineForceStop,
 } t_EngineStatus;
 
 typedef enum InputType {

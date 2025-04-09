@@ -21,6 +21,8 @@ class BaseGroup : public Base {
     //Base*             GetById(const t_id id); // todo: add by id
     bool                Add(Base* obj);
     bool                Remove(const char* name);
+    //
+    void                DeAllocAll(void);
     //!   Draw
     void                Draw(int metod) const  { (void)metod; };
     size_t              SetDrawMetod(int metod, size_t dep);

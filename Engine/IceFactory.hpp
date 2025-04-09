@@ -31,6 +31,9 @@ namespace Engine {
 class IceFactory {
   public:
     int                  initEngine(void);
+    int                  Start(void);
+    int                  Reboot(int type);
+    void                 Stop(void);
     static int           GetEngineStatus(void);
     static const Vector2 GetMonitorSize(void);
     static const Vector2 GetWindowSize(void);
@@ -73,6 +76,7 @@ class IceFactory {
     //! - - - - - -
     // Raylib
   private:
+    void                SetupStart(void);
     //! room 0 is alway here as a backup
     std::array<Room*, MAX_ROOM + 1>  __roomsEngine;
     Room*                            __currentRoom;

@@ -18,6 +18,9 @@ void IceFactory::_SetFpsControl(void) {
   SetKeyMapToKey(K_pause,    KEY_BACKSPACE);
 }
 
+
+int   IceFactory::Start(void) {return 1; }
+
 IceFactory::IceFactory(void):
 __screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
   DEBUG_P(magenta, "IceFactory::");
@@ -82,7 +85,6 @@ int  IceFactory::initEngine(void) {
 bool IceFactory::IceFactoryInitRayLib(void) {
   InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
   if (!IsWindowReady()) {
-
     return false;
   }
   __engineStatus = S_EngineRun;
@@ -104,10 +106,10 @@ bool IceFactory::InitRaylib(void) {
     __screenSize = IceFactory::GetMonitorSize();
     SetWindowSize(__screenSize.x, __screenSize.y);
     Models.Add(ERR_MESH);
-    __what = LoadModel(ERR_MESH);
-    if (IsModelValid(Models.Get(ERR_MESH))) {
-      // add pre chek if all defaut stuff are load in
+    if (!IsModelValid(Models.Get(ERR_MESH))) {
+      DEBUG_P(red, "error loading");
     }
+    __what = Models.Get(ERR_MESH);
   }
   else {
   }
