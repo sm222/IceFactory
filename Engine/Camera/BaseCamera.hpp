@@ -32,26 +32,41 @@ class BaseCamera : public Object {
     void                   Update(const Vector3& movement, const Vector3& rotate, const float& zoom);
     void                   Default(void);
     //
-    Vector3                GetPosition(void) const ;
-    
+    Vector3                GetPosition(void)     const ;
+    //
+    Vector2                GetDrawPosition(void) const ;
+    void                   SetDrawPosition(const Vector2& position);
+    //
+    Vector2                GetDrawSize(void)     const ;
+    void                   SetDrawSize(const Vector2& size);
+    //
+    float                  GetRotation(void)     const ;
+    void                   SetRotation(const float rotation);
+    //
     void                   SetTarget(const Vector3& position);
     //Draw
-    void                   Draw(int metod) const;
+    void                   Draw(int metod)       const;
     //
     bool                   SetCanvas(const Vector2& size);
     int                    Start(void);
     bool                   Stop(void);
-    void                   DrawFrame(const Vector2& Position);
+    void                   DrawFrameAuto(void)                                         const ;
+    void                   DrawFrame(const Vector2& position)                          const ;
+    void                   DrawFrameSize(const Vector2& Position, const Vector2& size) const ;
     bool                   Clear(void);
     bool                   SetMode(const t_camera_mode mode);
-    t_camera_mode          GetMode(void) const;
+    t_camera_mode          GetMode(void)       const ;
     //
     const Texture2D        GetFrame(void);
     const Vector2          GetFrameSize(void);
     //
     void                   SetColors(Color clean, Color tint);
-    Color                  GetCleanColor(void) const;
-    Color                  GetTintColor(void) const;
+    Color                  GetCleanColor(void) const ;
+    Color                  GetTintColor(void)  const ;
+    //
+    Ray                    GetRay(size_t i)    const ;
+    bool                   GetDebug(void)      const ;
+    void                   SetDebug(bool);
     //
   protected:
     void                   Zero(void);
@@ -64,12 +79,19 @@ class BaseCamera : public Object {
     RenderTexture2D          __RenderTexture;
     static unsigned int      __active;
     //
+    Vector2                  __drawPosition;
+    Vector2                  __drawSize;
+    float                    __rotation = 0;
+    //
     unsigned int             __CameraID;
     static unsigned int      __cameraNumber;
     t_camera_mode            __mode;
     //
     Color                    __clean;
     Color                    __tint;
+    // debug
+    bool                     __debug = false;
+    Ray                      __rays[4];
   private:
     //
 };

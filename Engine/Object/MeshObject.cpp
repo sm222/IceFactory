@@ -1,12 +1,12 @@
 #include "MeshObject.hpp"
 
 
-MeshObject::MeshObject(const char* name) : Object(name) {
+MeshObject::MeshObject(const char* name) : Object3D(name) {
   Zero();
   __type = MESH_OBJECT_TYPE;
 }
 
-MeshObject::MeshObject(const std::string& name) : Object(name) {
+MeshObject::MeshObject(const std::string& name) : Object3D(name) {
   Zero();
   __type = MESH_OBJECT_TYPE;
 }
@@ -47,8 +47,6 @@ Vector3  MeshObject::GetScale(void) const {
 }
 
 MeshObject::~MeshObject(void) {
-  if (IsModelValid(__model))
-    UnloadModel(__model);
 }
 
 bool MeshObject::SetErrorModel(Model* ptr) {
@@ -58,41 +56,25 @@ bool MeshObject::SetErrorModel(Model* ptr) {
   return true;
 }
 
-bool MeshObject::SetModel(const char* name) {
-  if (!name)
-    return false;
-  __model = LoadModel(name);
-  if (!IsModelValid(__model))
-    return false;
-  return true;
+bool MeshObject::SetModel(const Model model) {
+  if (IsModelValid(model)) {
+    __model = model;
+    DEBUG_P(green, "MeshObject::SetModel %s model was set", this->__name);
+    return true;
+  }
+  DEBUG_P(red, "MeshObject::SetModel %s model was not set", this->__name);
+  return false;
 }
 
-void MeshObject::DrawModelMode(void(*ft)(Model , Vector3, Vector3, float, Vector3 , Color)) {
+void MeshObject::DrawModelMode(void(*ft)(Model , Vector3, Vector3, float, Vector3 , Color))  {
   ft(__model, {0,0,0}, __rotationAxis, __rotationAngle, __scale, WHITE);
 }
 
-/*
-void MeshObject::Draw(int metod) {
+
+void MeshObject::Draw(int metod) const {
   const Vector3 errRotation = {0, 1 , 0};
   static float r = 0;
   if (IsModelValid(__model)) {
-    switch (metod) {
-      case R_Normal:
-      DrawModelMode(&DrawModelEx);
-        break;
-        case R_Wires:
-        DrawModelMode(&DrawModelWiresEx);
-        break;
-        case R_Points:
-        DrawModelMode(&DrawModelPointsEx);
-        break;
-        default:
-        break;
-      }
-    }
-    else if (__errorModel) {
-      DrawModelWiresEx(*__errorModel, {0,0,0}, errRotation, r, {1, 1, 1}, WHITE);
-      r += 1.5f;
-    }
+    DrawModel(this->__model, this->__position, 1, WHITE);
   }
-*/
+}

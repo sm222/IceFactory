@@ -17,34 +17,47 @@ void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
   }
 }
 
-int rm = 0;
-
-static void Button004(void) {
-
-}
-
 void loop(IceFactory& engine) {
   BaseCamera    PlayerCamera("player");
   UiRenderZone  uiTest("uiTest", 400, 400);
   UiBaseBlock   uiBlock("block");
   engine._root.Add(&PlayerCamera);
-  SetTargetFPS(144);
   Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});
   PlayerCamera.SetCanvas(small);
+  PlayerCamera.SetDrawSize(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
+  PlayerCamera.SetDrawPosition(small / 2);
   //-------
+  BaseCamera   testCam("testCam");
+  PlayerCamera.SetDebug(true);
+  testCam.SetPosition({2, 0, 2});
+  testCam.SetCanvas(small / 4);
+  testCam.SetDrawSize(small / 4);
+  testCam.SetTarget({0,0,0});
+  testCam.SetDrawPosition(small / 7);
+  Color tr = WHITE;
+  tr.a /= 2;
+  testCam.SetColors(GRAY, tr);
+  //
+  engine.Models.Add("Engine/Resource/Models/Axis_Cube.m3d");
   engine.AddCameraToUpdateList(&PlayerCamera);
+  engine.AddCameraToUpdateList(&testCam);
+  engine._root.Add(&testCam);
   Room* r = engine.GetRoom(0);
+  MeshObject mesh("mesh");
+  mesh.SetModel(engine.Models.Get("Engine/Resource/Models/Axis_Cube.m3d"));
   Object t("test");
   DevCube cube("cube");
   cube.SetSize({0.5, 0.5, 0.5});
   cube.SetShape(0);
-  cube.SetMetod(draw_solid | draw_mesh);
+  cube.SetMetod(draw_mesh);
   BaseGroup  GameTest("gametest");
   GameTest.Add(&t);
   GameTest.Add(&cube);
+  GameTest.Add(&mesh);
   r->SetToRender(0, &GameTest, 0);
+  r->SetToRender(1, &GameTest, 1);
   BaseGroup newG("mewG");
   t_BaseInterface V;
   t.interface.Get(0, V);
@@ -61,72 +74,44 @@ void loop(IceFactory& engine) {
   HideCursor();
   DisableCursor();
   //
-  while (!WindowShouldClose()) {
+  int status = IceFactory::GetEngineStatus();
+  while (status == S_EngineRun || status == S_EnginePause) {
+    //usleep(50000);
+    status = IceFactory::GetEngineStatus();
     engine.UpdateEngine();
-    if (engine.ReadEnvent(Event_window_resized)) {
-      PlayerCamera.SetCanvas(engine.GiveWindowSize());
-    }
     UpatePlayer(engine, PlayerCamera);
-    //
-    if (IsKeyPressed(KEY_L)) {
-      rm++;
-      if (rm > 2)
-        rm = 0;
-    }
-    if (engine.ReadEnvent(Event_pause)) {
-      if (IsCursorHidden()) {
-        ShowCursor();
-        EnableCursor();
-        engine.SetEngineStatus(S_EnginePause);
-      }
-      else {
-        HideCursor();
-        DisableCursor();
-        engine.SetEngineStatus(S_EngineRun);
-      }
-    }
-    //
-    //
-    uiTest.Render();
-    PlayerCamera.Start();
-    DrawPlane({0,-1, 0}, {40, 40}, GRAY);
-    PlayerCamera.Stop();
-    //BeginDrawing();
-    //PlayerCamera.DrawFrame({0,0});
-    //uiTest.Draw(0);
-    //DrawFPS(0,0);
-    ////
-    ////
-    //EndDrawing();
-    //PlayerCamera.Clear();
   }
 }
 
 int main(void) {
   IceFactory engine;
   int run = 1;
-  Groups<Object*> newGroup;
+  engine.Start();
   while (run) {
     switch (IceFactory::GetEngineStatus()) {
-      case S_EngineInit:
+      case S_EngineInit: {
         engine.initEngine();
         break;
-      case S_EngineStart:
-        engine.InitRaylib();
-        break;
-      case S_EngineRun:
-        engine._mainGroups.AddChild(&newGroup);
+      }
+      case S_EngineRun: {
         SetTraceLogLevel(LOG_WARNING);
         loop(engine);
-        engine._mainGroups.Delete(-1);
         engine.closeEngine();
         break;
-      case S_EngineStop:
+      }
+      case S_EngineStop: {
         run = 0;
         break;
+      }
+      case S_EngineReboot: {
+        engine.Start();
+        break;
+      }
       default:
+        DEBUG_P(red, "unknow case");
         break;
     }
   }
   return 0;
 }
+

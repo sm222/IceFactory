@@ -63,6 +63,29 @@ Vector3 BaseCamera::GetPosition(void) const {
   return __camera.position;
 }
 
+Vector2  BaseCamera::GetDrawPosition(void) const {
+  return __drawPosition;
+}
+
+void BaseCamera::SetDrawPosition(const Vector2& position) {
+  __drawPosition = position;
+}
+
+Vector2 BaseCamera::GetDrawSize(void) const {
+  return __drawSize;
+}
+
+void   BaseCamera::SetDrawSize(const Vector2& size) {
+  __drawSize = size;
+}
+
+float  BaseCamera::GetRotation(void) const {
+  return __rotation;
+}
+
+void  BaseCamera::SetRotation(const float rotation) {
+  __rotation = rotation;
+}
 
 const Camera3D BaseCamera::GetCamera(void) const {
   DEBUG_P(orange, "BaseCamera::GetCamera %s", this->GetName());
@@ -120,6 +143,12 @@ int BaseCamera::Start(void) {
 
 bool BaseCamera::Stop(void) {
   if (BaseCamera::GetActive() == __CameraID) {
+    if (__debug) {
+      __rays[0] =  GetScreenToWorldRay({0,0}, __camera);
+      __rays[1] =  GetScreenToWorldRay({(float)__RenderTexture.texture.width, 0}, __camera);
+      __rays[2] =  GetScreenToWorldRay({(float)__RenderTexture.texture.width, (float)__RenderTexture.texture.height}, __camera);
+      __rays[3] =  GetScreenToWorldRay({0, (float)__RenderTexture.texture.height}, __camera);
+    }
     EndMode3D();
     BaseCamera::SetActive(0);
     if (IsRenderTextureValid(__RenderTexture) && __mode == camera_texture) {
@@ -130,18 +159,51 @@ bool BaseCamera::Stop(void) {
   return false;
 }
 
+Ray  BaseCamera::GetRay(size_t i) const {
+  if (i < 4)
+    return __rays[i];
+  return (Ray){{0,0,0},{0,0,0}};
+}
+
+bool   BaseCamera::GetDebug(void) const {
+  return __debug;
+}
+
+void BaseCamera::SetDebug(bool setting) {
+  __debug = setting;
+}
+
 bool BaseCamera::Clear(void) {
   return true;
 }
+
+/// DrawTexturePro
 
 const Vector2 BaseCamera::GetFrameSize(void) {
   return ((Vector2){(float)__RenderTexture.texture.width, (float)__RenderTexture.texture.height});
 }
 
+void  BaseCamera::DrawFrameAuto(void) const {
+  if (__mode == t_camera_mode::camera_texture) {
+    const Rectangle source = \
+    {0, 0, (float)__RenderTexture.texture.width, -(float)__RenderTexture.texture.height};
+    const Rectangle dest = \
+    {__drawPosition.x, __drawPosition.y, __drawSize.x, -__drawSize.y};
+    DrawTexturePro(__RenderTexture.texture, source, dest, \
+      {(float)__RenderTexture.texture.width / 2 ,(float)__RenderTexture.texture.height / 2}, __rotation, __tint);
+  }
+}
 
-void  BaseCamera::DrawFrame(const Vector2& Position) {
+void  BaseCamera::DrawFrame(const Vector2& Position) const {
   if (__mode == t_camera_mode::camera_texture)
-    DrawTextureRec(__RenderTexture.texture, {Position.x, Position.y, (float)__RenderTexture.texture.width, -(float)__RenderTexture.texture.height}, Position, WHITE);
+    DrawTextureRec(__RenderTexture.texture,
+      {Position.x, Position.y, (float)__RenderTexture.texture.width, (float)__RenderTexture.texture.height},
+      Position, __tint);
+}
+
+void BaseCamera::DrawFrameSize(const Vector2& Position, const Vector2& size) const {
+  if (__mode == t_camera_mode::camera_texture)
+    DrawTextureRec(__RenderTexture.texture, {Position.x, Position.y, size.x, -size.y}, Position, __tint);
 }
 
 const Texture2D BaseCamera::GetFrame(void) {
@@ -182,4 +244,6 @@ void BaseCamera::Zero(void) {
   ZERO_NONE_PTR(__CameraID);
   ZERO_NONE_PTR(__mode);
   ZERO_NONE_PTR(__camera);
+  ZERO_NONE_PTR(__drawPosition);
+  for (size_t i = 0; i < 4; i++) { ZERO_NONE_PTR(__rays[i]); }
 }

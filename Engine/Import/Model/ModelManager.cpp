@@ -11,8 +11,8 @@ ModelManager::~ModelManager(void) {
 }
 
 
-/// @brief throw
-/// @param name 
+/// @brief
+/// @param name
 /// @return 
 const Model ModelManager::Get(const char* name) const {
   MapModel::const_iterator it = __data.find(name);

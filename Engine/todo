@@ -1,0 +1,4 @@
+clean IceFactory class
+- make it simpler to call
+- have a way to soft and hard reset
+

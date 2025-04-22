@@ -34,11 +34,12 @@ class IceFactory {
     int                  Start(void);
     int                  Reboot(int type);
     void                 Stop(void);
+    
+    
     static int           GetEngineStatus(void);
     static const Vector2 GetMonitorSize(void);
     static const Vector2 GetWindowSize(void);
     // Raylib
-    bool                 InitRaylib(void);
     bool                 closeEngine(void);
     static Vector2       flaotToVec2(float angle);
     //
@@ -76,6 +77,7 @@ class IceFactory {
     //! - - - - - -
     // Raylib
   private:
+    bool                InitRaylib(void);
     void                SetupStart(void);
     //! room 0 is alway here as a backup
     std::array<Room*, MAX_ROOM + 1>  __roomsEngine;

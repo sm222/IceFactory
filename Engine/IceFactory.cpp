@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 bool             IceFactory::__raylib       = false;
-t_EngineStatus   IceFactory::__engineStatus = S_EngineInit;
+t_EngineStatus   IceFactory::__engineStatus = S_EngineBuild;
 float            IceFactory::__timeScale    = 1;
 
 
@@ -19,12 +19,15 @@ void IceFactory::_SetFpsControl(void) {
 }
 
 
-int   IceFactory::Start(void) {return 1; }
-
-IceFactory::IceFactory(void):
-__screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
-  DEBUG_P(magenta, "IceFactory::");
-  //
+int   IceFactory::Start(void) {
+  const int status = GetEngineStatus();
+  if (status != S_EngineBuild && status != S_EngineStop && status != S_EngineReboot) {
+    DEBUG_P(red, "IceFactory::Start engine status %d", status);
+    return 0;
+  }
+  for (size_t i = 0; i < MAX_ROOM + 1; i++) {
+    __roomsEngine[i] = nullptr;
+  }
   __userSeting.targetFps = 60;
   __userSeting.targetWindowSize = {600, 600};
   __inputSelect = KeybordMouse;
@@ -32,12 +35,20 @@ __screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
   for (int i = 0; i < t_ControlKeys::K_End; i++) {
     __keyMapBind[(t_ControlKeys)i] = KEY_NULL;
   }
-  _SetFpsControl(); // defalut gamemode
   __roomsEngine[0] = new Room("backup");
   if (!__roomsEngine[0])
     throw std::runtime_error("new room fail");
-  __roomsEngine[0]->SetRoomType(room_noType);
-  __renderEngine.SetRoom(__roomsEngine[0]);
+    __renderEngine.SetRoom(__roomsEngine[0]);
+    __roomsEngine[0]->SetRoomType(room_noType);
+    SetEngineStatus(S_EngineInit);
+    _SetFpsControl(); // defalut gamemode
+  return 1;
+}
+
+IceFactory::IceFactory(void):
+__screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
+  DEBUG_P(magenta, "IceFactory::");
+  SetEngineStatus(S_EngineBuild);
   // error and debug
 }
 
@@ -79,6 +90,11 @@ const Vector2 IceFactory::GetWindowSize(void) {
 int  IceFactory::initEngine(void) {
   __engineStatus = S_EngineStart;
   __currentRoom = __roomsEngine[0];
+  InitRaylib();
+  const int monitor = GetCurrentMonitor();
+  const int fpsTarget = GetMonitorRefreshRate(monitor);
+  DEBUG_P(orange, "IceFactory::initEngine monitor:%d -> targetFps:%d", monitor, fpsTarget);
+  SetTargetFPS(fpsTarget);
   return 1;
 }
 
@@ -112,6 +128,7 @@ bool IceFactory::InitRaylib(void) {
     __what = Models.Get(ERR_MESH);
   }
   else {
+    DEBUG_P(red, "raylib run all ready");
   }
   return true;
 }
@@ -126,9 +143,14 @@ bool IceFactory::CloseRaylib(void) {
 
 // Rap around raylib
 bool IceFactory::closeEngine(void) {
-  __engineStatus = S_EngineStop;
+  if (GetEngineStatus() != S_EngineReboot)
+    __engineStatus = S_EngineStop;
   Models.Clear();
-  delete __roomsEngine[0];
+  for(size_t i = 0; i < MAX_ROOM + 1; i++) {
+    if (__roomsEngine[i])
+      delete __roomsEngine[i];
+    __roomsEngine[i] = nullptr;
+  }
   //!last step
   CloseRaylib();
   return true;
@@ -168,6 +190,17 @@ bool  IceFactory::ReadEnvent(const t_EngineEvents event) const {
   return false;
 }
 
+void  __setCursor(bool mode) {
+  if (mode) {
+    ShowCursor();
+    EnableCursor();
+  }
+  else {
+    HideCursor();
+    DisableCursor();
+  }
+}
+
 
 /// @brief call UpdateInpus and UpdateEvent
 /// @param  
@@ -178,6 +211,17 @@ int   IceFactory::UpdateEngine(void) {
   const int status = UpdateInpus() + UpdateEvent();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = IceFactory::GetWindowSize();
+  }
+  if (IsKeyPressed(KEY_HOME))   { SetEngineStatus(S_EngineReboot); }
+  if (IsKeyPressed(KEY_ESCAPE)) { SetEngineStatus(S_EngineUnload); }
+  if (ReadEnvent(Event_pause))  {
+    static bool pause = false;
+    __setCursor(IsCursorHidden());
+    if (!pause)
+      SetEngineStatus(S_EnginePause);
+    else
+      SetEngineStatus(S_EngineRun);
+    pause = !pause;
   }
   return status;
 }

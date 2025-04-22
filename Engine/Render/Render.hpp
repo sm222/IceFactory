@@ -22,6 +22,7 @@ class Render {
     //
     void               DrawRoom(const Room& room) const;
     const Room*      __current;
+    bool             __debug;
     //
 };
 

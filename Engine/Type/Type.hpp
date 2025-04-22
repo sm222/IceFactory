@@ -30,14 +30,13 @@
 
 # ifndef ENGINE_DEF
 #  define ENGINE_DEF
-#  define ZERO 0
 #  define MAX_NUMBER_OBJECTS 600
 #  define MAX_NUMBER_MODEL   100 // add meaby later
 #  define MAX_TEXTURE        300
 #  define MAX_NAME_LEN       100
 # endif
 
-# define ZERO_NONE_PTR(var)    memset(&var, ZERO ,sizeof(var))
+# define ZERO_NONE_PTR(var)    memset(&var, 0 ,sizeof(var))
 typedef struct {
   Model        data;
   char         name[MAX_NAME_LEN + 1];
@@ -50,19 +49,21 @@ typedef struct {
 
 
 typedef enum EngineEvents {
-  Event_none = ZERO,
+  Event_none = 0,
   Event_pause,
   Event_window_resized,
 } t_EngineEvents;
 
 typedef enum EngineStatus {
-  S_EngineInit = ZERO,
+  S_EngineBuild = -1,
+  S_EngineInit,
   S_EngineStart,
-  S_EngineRun,
-  S_EnginePause,
+  S_EngineRun,   // raylib window is open
+  S_EnginePause, // raylib window is open
   S_EngineUnload,
   S_EngineStop,
   S_EngineForceStop,
+  S_EngineReboot,
 } t_EngineStatus;
 
 typedef enum InputType {
