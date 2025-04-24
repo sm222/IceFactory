@@ -32,15 +32,16 @@ class IceFactory {
   public:
     int                  initEngine(void);
     int                  Start(void);
-    int                  Reboot(int type);
-    void                 Stop(void);
+    int                  Reboot(int type); // todo
+    void                 Stop(void);       // todo
+    bool                 TestDependency(void);
     
+    bool                 closeEngine(void);
     
     static int           GetEngineStatus(void);
     static const Vector2 GetMonitorSize(void);
     static const Vector2 GetWindowSize(void);
     // Raylib
-    bool                 closeEngine(void);
     static Vector2       flaotToVec2(float angle);
     //
     void                 SetEngineStatus(const t_EngineStatus status);

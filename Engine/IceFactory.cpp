@@ -9,6 +9,23 @@ bool             IceFactory::__raylib       = false;
 t_EngineStatus   IceFactory::__engineStatus = S_EngineBuild;
 float            IceFactory::__timeScale    = 1;
 
+const char* const _dependency[] = {
+  ERR_MESH,
+  "init",
+  nullptr
+};
+
+bool IceFactory::TestDependency(void) {
+  for (size_t i = 0; _dependency[i]; i++) {
+    if (access(_dependency[i], R_OK) != 0) {
+      DEBUG_P(red, "IceFactory::TestDependency ✕%s", _dependency[i]);
+      perror("access");
+      return false;
+    }
+    DEBUG_P(green, "IceFactory::TestDependency ✓%s", _dependency[i]);
+  }
+  return true;
+}
 
 void IceFactory::_SetFpsControl(void) {
   SetKeyMapToKey(K_forward,  KEY_W);
@@ -28,6 +45,8 @@ int   IceFactory::Start(void) {
   for (size_t i = 0; i < MAX_ROOM + 1; i++) {
     __roomsEngine[i] = nullptr;
   }
+  if (!TestDependency())
+    return 0;
   __userSeting.targetFps = 60;
   __userSeting.targetWindowSize = {600, 600};
   __inputSelect = KeybordMouse;

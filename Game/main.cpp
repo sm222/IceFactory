@@ -109,7 +109,7 @@ int main(void) {
       }
       default:
         DEBUG_P(red, "unknow case");
-        break;
+        return 1;
     }
   }
   return 0;

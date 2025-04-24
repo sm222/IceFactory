@@ -101,6 +101,7 @@ struct Graph {
   float               amplitude;
   size_t              graphLen = 100;
   const size_t        maxGraphLen = GRAF_LEN;
+  bool                init;
 };
 
 inline void    UpdateGraff(Graph* data) {
