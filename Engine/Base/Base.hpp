@@ -3,7 +3,6 @@
 
 # include "../Type/Type.hpp"
 # include "BaseInterface.hpp"
-# include <array>
 
 # define TYPE_BASE "TYPE_BASE"
 # define MAX_CHILD_FT      100
@@ -31,7 +30,7 @@ class Base {
     // Get
     const char*         GetName(void) const ;
     const char*         GetType(void) const ;
-    const t_id          GetId(void)   const ;
+    t_id                GetId(void)   const ;
     void                PrintId(void) const ;
     static t_id         GetCurrentMaxId(void);
     //

@@ -1,5 +1,4 @@
 #include "BaseCamera.hpp"
-#include <iostream>
 
 unsigned int BaseCamera::__active = 0;
 unsigned int BaseCamera::__cameraNumber = 0;

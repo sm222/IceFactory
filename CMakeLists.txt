@@ -43,8 +43,8 @@ add_executable(${PROJECT_NAME} ${src})
 
 
 #set(RAYGUI_ROOT ${CMAKE_CURRENT_SOURCE_DIR}"Engine/include/raygui/")
-#set(RAYGUI_SRC ${RAYGUI_ROOT}/src)
-target_link_libraries(${PROJECT_NAME} raylib)
+set(RAYLIB_SRC "Engine/include/raylib")
+target_link_libraries(${PROJECT_NAME} ${RAYLIB_SRC})
 #target_link_libraries(${PROJECT_NAME} raygui)
 
 

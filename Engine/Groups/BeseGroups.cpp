@@ -11,8 +11,8 @@ BaseGroup::BaseGroup(const char* name) : Base(name) {
   SetName(name);
 }
 
-BaseGroup::BaseGroup(const std::string& name) : BaseGroup(name.c_str()) { 
-  DEBUG_P(magenta, "BaseGroup::string %s", name);
+BaseGroup::BaseGroup(const std::string& name) : BaseGroup(name.c_str()) {
+  DEBUG_P(magenta, "BaseGroup::string %s", name.c_str());
 }
 
 BaseGroup::~BaseGroup(void) { 
@@ -25,6 +25,7 @@ BaseGroup::~BaseGroup(void) {
 /// @return 
 bool    BaseGroup::Select(const char* name, const char* type = nullptr) {
   std::vector<Base*>::iterator it;
+  (void)type;
   for (it = __root.begin(); it != __root.end(); it++) {
     Base& ref = *(*it);
     if (strncmp(name, ref.GetName(), strlen(name))) {

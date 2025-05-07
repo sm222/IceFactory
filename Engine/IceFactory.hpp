@@ -2,9 +2,11 @@
 # define __ICE_FACTORY__
 
 # ifndef VERTION
-#  define VERTION 0
+#  define VERTION
+#  define VERSION_MAJOR 0
+#  define VERSION_MINOR 2
+#  define VERSION_PATCH 0
 # endif
-
 
 //
 # include "Type/Type.hpp"
@@ -14,10 +16,10 @@
 # include "Groups/Groups.hpp"
 # include "Render/Render.hpp"
 # include "Camera/BaseCamera.hpp"
-# include "Ui/UiRenderZone.hpp"
 # include "Import/Model/ModelManager.hpp"
 # include "Groups/BaseGroups.hpp"
 # include "Room/Room.hpp"
+
 # define  MAX_ROOM 3
 
 # include "Render/Render.hpp"

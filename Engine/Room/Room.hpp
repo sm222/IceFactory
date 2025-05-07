@@ -30,7 +30,7 @@ class Room {
     BaseGroup         root;
     //
     void              SetRoomType(const t_roomType& type);
-    const t_roomType  GetRoomType(void)                    const ;
+    t_roomType        GetRoomType(void) const ;
     // Camera stuff
     bool              AddCamera(BaseCamera* camera);
     bool              RemoveCamera(const char* name);
@@ -39,7 +39,7 @@ class Room {
     //bool            RemoveCamera(const t_id id); // todo
     bool              SetToRender(size_t index, BaseGroup* group, size_t cameraIndex);
     bool              UnbindToRender(size_t index);
-    RoomRenderCamera  GetRenderData(size_t index) const;
+    bool              GetRenderData(size_t index, RoomRenderCamera& data) const;
     BaseGroup*        GetRoot(void);
     //
   protected:

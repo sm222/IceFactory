@@ -31,7 +31,7 @@ void  MeshObject::SetRotationAxis(const Vector3& Axis) {
 }
 
 void  MeshObject::SetScale(const Vector3& scale) {
-  __scale == scale;
+  __scale = scale;
 }
 
 float MeshObject::GetRotationAngle(void) const {
@@ -72,8 +72,7 @@ void MeshObject::DrawModelMode(void(*ft)(Model , Vector3, Vector3, float, Vector
 
 
 void MeshObject::Draw(int metod) const {
-  const Vector3 errRotation = {0, 1 , 0};
-  static float r = 0;
+  (void)metod;
   if (IsModelValid(__model)) {
     DrawModel(this->__model, this->__position, 1, WHITE);
   }

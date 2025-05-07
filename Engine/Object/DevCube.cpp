@@ -19,7 +19,6 @@ DevCube::~DevCube(void) {
 
 
 void DevCube::Draw(int metod) const {
-  const float size = 0.1f;
   if (metod & draw_solid) {
     if (__shape == 1)
       DrawCubeV(this->__position, this->__size, GREEN);

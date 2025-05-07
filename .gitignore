@@ -29,6 +29,7 @@
 # folder
 build/
 .vscode/
+Engine/include
 
 # Executables
 *.exe

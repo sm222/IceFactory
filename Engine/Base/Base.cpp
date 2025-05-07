@@ -15,7 +15,7 @@ Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
 }
 
 Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
-  DEBUG_P(magenta, "Base::string %s", name);
+  DEBUG_P(magenta, "Base::string %s", name.c_str());
   SetName(name);
   SetFtList();
   __metod = -1;
@@ -56,7 +56,7 @@ const char* Base::GetType(void) const {
   return __type;
 }
 
-const t_id Base::GetId(void) const {
+t_id        Base::GetId(void) const {
   return __id;
 }
 

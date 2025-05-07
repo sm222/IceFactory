@@ -1,8 +1,6 @@
 
 #include "IceFactory.hpp"
 
-#include <iostream>
-#include <exception>
 #include <stdio.h>
 
 bool             IceFactory::__raylib       = false;
@@ -11,7 +9,6 @@ float            IceFactory::__timeScale    = 1;
 
 const char* const _dependency[] = {
   ERR_MESH,
-  "init",
   nullptr
 };
 
@@ -57,15 +54,20 @@ int   IceFactory::Start(void) {
   __roomsEngine[0] = new Room("backup");
   if (!__roomsEngine[0])
     throw std::runtime_error("new room fail");
-    __renderEngine.SetRoom(__roomsEngine[0]);
-    __roomsEngine[0]->SetRoomType(room_noType);
-    SetEngineStatus(S_EngineInit);
-    _SetFpsControl(); // defalut gamemode
+  __renderEngine.SetRoom(__roomsEngine[0]);
+  __roomsEngine[0]->SetRoomType(room_noType);
+  SetEngineStatus(S_EngineInit);
+  _SetFpsControl(); // defalut gamemode
+  if (status == S_EngineReboot)
+    __engineStatus = S_EngineRun;
   return 1;
 }
 
 IceFactory::IceFactory(void):
-__screenSize((Vector2) {1000, 1000}), __gameName("def"), _root("root") {
+_root("root"), __currentRoom(nullptr), __screenSize({1000, 1000}), __inputSelect(0), \
+__numberGamepads(0)
+{
+  __gameName = ("test");
   DEBUG_P(magenta, "IceFactory::");
   SetEngineStatus(S_EngineBuild);
   // error and debug
@@ -107,7 +109,6 @@ const Vector2 IceFactory::GetWindowSize(void) {
 // - - - - - - - - - - - - - - - -
 
 int  IceFactory::initEngine(void) {
-  __engineStatus = S_EngineStart;
   __currentRoom = __roomsEngine[0];
   InitRaylib();
   const int monitor = GetCurrentMonitor();
@@ -170,8 +171,10 @@ bool IceFactory::closeEngine(void) {
       delete __roomsEngine[i];
     __roomsEngine[i] = nullptr;
   }
+  __currentRoom = nullptr;
   //!last step
-  CloseRaylib();
+  if (GetEngineStatus() != S_EngineReboot)
+    CloseRaylib();
   return true;
 }
 
@@ -231,7 +234,13 @@ int   IceFactory::UpdateEngine(void) {
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = IceFactory::GetWindowSize();
   }
-  if (IsKeyPressed(KEY_HOME))   { SetEngineStatus(S_EngineReboot); }
+  if (IsKeyPressed(KEY_HOME)) {
+    #ifdef HOT_RELOAD
+    SetEngineStatus(S_EngineReboot);
+    #else
+    DEBUG_P(red, "hot reload not suport");
+    #endif
+  }
   if (IsKeyPressed(KEY_ESCAPE)) { SetEngineStatus(S_EngineUnload); }
   if (ReadEnvent(Event_pause))  {
     static bool pause = false;

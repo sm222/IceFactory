@@ -1,8 +1,6 @@
-#ifndef __RENDER__
+#ifndef  __RENDER__
 # define __RENDER__
 
-# include "../Groups/BaseGroups.hpp"
-# include "../Camera/BaseCamera.hpp"
 # include "../Room/Room.hpp"
 
 # define REDER_MODE_NO_ROOM 1
@@ -25,7 +23,5 @@ class Render {
     bool             __debug;
     //
 };
-
-
 
 #endif

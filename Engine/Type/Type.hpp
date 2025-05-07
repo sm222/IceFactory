@@ -57,7 +57,6 @@ typedef enum EngineEvents {
 typedef enum EngineStatus {
   S_EngineBuild = -1,
   S_EngineInit,
-  S_EngineStart,
   S_EngineRun,   // raylib window is open
   S_EnginePause, // raylib window is open
   S_EngineUnload,

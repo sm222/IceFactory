@@ -2,7 +2,7 @@
 #include "Room.hpp"
 
 Room::Room(const char* name) :
-root("root"), __engineUi("EngineUi"), __cameraList("cameraList")
+root("root"),  __cameraList("cameraList"), __engineUi("EngineUi")
 {
   DEBUG_P(magenta, "Room::name");
   if (name) {
@@ -36,7 +36,7 @@ void Room::SetRoomType(const t_roomType& type) {
   __roomType = type;
 }
 
-const t_roomType Room::GetRoomType(void) const {
+t_roomType Room::GetRoomType(void) const {
   return __roomType;
 }
 
@@ -101,16 +101,15 @@ bool Room::UnbindToRender(size_t index) {
   return true;
 }
 
-RoomRenderCamera Room::GetRenderData(size_t index) const {
-  RoomRenderCamera data;
+bool  Room::GetRenderData(size_t index, RoomRenderCamera& data) const {
   data.camera = nullptr;
   data.toRender = nullptr;
   if (index >= ROOM_MAX_CAMERA) {
     DEBUG_P(red, "Room::GetRenderData out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
-    return data;
+    return false;
   }
   data = __renderlist[index];
-  return data;
+  return true;
 }
 
 BaseGroup*  Room::GetRoot(void) {

@@ -2,7 +2,7 @@
 # include "../Engine/Object/DevCube.hpp"
 # include "../Engine/Camera/BaseCamera.hpp"
 # include "../Engine/Ui/UiBaseTextBox.hpp"
-# include <iostream>
+
 
 void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
   if (engine.GetEngineStatus() != S_EnginePause) {
@@ -87,7 +87,12 @@ int main(void) {
   IceFactory engine;
   int run = 1;
   engine.Start();
+  int kill = 0;
   while (run) {
+    if (kill++ > 6) {
+      run = 0;
+      DEBUG_P(red, "game kill for infinit loop");
+    }
     switch (IceFactory::GetEngineStatus()) {
       case S_EngineInit: {
         engine.initEngine();
@@ -105,6 +110,7 @@ int main(void) {
       }
       case S_EngineReboot: {
         engine.Start();
+        engine.initEngine();
         break;
       }
       default:
@@ -112,6 +118,8 @@ int main(void) {
         return 1;
     }
   }
+  engine.SetEngineStatus(S_EngineForceStop);
+  engine.closeEngine();
   return 0;
 }
 

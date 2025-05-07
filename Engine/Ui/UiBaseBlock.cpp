@@ -1,6 +1,6 @@
 #include "UiBaseBlock.hpp"
 
-# define RAYGUI_IMPLEMENTATION
+//# define RAYGUI_IMPLEMENTATION
 # include "../include/raygui/src/raygui.h"
 
 void UiBaseBlock::Zero(void) {

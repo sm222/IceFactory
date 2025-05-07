@@ -32,48 +32,39 @@ void  SetRays(Ray rays[4 * ROOM_MAX_CAMERA], RoomRenderCamera* data, size_t i, s
 }
 
 
-void  DrawOnLayer(const struct RoomRenderCamera* data, Graph* g) {
-  if (!data->camera)
+void  DrawOnLayer(const struct RoomRenderCamera* data) {
+  if (!data->camera || !data->toRender)
     return ;
-  const clock_t s = clock();
+  //const clock_t s = clock();
   data->camera->Start();
   ClearBackground(data->camera->GetCleanColor());
   __DrawGroup(data->toRender, (*data));
   data->camera->Stop();
-  UpdateGraffValue(g, clock() - s);
+  //UpdateGraffValue(g, clock() - s);
 }
 
 
 void Render::DrawRoom(const Room& room) const {
-  static Graph g[ROOM_MAX_CAMERA];
-  static Graph total = {.sampleRate = 1, .amplitude = 0.8, .graphLen = GRAF_LEN / 4};
   Ray  rays[4 * ROOM_MAX_CAMERA];
   for (size_t i = 0; i < ROOM_MAX_CAMERA; i++) {
-    if (!g[i].init) {
-      g[i].sampleRate = 2;
-      g[i].amplitude = 0.4;
-      g[i].graphLen = GRAF_LEN / 4;
-    }
-  }
-  for (size_t i = 0; i < ROOM_MAX_CAMERA; i++) {
     for (size_t j = 0; j < 4; j++) {
-      RoomRenderCamera data = room.GetRenderData(i);
-      SetRays(rays, &data, i, j);
+      RoomRenderCamera data;
+      if (room.GetRenderData(i, data))
+        SetRays(rays, &data, i, j);
     }
   }
   for (size_t i = 0; i < ROOM_MAX_CAMERA; i++) {
-    RoomRenderCamera data = room.GetRenderData(i);
-    DrawOnLayer((&data), &g[i]);
+    RoomRenderCamera data;
+    if (room.GetRenderData(i, data))
+      DrawOnLayer(&data);
   }
-  clock_t s = clock();
+  //clock_t s = clock();
   BeginDrawing();
   for (size_t i = 0; i < ROOM_MAX_CAMERA; i++) {
-    RoomRenderCamera data = room.GetRenderData(i);
+    RoomRenderCamera data;
+    room.GetRenderData(i, data);
     if (data.camera && data.camera->GetMode() == camera_texture) { data.camera->DrawFrameAuto(); }
   }
-  for (size_t i = 0; i < 3; i++) { DrawGraph(&g[i], 100, 400 + (100 * i)); }
-  UpdateGraffValue(&total, clock() - s);
-  DrawGraph(&total, 100, 800);
   DrawFPS(10, 10);
   EndDrawing();
 }
