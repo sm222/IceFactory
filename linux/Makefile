@@ -1,13 +1,30 @@
-NANE			=		IceFactory
+NAME			=		IceFactory
 #
 DEBUG			=		-g
 #
-CFLAGS		=		-Wall -Werror -Wextra
-CC				=		 cc
-CXX				=		 g++
+
+RAYLIB		=	../Engine/include/raylib/src/libraylib.a
+
+
+
+LOCAL_LIB	=	$(shell test -e $(RAYLIB) ; echo $$?)
+
+ifeq ($(LOCAL_LIB), 0)
+ENGINE_FLAGS		=		$(RAYLIB) -lGL -lm -lrt -lX11
+else
+ENGINE_FLAGS		=		-lraylib -lGL -lm -lrt -lX11
+endif
+
+ENGINE_SETTING	=		-D 'HOT_RELOAD=1'
+
+CC				=			cc
+CXX				=			g++
+
+CFLAGS		=			$(DEBUG) $(ENGINE_SETTING) -Wall -Werror -Wextra
+CXXFLAGS	=			$(DEBUG) $(ENGINE_SETTING) -Wall -Werror -Wextra
 
 #   --- ENGINE ---
-ENGINE	=			../Engine/
+ENGINE		=			../Engine/
 
 BASE				=		$(ENGINE)Base/Base.cpp
 
@@ -56,26 +73,63 @@ CPP_SRCS	=		\
 
 C_OBJS		=	$(C_SRCS:.c=.o)
 CPP_OBJS	=	$(CPP_SRCS:.cpp=.o)
+# -	- - #
 
 #
-RAYLIB		=	../Engine/include/raylib/src/libraylib.a
 #
 
-HOT_RELOAD	=	0
-ifeq ($(HOT_RELOAD), 0)
-ENGINE_FLAGS	=		$(RAYLIB) -lGL -lm -lrt -lX11 -o
-else
-ENGINE_FLAGS	=	-D HOT_RELOAD=1	-lraylib	-lGL -lm -lrt -lX11 -o
-endif
 
-all: Engine
-	mv $(NANE) ..
+all: $(NAME)
+	@mv -v $(NAME) ..
 
-Engine:
-	$(info building engine)
-	$(CXX) $(DEBUG) $(CFLAGS) $(CPP_SRCS) $(ENGINE_FLAGS) $(NANE)
+$(NAME): Engine
+	@echo '|' $(NAME) '|' $(LOCAL_LIB)
 
-clear:
-	@rm -vf *.o
+Engine: $(CXX)
+	@echo
+
+$(CXX): $(CPP_OBJS)
+	$(CXX) $(CFLAGS) $(CPP_OBJS) $(ENGINE_FLAGS) -o $(NAME)
+
+clean:
+	@rm -fv $(CPP_OBJS)
+
+fclean: clean
+	@rm -fv ../$(NAME)
 
 .PHONY: Engine
+
+# 		Engine/
+# 		├── Base
+# 		├── Camera
+# 		├── Groups
+# 		├── Import
+# 		│   ├── Model
+# 		│   └── Sound
+# 		├── include
+# 		│   ├── raygui
+# 		│   │   ├── examples
+# 		│   │   ├── icons
+# 		│   │   ├── images
+# 		│   │   ├── logo
+# 		│   │   ├── projects
+# 		│   │   ├── src
+# 		│   │   └── styles
+# 		│   └── raylib
+# 		│       ├── cmake
+# 		│       ├── examples
+# 		│       ├── logo
+# 		│       ├── parser
+# 		│       ├── projects
+# 		│       └── src
+# 		├── Object
+# 		├── Render
+# 		├── Resource
+# 		│   ├── Image
+# 		│   ├── Models
+# 		│   └── Sound
+# 		├── Room
+# 		├── Type
+# 		└── Ui
+# 		
+# 32 directories

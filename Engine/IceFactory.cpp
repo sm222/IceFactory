@@ -238,7 +238,7 @@ int   IceFactory::UpdateEngine(void) {
     #ifdef HOT_RELOAD
     SetEngineStatus(S_EngineReboot);
     #else
-    DEBUG_P(red, "hot reload not suport");
+    DEBUG_P(red, "hot reload not support");
     #endif
   }
   if (IsKeyPressed(KEY_ESCAPE)) { SetEngineStatus(S_EngineUnload); }
