@@ -26,7 +26,7 @@
 #  define ERR_MESH RESOURCE MODEL "what.glb"
 # endif
 
-# define DEBUG_P(color, s, ...)   DEBUG(PROJECT_ROOT, color, s, ##__VA_ARGS__)
+# define DEBUG_P(color, s, ...)   DEBUG("Engine", color, s, ##__VA_ARGS__)
 
 # ifndef ENGINE_DEF
 #  define ENGINE_DEF

@@ -37,7 +37,7 @@ void loop(IceFactory& engine) {
   testCam.SetTarget({0,0,0});
   testCam.SetDrawPosition(small / 7);
   Color tr = WHITE;
-  tr.a /= 2;
+  tr.a /= 5;
   testCam.SetColors(GRAY, tr);
   //
   engine.Models.Add("Engine/Resource/Models/Axis_Cube.m3d");
@@ -71,6 +71,9 @@ void loop(IceFactory& engine) {
   engine._root.Remove("mewG");
   engine._root.Remove("mewG");
   //
+  engine.Audios.Add("Engine/Resource/Sound/clap.mp3");
+  engine.Audios.AddSound("Engine/Resource/Sound/clap.mp3");
+  engine.Audios.AddSound("Engine/Resource/Sound/clap.mp3");
   HideCursor();
   DisableCursor();
   //
@@ -80,6 +83,8 @@ void loop(IceFactory& engine) {
     status = IceFactory::GetEngineStatus();
     engine.UpdateEngine();
     UpatePlayer(engine, PlayerCamera);
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+      engine.Audios.Play("Engine/Resource/Sound/clap.mp3");
   }
 }
 
@@ -111,6 +116,7 @@ int main(void) {
       case S_EngineReboot: {
         engine.Start();
         engine.initEngine();
+        kill = 0;
         break;
       }
       default:

@@ -231,6 +231,7 @@ int   IceFactory::UpdateEngine(void) {
   //ClearBackground(BLANK); //! render job? yes :>
   __renderEngine.Draw();
   const int status = UpdateInpus() + UpdateEvent();
+  Audios.Update();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = IceFactory::GetWindowSize();
   }

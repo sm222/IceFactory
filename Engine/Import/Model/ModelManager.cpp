@@ -41,7 +41,7 @@ bool  ModelManager::IsAllReadyLoad(const char* name) const {
 int  ModelManager::Add(const char* name) {
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end()) {
-    DEBUG_P(red, "ModelManager::Add %s is all ready looded", name);
+    DEBUG_P(red, "ModelManager::Add %s is already loaded", name);
     return -1;
   }
   Model m = LoadModel(name);

@@ -13,10 +13,10 @@
 //
 # include "Object/Object.hpp"
 # include "Object/MeshObject.hpp"
-# include "Groups/Groups.hpp"
 # include "Render/Render.hpp"
 # include "Camera/BaseCamera.hpp"
 # include "Import/Model/ModelManager.hpp"
+# include "Import/Audio/AudioManager.hpp"
 # include "Groups/BaseGroups.hpp"
 # include "Room/Room.hpp"
 
@@ -72,8 +72,8 @@ class IceFactory {
     //? Engine data
     
     ModelManager        Models;
+    AudioManager        Audios;
     //
-    Groups<Object*>    _mainGroups; //* root
     BaseGroup          _root;       //
     //
     protected:

@@ -15,7 +15,7 @@ else
 ENGINE_FLAGS		=		-lraylib -lGL -lm -lrt -lX11
 endif
 
-ENGINE_SETTING	=		-D 'HOT_RELOAD=1'
+ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-error=missing-field-initializers
 
 CC				=			cc
 CXX				=			g++
@@ -36,6 +36,8 @@ IMPORT			=		$(ENGINE)Import/
 
 # -- IMPORT -- #
 I_MODEL			=		$(IMPORT)Model/ModelManager.cpp
+
+I_AUDIO			=		$(IMPORT)Audio/AudioManager.cpp
 
 # - - - #
 
@@ -64,6 +66,7 @@ CPP_SRCS	=		\
 	$(CAMERA)		\
 	$(GROUPS)		\
 	$(I_MODEL)	\
+	$(I_AUDIO)	\
 	$(OBJECT)		\
 	$(RENDER)		\
 	$(ROOM)			\
@@ -91,11 +94,16 @@ Engine: $(CXX)
 $(CXX): $(CPP_OBJS)
 	$(CXX) $(CFLAGS) $(CPP_OBJS) $(ENGINE_FLAGS) -o $(NAME)
 
+$(CPP_OBJS): $(CPP_SRCS)
+
+
 clean:
 	@rm -fv $(CPP_OBJS)
 
 fclean: clean
 	@rm -fv ../$(NAME)
+
+re: fclean all
 
 .PHONY: Engine
 
