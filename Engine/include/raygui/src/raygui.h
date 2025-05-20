@@ -4571,7 +4571,7 @@ static void GuiLoadStyleFromMemory(const unsigned char *fileData, int dataSize)
     memcpy(&reserved, fileDataPtr + 4 + 2, sizeof(short));
     memcpy(&propertyCount, fileDataPtr + 4 + 2 + 2, sizeof(int));
     fileDataPtr += 12;
-
+    (void)dataSize;
     if ((signature[0] == 'r') &&
         (signature[1] == 'G') &&
         (signature[2] == 'S') &&

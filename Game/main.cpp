@@ -19,8 +19,8 @@ void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
 
 void loop(IceFactory& engine) {
   BaseCamera    PlayerCamera("player");
-  UiRenderZone  uiTest("uiTest", 400, 400);
-  UiBaseBlock   uiBlock("block");
+  //UiRenderZone  uiTest("uiTest", 400, 400);
+  //UiBaseBlock   uiBlock("block");
   engine._root.Add(&PlayerCamera);
   Vector2 small = engine.GiveWindowSize();
   PlayerCamera.SetPosition((Vector3){1, 0, 1});

@@ -70,9 +70,9 @@ CPP_SRCS	=		\
 	$(OBJECT)		\
 	$(RENDER)		\
 	$(ROOM)			\
-	$(UI)				\
 	$(GAMEFILE)	\
 	$(ENGINE)IceFactory.cpp
+#$(UI)				\
 
 C_OBJS		=	$(C_SRCS:.c=.o)
 CPP_OBJS	=	$(CPP_SRCS:.cpp=.o)
