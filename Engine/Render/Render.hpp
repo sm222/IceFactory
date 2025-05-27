@@ -19,6 +19,7 @@ class Render {
   private:
     //
     void               DrawRoom(const Room& room) const;
+    RenderTexture2D  __textureList[(ROOM_MAX_CAMERA -1) * 2];
     const Room*      __current;
     bool             __debug;
     //

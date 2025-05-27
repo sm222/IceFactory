@@ -4,7 +4,9 @@
 
 # include "../Type/Type.hpp"
 # include "../Camera/BaseCamera.hpp"
+# include "../Camera/Base2DCamera.hpp"
 # include "../Groups/BaseGroups.hpp"
+# include "../Object/Object3D.hpp"
 //# include "../Ui/UiBaseBlock.hpp"
 
 # define ROOM_MAX_CAMERA 10
@@ -41,13 +43,23 @@ class Room {
     bool              UnbindToRender(size_t index);
     bool              GetRenderData(size_t index, RoomRenderCamera& data) const;
     BaseGroup*        GetRoot(void);
+    // todo
+    bool              Add2DCamera(const Base2DCamera* camera);
+    bool              Add3DCamera(const BaseCamera* camera);
+    //
+    
     //
   protected:
     //
     //
   private:
-    BaseGroup                                          __cameraList;
-    std::array<RoomRenderCamera, ROOM_MAX_CAMERA + 1>  __renderlist;
+    std::array<Base2DCamera*, ROOM_MAX_CAMERA + 1>      __2DCameras;  /*index is later of rendering */
+    std::array<BaseCamera*  , ROOM_MAX_CAMERA + 1>      __3DCameras;  /*                            */
+    std::array<BaseGroup*,    ROOM_MAX_CAMERA + 1>      __2DToRender; /*                            */
+    std::array<BaseGroup*,    ROOM_MAX_CAMERA + 1>      __3DToRender; /*                            */
+    //! old-> v new up
+    BaseGroup                                           __cameraList;
+    std::array<RoomRenderCamera, ROOM_MAX_CAMERA + 1>   __renderlist;
     //*      last one ( [ROOM_MAX_CAMERA] ) is reserve for the engine ui
     //*                           (consol, debug, fps overlay and other)
     //

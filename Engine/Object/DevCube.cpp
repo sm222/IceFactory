@@ -1,4 +1,5 @@
 #include "DevCube.hpp"
+#include "../Type/RenderType.hpp"
 
 DevCube::DevCube(void): Object3D("Dev") {
   __type = DEV_CUBE_TYPE;
@@ -19,13 +20,13 @@ DevCube::~DevCube(void) {
 
 
 void DevCube::Draw(int metod) const {
-  if (metod & draw_solid) {
+  if (metod & R_mesh) {
     if (__shape == 1)
       DrawCubeV(this->__position, this->__size, GREEN);
     else
       DrawSphere(this->__position, this->__size.x, GREEN);
   }
-  if (metod & draw_mesh) {
+  if (metod & R_wire) {
     if (__shape == 1)
       DrawCubeWiresV(this->__position, this->__size, RED);
     else

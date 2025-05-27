@@ -26,9 +26,14 @@ CXXFLAGS	=			$(DEBUG) $(ENGINE_SETTING) -Wall -Werror -Wextra
 #   --- ENGINE ---
 ENGINE		=			../Engine/
 
+
 BASE				=		$(ENGINE)Base/Base.cpp
 
-CAMERA			=		$(ENGINE)Camera/BaseCamera.cpp
+
+CAMERA			=		\
+$(ENGINE)Camera/BaseCamera.cpp \
+$(ENGINE)Camera/Base2DCamera.cpp
+
 
 GROUPS			=		$(ENGINE)Groups/BeseGroups.cpp
 
@@ -45,6 +50,7 @@ OBJECT			=	\
 $(ENGINE)Object/DevCube.cpp		\
 $(ENGINE)Object/MeshObject.cpp\
 $(ENGINE)Object/Object3D.cpp	\
+$(ENGINE)Object/Object2D.cpp	\
 $(ENGINE)Object/Object.cpp		\
 
 RENDER			=	$(ENGINE)Render/Render.cpp

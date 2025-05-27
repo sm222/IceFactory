@@ -86,6 +86,8 @@ enum UiType {
   Ui_base = 0,
   Ui_consol
 };
+
+
 typedef struct ui {
   Rectangle window;
   bool      reSizeAble;

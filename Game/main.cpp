@@ -1,7 +1,8 @@
 # include "../Engine/IceFactory.hpp"
 # include "../Engine/Object/DevCube.hpp"
 # include "../Engine/Camera/BaseCamera.hpp"
-# include "../Engine/Ui/UiBaseTextBox.hpp"
+# include "../Engine/Type/RenderType.hpp"
+//# include "../Engine/Ui/UiBaseTextBox.hpp"
 
 
 void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
@@ -27,7 +28,7 @@ void loop(IceFactory& engine) {
   PlayerCamera.SetCanvas(small);
   PlayerCamera.SetDrawSize(small);
   PlayerCamera.SetTarget(Vector3 {0,0,0});
-  PlayerCamera.SetDrawPosition(small / 2);
+  PlayerCamera.Set2DDrawPosition(small / 2);
   //-------
   BaseCamera   testCam("testCam");
   PlayerCamera.SetDebug(true);
@@ -35,7 +36,8 @@ void loop(IceFactory& engine) {
   testCam.SetCanvas(small / 4);
   testCam.SetDrawSize(small / 4);
   testCam.SetTarget({0,0,0});
-  testCam.SetDrawPosition(small / 7);
+  testCam.Set2DDrawPosition(small / 7);
+  testCam.SetMode(t_camera_mode::camera_texture_keep);
   Color tr = WHITE;
   tr.a /= 5;
   testCam.SetColors(GRAY, tr);
@@ -51,7 +53,7 @@ void loop(IceFactory& engine) {
   DevCube cube("cube");
   cube.SetSize({0.5, 0.5, 0.5});
   cube.SetShape(0);
-  cube.SetMetod(draw_mesh);
+  cube.SetMetod(R_wire);
   BaseGroup  GameTest("gametest");
   GameTest.Add(&t);
   GameTest.Add(&cube);
@@ -72,7 +74,6 @@ void loop(IceFactory& engine) {
   engine._root.Remove("mewG");
   //
   engine.Audios.Add("Engine/Resource/Sound/clap.mp3");
-  engine.Audios.AddSound("Engine/Resource/Sound/clap.mp3");
   engine.Audios.AddSound("Engine/Resource/Sound/clap.mp3");
   HideCursor();
   DisableCursor();

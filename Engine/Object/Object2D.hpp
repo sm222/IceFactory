@@ -16,13 +16,24 @@ class Object2D : public Object {
     virtual ~Object2D(void);
     //
     static void Info(Base& self);
-    void        Draw(int metod) const { (void)metod; };
+    void        Draw(int metod)   const ;
+    //
+    void        SetPosition(Vector2& position);
+    Vector2     GetPosition(void) const ;
+    //
+    void        SetHitBox(Rectangle&  hitbox);
+    Rectangle   GetHitBox(void)   const ;
+    //
+    void        SeRenderBox(Rectangle&  renderBox);
+    Rectangle   GeRenderBox(void)   const ;
+    //
   protected:
     void           Zero(void);
+    Vector2      __position;
+    Rectangle    __hitBox;
+    Rectangle    __renderBox;
   private:
-    Vector2     __position;
-    Rectangle   __hitBox;
-
+    //
 };
 
 #endif

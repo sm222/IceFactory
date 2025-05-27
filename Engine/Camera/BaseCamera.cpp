@@ -62,11 +62,11 @@ Vector3 BaseCamera::GetPosition(void) const {
   return __camera.position;
 }
 
-Vector2  BaseCamera::GetDrawPosition(void) const {
+Vector2  BaseCamera::Get2DDrawPosition(void) const {
   return __drawPosition;
 }
 
-void BaseCamera::SetDrawPosition(const Vector2& position) {
+void BaseCamera::Set2DDrawPosition(const Vector2& position) {
   __drawPosition = position;
 }
 
@@ -130,7 +130,7 @@ int BaseCamera::Start(void) {
     BaseCamera::SetActive(__CameraID);
     if (__mode == camera_texture && IsRenderTextureValid(__RenderTexture)) {
       BeginTextureMode(__RenderTexture);
-      ClearBackground(BLANK);
+      ClearBackground(__clean);
     }
     else if (__mode == camera_texture)
       return camera_texture;
@@ -209,6 +209,18 @@ const Texture2D BaseCamera::GetFrame(void) {
   return __RenderTexture.texture;
 }
 
+void  BaseCamera::DrawBillboardAuto(void)  const {
+  const Draw3DData& b = __bilbord;
+  DrawBillboard(b.pov, b.texture, b.source, b.position, \
+  b.up, b.size, b.size, b.rotation, __tint);
+}
+
+void   BaseCamera::DrawBillboard(
+const Camera3D& pov, const Texture2D& t, const Rectangle& source, const Vector3& p, \
+const Vector3& up , const Vector2& size, const Vector2& origin, float rotation, Color color ) const {
+  DrawBillboardPro(pov, t, source, p, up, size, origin, rotation, color);
+}
+
 void  BaseCamera::SetColors(Color clean, Color tint) {
   __clean = clean;
   __tint = tint;
@@ -244,5 +256,6 @@ void BaseCamera::Zero(void) {
   ZERO_NONE_PTR(__mode);
   ZERO_NONE_PTR(__camera);
   ZERO_NONE_PTR(__drawPosition);
+  ZERO_NONE_PTR(__bilbord);
   for (size_t i = 0; i < 4; i++) { ZERO_NONE_PTR(__rays[i]); }
 }

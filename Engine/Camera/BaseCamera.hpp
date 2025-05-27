@@ -20,6 +20,22 @@ typedef enum {
   camera_texture_keep, // to use on a bilbord or on a model
 } t_camera_mode;
 
+// void DrawBillboardPro
+// (Camera camera, Texture2D texture, Rectangle source, Vector3 position,
+// Vector3 up, Vector2 size, Vector2 origin, float rotation, Color tint)
+
+typedef struct {
+  Camera3D  pov;
+  Texture2D texture;
+  Rectangle source;
+  Vector3   position;
+  Vector3   up;
+  Vector2   size;
+  Vector2   origin;
+  float     rotation;
+  //        color
+} Draw3DData;
+
 class BaseCamera : public Object {
   public:
     BaseCamera(const char* name);
@@ -34,8 +50,8 @@ class BaseCamera : public Object {
     //
     Vector3                GetPosition(void)     const ;
     //
-    Vector2                GetDrawPosition(void) const ;
-    void                   SetDrawPosition(const Vector2& position);
+    Vector2                Get2DDrawPosition(void) const ;
+    void                   Set2DDrawPosition(const Vector2& position);
     //
     Vector2                GetDrawSize(void)     const ;
     void                   SetDrawSize(const Vector2& size);
@@ -49,10 +65,18 @@ class BaseCamera : public Object {
     //
     bool                   SetCanvas(const Vector2& size);
     int                    Start(void);
+    int                    Start(RenderTexture2D& texture);
     bool                   Stop(void);
     void                   DrawFrameAuto(void)                                         const ;
     void                   DrawFrame(const Vector2& position)                          const ;
     void                   DrawFrameSize(const Vector2& Position, const Vector2& size) const ;
+    //
+    void                   DrawBillboardAuto(void)                                     const ; //todo
+    void                   DrawBillboard(const Camera3D& pov, const Texture2D& t,  \
+                                        const Rectangle& source, const Vector3& p, \
+                                        const Vector3& up , const Vector2& size,   \
+                                        const Vector2& origin, float rotation, Color color ) const ; // todo
+    //
     bool                   Clear(void);
     bool                   SetMode(const t_camera_mode mode);
     t_camera_mode          GetMode(void)       const ;
@@ -89,6 +113,8 @@ class BaseCamera : public Object {
     //
     Color                    __clean;
     Color                    __tint;
+    // 3D
+    Draw3DData               __bilbord;
     // debug
     bool                     __debug = false;
     Ray                      __rays[4];

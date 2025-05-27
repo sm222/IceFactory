@@ -22,7 +22,6 @@ class Object : public Base {
     void        Draw(int metod) const { (void)metod; };
   protected:
     void           Zero(void);
-  //  virtual void   Draw(int mode) = 0;
   private:
 
 };
