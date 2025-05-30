@@ -2,7 +2,7 @@
 #include "BaseGroups.hpp"
 
 void   BaseGroup::Zero(void) {
-  bzero(__name, MAX_NAME_LEN);
+  memset(__name, 0, MAX_NAME_LEN);
 }
 
 BaseGroup::BaseGroup(const char* name) : Base(name) {
