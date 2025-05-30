@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/gui_value_box_float.dir/home/antoine/Documents/IceFactory/Engine/include/raygui/examples/controls_test_suite/gui_value_box_float.c.o -o gui_value_box_float  -Wl,-rpath,/usr/local/lib /usr/local/lib/libraylib.so 
