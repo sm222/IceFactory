@@ -3,14 +3,14 @@
 
 #include "../Object/Object2D.hpp"
 
-# define TYPE_DRAWTEXTURE "TYPE_DRAWTEXTURE"
+# define TYPE_DRAWTEXTURE2D "TYPE_DRAWTEXTURE2D"
 
-class DrawTexture : public Object2D {
+class DrawTexture2D : public Object2D {
   public:
     //
-    DrawTexture(const char* name);
-    DrawTexture(const std::string& name);
-    virtual ~DrawTexture(void);
+    DrawTexture2D(const char* name);
+    DrawTexture2D(const std::string& name);
+    virtual ~DrawTexture2D(void);
     //
     static void    Info(Base& self);
     void           Draw(int metod)   const ;

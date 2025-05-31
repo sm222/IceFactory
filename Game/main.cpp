@@ -42,6 +42,7 @@ void loop(IceFactory& engine) {
   tr.a /= 5;
   testCam.SetColors(GRAY, tr);
   //
+  engine.Textures2D.Add("Engine/Resource/Image/cat.jpg");
   engine.Models.Add("Engine/Resource/Models/Axis_Cube.m3d");
   engine.AddCameraToUpdateList(&PlayerCamera);
   engine.AddCameraToUpdateList(&testCam);

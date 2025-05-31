@@ -166,6 +166,8 @@ bool IceFactory::closeEngine(void) {
   if (GetEngineStatus() != S_EngineReboot)
     __engineStatus = S_EngineStop;
   Models.Clear();
+  Audios.Clear();
+  Textures2D.Clear();
   for(size_t i = 0; i < MAX_ROOM + 1; i++) {
     if (__roomsEngine[i])
       delete __roomsEngine[i];

@@ -17,6 +17,7 @@
 # include "Camera/BaseCamera.hpp"
 # include "Import/Model/ModelManager.hpp"
 # include "Import/Audio/AudioManager.hpp"
+# include "Import/Texture2D/Texture2DManager.hpp"
 # include "Groups/BaseGroups.hpp"
 # include "Room/Room.hpp"
 
@@ -67,9 +68,10 @@ class IceFactory {
     IceFactory(void);
     ~IceFactory(void);
     //? Engine data
-    
+    // managers - - - - - - - -
     ModelManager        Models;
     AudioManager        Audios;
+    Texture2DManager    Textures2D;
     //
     BaseGroup          _root;       //
     //

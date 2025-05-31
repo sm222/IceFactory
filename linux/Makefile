@@ -40,6 +40,7 @@ I_MODEL			=		$(IMPORT)Model/ModelManager.cpp
 
 I_AUDIO			=		$(IMPORT)Audio/AudioManager.cpp
 
+I_TEXTURE2D	=		$(IMPORT)Texture2D/Texture2DManager.cpp
 # - - - #
 
 OBJECT			=	\
@@ -50,6 +51,8 @@ $(ENGINE)Object/Object2D.cpp	\
 $(ENGINE)Object/Object.cpp		\
 
 RENDER			=	$(ENGINE)Render/Render.cpp
+
+DRAW2D			=	$(ENGINE)Draw2D/DrawTexture2D.cpp
 
 ROOM				=	$(ENGINE)Room/Room.cpp
 
@@ -63,16 +66,18 @@ GAME			=		../Game/
 GAMEFILE	= $(GAME)main.cpp
 
 # - - - -|-|- - - - #
-CPP_SRCS	=		\
-	$(BASE)			\
-	$(CAMERA)		\
-	$(GROUPS)		\
-	$(I_MODEL)	\
-	$(I_AUDIO)	\
-	$(OBJECT)		\
-	$(RENDER)		\
-	$(ROOM)			\
-	$(GAMEFILE)	\
+CPP_SRCS	=				\
+	$(BASE)					\
+	$(CAMERA)				\
+	$(GROUPS)				\
+	$(I_MODEL)			\
+	$(I_AUDIO)			\
+	$(I_TEXTURE2D)	\
+	$(OBJECT)				\
+	$(RENDER)				\
+	$(DRAW2D)				\
+	$(ROOM)					\
+	$(GAMEFILE)			\
 	$(ENGINE)IceFactory.cpp
 #$(UI)				\
 
