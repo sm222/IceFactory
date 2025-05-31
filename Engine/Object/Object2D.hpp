@@ -24,11 +24,11 @@ class Object2D : public Object {
     void        SetHitBox(Rectangle&  hitbox);
     Rectangle   GetHitBox(void)   const ;
     //
-    void        SeRenderBox(Rectangle&  renderBox);
-    Rectangle   GeRenderBox(void)   const ;
+    void        SetRenderBox(Rectangle&  renderBox);
+    Rectangle   GetRenderBox(void)   const ;
     //
   protected:
-    void           Zero(void);
+    virtual void   Zero(void);
     Vector2      __position;
     Rectangle    __hitBox;
     Rectangle    __renderBox;
