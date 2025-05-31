@@ -66,11 +66,11 @@ Rectangle Object2D::GetHitBox(void) const {
 
 
 
-void   Object2D::SeRenderBox(Rectangle& renderBox) {
+void   Object2D::SetRenderBox(Rectangle& renderBox) {
   __renderBox = renderBox;
 }
 
 
-Rectangle Object2D::GeRenderBox(void) const {
+Rectangle Object2D::GetRenderBox(void) const {
   return  __renderBox;
 }

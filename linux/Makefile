@@ -11,7 +11,7 @@ LOCAL_LIB	=	$(shell test -e $(RAYLIB) ; echo $$?)
 
 ENGINE_FLAGS		=		$(RAYLIB) -lGL -lm -lrt -lX11
 
-ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-error=missing-field-initializers
+ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-missing-field-initializers
 
 CC				=			cc
 CXX				=			g++

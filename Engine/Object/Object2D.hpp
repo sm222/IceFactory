@@ -24,8 +24,8 @@ class Object2D : public Object {
     void        SetHitBox(Rectangle&  hitbox);
     Rectangle   GetHitBox(void)   const ;
     //
-    void        SeRenderBox(Rectangle&  renderBox);
-    Rectangle   GeRenderBox(void)   const ;
+    void        SetRenderBox(Rectangle&  renderBox);
+    Rectangle   GetRenderBox(void)   const ;
     //
   protected:
     virtual void   Zero(void);
