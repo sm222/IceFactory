@@ -9,7 +9,7 @@ RAYLIB		=	../Engine/include/raylib/src/libraylib.a
 
 ENGINE_FLAGS		=		$(RAYLIB) -lgdi32 -lwinmm
 
-ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-error=missing-field-initializers
+ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-missing-field-initializers
 
 CC				=			cc
 CXX				=			g++
