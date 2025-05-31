@@ -29,7 +29,7 @@
 # folder
 build/
 .vscode/
-Engine/include
+Engine/include/raylib
 
 # Executables
 *.exe

@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/custom_sliders.dir/home/antoine/Documents/IceFactory/Engine/include/raygui/examples/custom_sliders/custom_sliders.c.o -o custom_sliders  -Wl,-rpath,/usr/local/lib /usr/local/lib/libraylib.so 

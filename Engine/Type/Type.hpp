@@ -1,8 +1,8 @@
 #ifndef __TYPE_H__
 # define __TYPE_H__
 
-# include <raylib.h>
-# include <raymath.h>
+# include "../include/raylib/src/raylib.h"
+# include "../include/raylib/src/raymath.h"
 
 # include <cstring>
 # include <iostream>

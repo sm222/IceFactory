@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/portable_window.dir/home/antoine/Documents/IceFactory/Engine/include/raygui/examples/portable_window/portable_window.c.o -o portable_window  -Wl,-rpath,/usr/local/lib /usr/local/lib/libraylib.so 

@@ -21,13 +21,13 @@ const Model ModelManager::Get(const char* name) const {
     return it->second;
   }
   Model  null;
-  bzero(&null, sizeof(Model));
+  ZERO_NONE_PTR(null);
   return null;
 }
 
 bool  ModelManager::IsAllReadyLoad(const char* name) const {
   Model   ref;
-  bzero(&ref, sizeof(Model));
+  ZERO_NONE_PTR(ref);
   ref = Get(name);
   if (IsModelValid(ref))
     return true;
