@@ -6,9 +6,9 @@ DEBUG			=		-g
 
 RAYLIB		=	../../Engine/include/raylib/src/libraylib.a
 
-LINUX_FLAGS = -lGL -lm -lrt -lX11
-#WIN_FLAG    = -lgdi32 -lwinmm
-ENGINE_FLAGS		=		$(RAYLIB) $(LINUX_FLAGS)
+LINUX_FLAGS	=		-lGL -lm -lrt -lX11
+WIN_FLAG		=		-lgdi32 -lwinmm
+ENGINE_FLAGS		=		$(RAYLIB) $(WIN_FLAG)
 
 ENGINE_SETTING	=		-Wno-missing-field-initializers
 
