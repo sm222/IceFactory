@@ -9,7 +9,10 @@
 # include "../Object/Object3D.hpp"
 //# include "../Ui/UiBaseBlock.hpp"
 
-# define ROOM_MAX_CAMERA 10
+# define ROOM_MAX_CAMERA 10 //! remove after
+
+# define ROOM_MAX_LAYER  100
+
 
 typedef enum {
   room_noType = 0,
@@ -53,11 +56,15 @@ class Room {
     //
     //
   private:
+    //todo v
+    std::array<BaseGroup*,    ROOM_MAX_CAMERA + 1>      __ToRender;   /*                            */
     std::array<Base2DCamera*, ROOM_MAX_CAMERA + 1>      __2DCameras;  /*index is later of rendering */
     std::array<BaseCamera*  , ROOM_MAX_CAMERA + 1>      __3DCameras;  /*                            */
-    std::array<BaseGroup*,    ROOM_MAX_CAMERA + 1>      __2DToRender; /*                            */
-    std::array<BaseGroup*,    ROOM_MAX_CAMERA + 1>      __3DToRender; /*                            */
-    //! old-> v new up
+    int                                                 __currentRenderMode = 0;
+    std::array<RenderTexture2D, ROOM_MAX_LAYER>         __layers;
+    size_t                                              __layerNumber  = 0;
+    size_t                                              __currentLayer = 0;
+    //! old-> v ^ <- new
     BaseGroup                                           __cameraList;
     std::array<RoomRenderCamera, ROOM_MAX_CAMERA + 1>   __renderlist;
     //*      last one ( [ROOM_MAX_CAMERA] ) is reserve for the engine ui

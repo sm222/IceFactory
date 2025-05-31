@@ -28,7 +28,7 @@ class Object2D : public Object {
     Rectangle   GeRenderBox(void)   const ;
     //
   protected:
-    void           Zero(void);
+    virtual void   Zero(void);
     Vector2      __position;
     Rectangle    __hitBox;
     Rectangle    __renderBox;

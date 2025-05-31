@@ -16,4 +16,7 @@ test -z $ray && git clone $rayLibGit && mv raylib ../Engine/include/
 
 make -C ../Engine/include/raylib/src
 
-make
+cd linux && ./makeBear.sh && cd ..
+tree -dL 3
+
+# tree -dL 3

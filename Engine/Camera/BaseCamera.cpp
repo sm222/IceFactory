@@ -246,6 +246,7 @@ void BaseCamera::Default(void) {
   __mode = camera_texture;
   __camera.up = {0, 1, 0};
   __camera.fovy = 90;
+  __camera.projection = 0;
 }
 
 void BaseCamera::Zero(void) {
