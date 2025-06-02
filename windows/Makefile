@@ -1,15 +1,12 @@
 NAME			=		IceFactory
 NAME_X		=		.exe
 #
-DEBUG			=		-g
-#
-
 RAYLIB		=	../Engine/include/raylib/src/libraylib.a
-
-
+#
 ENGINE_FLAGS		=		$(RAYLIB) -lgdi32 -lwinmm
-
 ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-missing-field-initializers
+DEBUG						=		-g
+#
 
 CC				=			cc
 CXX				=			g++
@@ -77,9 +74,6 @@ CPP_SRCS	=		\
 C_OBJS		=	$(C_SRCS:.c=.o)
 CPP_OBJS	=	$(CPP_SRCS:.cpp=.o)
 # -	- - #
-
-#
-#
 
 
 all: buildraylib $(NAME)

@@ -6,6 +6,11 @@
 
 # define TYPE_BASE "TYPE_BASE"
 # define MAX_CHILD_FT      100
+# define MAX_INHERITANCE   10
+
+# define DRAW_INHERITANCE(var) do {                                     \
+  for (int i = 0; i < MAX_INHERITANCE; i++) { printf("%s\n", !var[i] ? "[]" : var[i]); } \
+} while(0);
 
 typedef unsigned int   t_id;
 # define PRINT_ID_AT_BUILD 1
@@ -41,7 +46,11 @@ class Base {
     BaseInterface<MAX_CHILD_FT>   interface;
   protected:
     //
-    int               __metod;
+    int                     __metod;
+    // 2 = 2D, 3 = 3D else garbage, set in constructor
+    unsigned short          __drawType = 0; // can't be const becose f u i guess
+    Base(const char* name, unsigned short drawType);
+    Base(const std::string& name, unsigned short drawType);
     //
     static t_id         MakeId(void);
     virtual void        Zero(void) = 0;
@@ -58,6 +67,10 @@ class Base {
     bool              __SetParantNone(void);
     bool              __isAlloc;
     //
+    bool              __AddInheritance(void);
+    void              __DrawInheritance(void);
+    const char*const*   GetInheritance(void);
+    const char*       __inheritance[MAX_INHERITANCE];
   private:
   //
   static t_id         __totalId;

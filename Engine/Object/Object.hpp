@@ -21,6 +21,8 @@ class Object : public Base {
     static void Info(Base& self);
     void        Draw(int metod) const { (void)metod; };
   protected:
+    Object(const char* name, unsigned short drawType);
+    Object(const std::string& name, unsigned short drawType);
     void           Zero(void);
   private:
 

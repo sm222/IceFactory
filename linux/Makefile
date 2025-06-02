@@ -1,17 +1,12 @@
 NAME			=		IceFactory
 NAME_X		=		.out
 #
+RAYLIB		=	../Engine/include/raylib/src/libraylib.a
+#
+ENGINE_FLAGS		=		$(RAYLIB) -lGL -lm -lrt -lX11
+ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-missing-field-initializers
 DEBUG			=		-g
 #
-
-RAYLIB		=	../Engine/include/raylib/src/libraylib.a
-
-
-LOCAL_LIB	=	$(shell test -e $(RAYLIB) ; echo $$?)
-
-ENGINE_FLAGS		=		$(RAYLIB) -lGL -lm -lrt -lX11
-
-ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-missing-field-initializers
 
 CC				=			cc
 CXX				=			g++
@@ -113,38 +108,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: Engine
-
-# 		Engine/
-# 		├── Base
-# 		├── Camera
-# 		├── Groups
-# 		├── Import
-# 		│   ├── Model
-# 		│   └── Sound
-# 		├── include
-# 		│   ├── raygui
-# 		│   │   ├── examples
-# 		│   │   ├── icons
-# 		│   │   ├── images
-# 		│   │   ├── logo
-# 		│   │   ├── projects
-# 		│   │   ├── src
-# 		│   │   └── styles
-# 		│   └── raylib
-# 		│       ├── cmake
-# 		│       ├── examples
-# 		│       ├── logo
-# 		│       ├── parser
-# 		│       ├── projects
-# 		│       └── src
-# 		├── Object
-# 		├── Render
-# 		├── Resource
-# 		│   ├── Image
-# 		│   ├── Models
-# 		│   └── Sound
-# 		├── Room
-# 		├── Type
-# 		└── Ui
-# 		
-# 32 directories

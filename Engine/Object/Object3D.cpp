@@ -5,13 +5,13 @@ void Object3D::Zero(void) {
   ZERO_NONE_PTR(__rotation);
 }
 
-Object3D::Object3D(const char* name) : Object(name) {
+Object3D::Object3D(const char* name) : Object(name, 3) {
   __type = TYPE_OBJECT3D;
   DEBUG_P(magenta, "Object3D::char");
   Zero();
 }
 
-Object3D::Object3D(const std::string& name) : Object(name) {
+Object3D::Object3D(const std::string& name) : Object(name, 3) {
   __type = TYPE_OBJECT3D;
   DEBUG_P(magenta, "Object3D::string");
   Zero();

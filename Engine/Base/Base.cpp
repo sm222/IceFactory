@@ -4,6 +4,9 @@ t_id  Base::__totalId = 0; // id
 
 Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
   DEBUG_P(magenta, "Base::char %s", name);
+  memset(__inheritance, 0, sizeof(char*) * MAX_INHERITANCE);
+  __AddInheritance();
+  __DrawInheritance();
   SetName(name);
   SetFtList();
   __metod = -1;
@@ -14,16 +17,27 @@ Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
   #endif
 }
 
+Base::Base(const char* name, unsigned short drawType) : Base(name) {
+  __drawType = drawType;
+}
+
 Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
+  memset(__inheritance, 0, sizeof(char*) * MAX_INHERITANCE);
   DEBUG_P(magenta, "Base::string %s", name.c_str());
   SetName(name);
   SetFtList();
+  __AddInheritance();
+  __DrawInheritance();
   __metod = -1;
   __parent = nullptr;
   __isAlloc = false;
   #if (PRINT_ID_AT_BUILD)
     PrintId();
   #endif
+}
+
+Base::Base(const std::string& name, unsigned short drawType) : Base(name) {
+  __drawType = drawType;
 }
 
 Base::~Base(void) {
@@ -162,4 +176,30 @@ bool Base::__SetParantNone(void) {
     rm = true;
   }
   return rm;
+}
+
+
+bool  Base::__AddInheritance(void) {
+  int i = 0;
+  while (i < MAX_INHERITANCE) {
+    if (!__inheritance[i]) {
+      __inheritance[i] = __type;
+      return true;
+    }
+    i++;
+  }
+  return false;
+}
+
+const char*const*   Base::GetInheritance(void) {
+  return __inheritance;
+}
+
+void   Base::__DrawInheritance(void) {
+  int i = 0;
+  while(i < MAX_INHERITANCE) {
+    if (__inheritance[i])
+      printf("%s\n", __inheritance[i]);
+    i++;
+  }
 }

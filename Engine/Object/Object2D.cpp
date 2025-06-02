@@ -14,14 +14,14 @@ void   Object2D::Zero(void) {
 }
 
 
-Object2D::Object2D(const char* name) : Object(name) {
+Object2D::Object2D(const char* name) : Object(name, 2) {
   Zero();
   __type = TYPE_OBJECT2D;
   DEBUG_P(magenta, "Object2D::");
 }
 
 
-Object2D::Object2D(const std::string& name) : Object(name) {
+Object2D::Object2D(const std::string& name) : Object(name, 2) {
   Zero();
   __type = TYPE_OBJECT2D;
   DEBUG_P(magenta, "Object2D::");
