@@ -23,24 +23,23 @@ platform=$(bash -c uname -os)
 madeby='@sm222'
 
 sysHeder=(
-  '#####################################'
+  '########################################'
   '#	made by'
   "#		$madeby"
   "#		$buildTime"
   "#		$platform"
-  '#####################################'
-  ''
-  '########################################'
-  "#	Don't edit that file by hands, call    $0"
+  '#'
+  "#	Don't edit that file by hands,"
+  "#		call $0"
   '#		and edit the variable in varAndFiles'
   '########################################'
 )
 
 i_sysHeader=${#sysHeder[@]}
-j_sysHeader=0
 
 function printSysHeader() {
   echo -n
+  j_sysHeader=0
   while [ $j_sysHeader -lt $i_sysHeader ]
   do
     echo "${sysHeder[$j_sysHeader]}" >> $1
@@ -71,9 +70,9 @@ compiler=(
 )
 
 i_compiler=${#compiler[@]}
-j_compiler=0
 
 function drawCompiler() {
+  j_compiler=0
   echo -n
   while [ $j_compiler -lt $i_compiler ]
   do
@@ -140,14 +139,15 @@ varAndFiles=(
   '$(ENGINE)Ui/UiBaseBlock.cpp		\'
   '$(ENGINE)Ui/UiBaseTextBox.cpp	\'
   '$(ENGINE)Ui/UiRenderZone.cpp	\'
+  ''
 )
 
 
 i_varAndFiles=${#varAndFiles[@]}
-j_varAndFiles=0
 
 function printFiles() {
   echo -n
+  j_varAndFiles=0
   while [ $j_varAndFiles -lt $i_varAndFiles ]
   do
     echo "${varAndFiles[$j_varAndFiles]}" >> $1
@@ -172,10 +172,10 @@ gameFiles=(
 )
 
 i_gameFiles=${#gameFiles[@]}
-j_gameFiles=0
 
 function printGameFiles() {
   echo -n
+  j_gameFiles=0
   while [ $j_gameFiles -lt $i_gameFiles ]
   do
     echo "${gameFiles[$j_gameFiles]}" >> $1
@@ -192,6 +192,22 @@ function printGameFiles() {
 
 compileRule=(
   ''
+  '# - - - -|-|- - - - #'
+  'CPP_SRCS	=				\'
+	'$(BASE)					\'
+	'$(CAMERA)				\'
+	'$(GROUPS)				\'
+	'$(I_MODEL)			\'
+	'$(I_AUDIO)			\'
+	'$(I_TEXTURE2D)	\'
+	'$(OBJECT)				\'
+	'$(RENDER)				\'
+	'$(DRAW2D)				\'
+	'$(ROOM)					\'
+	'$(GAMEFILE)			\'
+	'$(ENGINE)IceFactory.cpp'
+  '#$(UI)				\'
+  ''
   ''
   'C_OBJS		=	$(C_SRCS:.c=.o)'
   'CPP_OBJS	=	$(CPP_SRCS:.cpp=.o)'
@@ -201,7 +217,7 @@ compileRule=(
   '	@mv -v $(NAME)$(NAME_X) ..'
   ''
   '$(NAME): Engine'
-  '	@echo | $(NAME)$(NAME_X) |'
+  '	@echo "| $(NAME)$(NAME_X) |"'
   ''
   'Engine: $(CXX)'
   '	@echo'
@@ -224,10 +240,10 @@ compileRule=(
 )
 
 i_compileRule=${#compileRule[@]}
-j_compileRule=0
 
 function printCompileRule() {
   echo -n
+  j_compileRule=0
   while [ $j_compileRule -lt $i_compileRule ]
   do
     echo "${compileRule[$j_compileRule]}" >> $1
@@ -243,36 +259,34 @@ function printCompileRule() {
 
 linuxHeader=(
   ''
-  ''
-  '# WINDOS MAKEFILE '
+  '# Linux MAKEFILE'
   'NAME			=			IceFactory'
-  'NAME_X		=			.exe'
+  'NAME_X		=			.out'
   ''
   '# - - - -'
   ''
-  "RAYLIB		=	$raylibPath"
-  'ENGINE_FLAGS		=		$(RAYLIB) -lgdi32 -lwinmm'
+  "RAYLIB		=		$raylibPath"
+  'ENGINE_FLAGS		=		$(RAYLIB) -lGL -lm -lrt -lX11'
   'ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-missing-field-initializers'
   ''
   'DEBUG						=		-g'
   ''
-  ''
 )
 
-i_winHeader=${#winHeader[@]}
-j_winHeader=0
+i_linuxHeader=${#linuxHeader[@]}
 
-linuxFilename=Makefile
+linuxFilename=../linux/Makefile
 
 function makelinux() {
-  rm -fv $linuxFilename
-  echo 'touch' $linuxFilename
+  j_linuxHeader=0
+  rm -f $linuxFilename
+  printf $GRN"making $linuxFilename$RESET\n"
   touch $linuxFilename
-  printSysHeader $linuxFilenamev
-  while [ $j_winHeader -lt $i_winHeader ]
+  printSysHeader $linuxFilename
+  while [ $j_linuxHeader -lt $i_linuxHeader ]
   do
-    echo "${winHeader[$j_winHeader]}" >> $WindowsFilename
-    j_winHeader=$((j_winHeader + 1))
+    echo "${linuxHeader[$j_linuxHeader]}" >> $linuxFilename
+    j_linuxHeader=$((j_linuxHeader + 1))
   done
   drawCompiler $linuxFilename
   printFiles $linuxFilename
@@ -289,30 +303,28 @@ function makelinux() {
 
 winHeader=(
   ''
-  ''
-  '# WINDOS MAKEFILE '
+  '# WINDOS MAKEFILE'
   'NAME			=			IceFactory'
   'NAME_X		=			.exe'
   ''
   '# - - - -'
   ''
-  "RAYLIB		=	$raylibPath"
+  "RAYLIB		=		$raylibPath"
   'ENGINE_FLAGS		=		$(RAYLIB) -lgdi32 -lwinmm'
   'ENGINE_SETTING	=		-D 'HOT_RELOAD=1' -Wno-missing-field-initializers'
   ''
   'DEBUG						=		-g'
   ''
-  ''
 )
 
 i_winHeader=${#winHeader[@]}
-j_winHeader=0
 
-WindowsFilename=test/Makefile
+WindowsFilename=../windows/Makefile
 
 function makeWindos() {
-  rm -fv $WindowsFilename
-  echo 'touch' $WindowsFilename
+  j_winHeader=0
+  rm -f $WindowsFilename
+  printf $GRN"making $WindowsFilename$RESET\n"
   touch $WindowsFilename
   printSysHeader $WindowsFilename
   while [ $j_winHeader -lt $i_winHeader ]
@@ -328,4 +340,7 @@ function makeWindos() {
 
 
 
-makeWindos
+time makelinux
+printf "\n"$BLU"done$RESET\n"
+time makeWindos
+printf "\n"$BLU"done$RESET\n"
