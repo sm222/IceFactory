@@ -169,8 +169,7 @@ int   Render::Update(void) {
       error++;
       continue ;
     }
-    RenderTexture2D& r = __current->GetLayer(i);
-    if (!IsRenderTextureValid(r)) {
+    if (!__current->GetLayerValid(i)) {
       DEBUG_P(red, "Render::Update [%zu]Rtexture not valid", i);
       error++;
       continue ;
@@ -181,26 +180,28 @@ int   Render::Update(void) {
       DEBUG_P(red, "Render::Update [%zu]no group", i);
       continue ;
     }
-    group->PrintTree();
     const Base* camera = __current->GetPov(i);
     if (!camera) {
       DEBUG_P(red, "Render::Update [%zu] messing camera", i);
       error++;
       continue ;
     }
-    DrawFrame(camera, *group, r);
+    DrawFrame(camera, *group, __current->GetLayer(i));
   }
   BeginDrawing();
   ClearBackground(BLACK);
-  for (unsigned short i = 0; i < 10; i++) {
+  for (unsigned short i = 0; i < __current->GetLayerSize(); i++) {
     RenderTexture2D& t = __current->GetLayer(i);
     if (IsRenderTextureValid(t)) {
       const Rectangle src = {0,0, (float)t.texture.width, -(float)t.texture.height};
-      DrawText("abc", 0, 20, 20, GREEN);
       DrawTextureRec(t.texture, src, (Vector2){0,0}, WHITE);
     }
   }
   DrawFPS(0, 0);
   EndDrawing();
+  //DrawTexturePro(
+  //  Texture2D texture, 
+  //  Rectangle source, Rectangle dest, 
+  //  Vector2 origin, float rotation, Color tint)
   return error;
 }

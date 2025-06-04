@@ -38,6 +38,26 @@ struct RoomRenderCamera {
   BaseGroup*     toRender;
 };
 
+typedef struct {
+  bool            drawOnScrean;
+  Rectangle       src;
+  Rectangle       dest;
+  Vector2         origin;
+  float           rotation;
+  Color           tint;
+}  t_layerSetting;
+
+typedef struct {
+  bool            IsLValid;
+  RenderTexture2D l;
+  bool            drawOnScrean; // if false all oter parm under don't matter
+  Rectangle       src;
+  Rectangle       dest;
+  Vector2         origin;
+  float           rotation;
+  Color           tint;
+}  t_layer;
+
 
 class Room {
   public:
@@ -64,10 +84,15 @@ class Room {
     //
     const Instruction&  GetRenderRule(void) const;
     bool                SetRenderRule(RenderInstruction rules[3], size_t i);
+    
+    bool                SetLayerSetting(unsigned short i, t_layerSetting& setting);
     RenderTexture2D&    GetLayer(unsigned short i);
+    bool                GetLayerValid(unsigned short i) const ;
     const BaseGroup*    GetToRender(unsigned short i);
     const Base*         GetPov(unsigned short i);
     //
+    unsigned short      GetLayerSize(void) const;
+
     int  SetToRender(BaseGroup* group, unsigned short i);
     //
     int                 InitLayer(unsigned short i, Vector2 size);
@@ -82,9 +107,7 @@ class Room {
     std::array<BaseGroup*,    ROOM_MAX_LAYER * 2>       __ToRender; /*                            */
     std::array<Base*,         ROOM_MAX_CAMERA + 1>      __Cameras;  /*                            */
     Instruction                                         __renderInstruction;
-    std::array<RenderTexture2D, 255>                    __layers;
-    size_t                                              __layerNumber  = 0;
-    size_t                                              __currentLayer = 0;
+    std::array<t_layer, 255>                            __layers;
     //! old-> v ^ <- new
     BaseGroup                                           __cameraList;
     std::array<RoomRenderCamera, ROOM_MAX_CAMERA + 1>   __renderlist;
@@ -99,7 +122,6 @@ class Room {
     char                      __name[MAX_NAME_LEN + 1];
     //
 };
-
 
 
 #endif // __ROOM__

@@ -23,6 +23,10 @@ root("root"),  __cameraList("cameraList"), __engineUi("EngineUi")
     __renderlist[i].camera = nullptr;
     __renderlist[i].toRender = nullptr;
   }
+    for (size_t i = 0; i < __layers.max_size() ; i++) {
+    ZERO_NONE_PTR(__layers[i]);
+  }
+
   BuildUiEngine();
 }
 
@@ -136,10 +140,27 @@ bool  Room::SetRenderRule(RenderInstruction rules[3], size_t i) {
   return true;
 }
 
-RenderTexture2D&  Room::GetLayer(unsigned short i) {
-  return __layers[i];
+bool  Room::SetLayerSetting(unsigned short i, t_layerSetting& setting) {
+  if (i > __layers.max_size())
+    return false;
+  __layers[i].drawOnScrean = setting.drawOnScrean;
+  __layers[i].src = setting.src;
+  __layers[i].dest = setting.dest;
+  __layers[i].origin = setting.origin;
+  __layers[i].rotation = setting.rotation;
+  __layers[i].tint = setting.tint;
+  return true;
 }
 
+RenderTexture2D&  Room::GetLayer(unsigned short i) {
+  return __layers[i].l;
+}
+
+bool   Room::GetLayerValid(unsigned short i) const {
+  if (i > __layers.max_size())
+    return false;
+  return __layers[i].IsLValid;
+}
 
 const BaseGroup* Room::GetToRender(unsigned short i) {
   return __ToRender[i];
@@ -156,6 +177,10 @@ const Base*   Room::GetPov(unsigned short i) {
   return __Cameras[i];
 }
 
+//raper for __layer
+unsigned short   Room::GetLayerSize(void) const {
+  return __layers.max_size();
+}
 
 bool    Room::Set2DCamera(const Base2DCamera* camera, unsigned short i) {
   if (i > __Cameras.size())
@@ -174,9 +199,11 @@ bool    Room::Set3DCamera(const BaseCamera* camera  , unsigned short i) {
 int   Room::InitLayer(unsigned short i, Vector2 size) {
   if (i > __layers.size())
     return 0;
-  if (!IsRenderTextureValid(__layers[i])) {
-    __layers[i] = LoadRenderTexture(size.x, size.y);
-    const int a = IsRenderTextureValid(__layers[i]);
+  if (!IsRenderTextureValid(__layers[i].l)) {
+    __layers[i].l = LoadRenderTexture(size.x, size.y);
+    const int a = IsRenderTextureValid(__layers[i].l);
+    if (a)
+      __layers[i].IsLValid = true;
     return a;
   }
   return 0;
@@ -185,10 +212,13 @@ int   Room::InitLayer(unsigned short i, Vector2 size) {
 int   Room::SetLayer(unsigned short i, Vector2 size) {
   if (i > __layers.size())
     return 0;
-  if (!IsRenderTextureValid(__layers[i])) {
-    UnloadRenderTexture(__layers[i]);
-    __layers[i] = LoadRenderTexture(size.x, size.y);
-    return IsRenderTextureValid(__layers[i]);
+  if (!IsRenderTextureValid(__layers[i].l)) {
+    UnloadRenderTexture(__layers[i].l);
+    __layers[i].l = LoadRenderTexture(size.x, size.y);
+    const int a = IsRenderTextureValid(__layers[i].l);
+    if (a)
+      __layers[i].IsLValid = true;
+    return a;
   }
   return 0;
 }
@@ -196,6 +226,9 @@ int   Room::SetLayer(unsigned short i, Vector2 size) {
 int   Room::CloseLayer(unsigned short i) {
   if (i < __layers.size())
     return 0;
-  UnloadRenderTexture(__layers[i]);
+  if (__layers[i].IsLValid) {
+    UnloadRenderTexture(__layers[i].l);
+    __layers[i].IsLValid = false;
+  }
   return 1;
 }
