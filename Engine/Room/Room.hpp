@@ -21,6 +21,18 @@ typedef enum {
   room_loading,
 } t_roomType;
 
+typedef unsigned short RenderInstruction;
+typedef std::array<RenderInstruction[3], ROOM_MAX_LAYER> Instruction;
+
+# define R_SET_LAYER( i, dest)     dest[0] = (i + 1)
+# define R_SET_CAMERA(i, dest)     dest[1] = (i + 1)
+# define R_SET_GROUP( i, dest)     dest[2] = (i + 1)
+
+
+# define R_GET_LAYER(dest)     dest[0]
+# define R_GET_CAMERA(dest)    dest[1]
+# define R_GET_GROUP(dest)     dest[2]
+
 struct RoomRenderCamera {
   BaseCamera*    camera;
   BaseGroup*     toRender;
@@ -47,21 +59,30 @@ class Room {
     bool              GetRenderData(size_t index, RoomRenderCamera& data) const;
     BaseGroup*        GetRoot(void);
     // todo
-    bool              Add2DCamera(const Base2DCamera* camera);
-    bool              Add3DCamera(const BaseCamera* camera);
+    bool              Set2DCamera(const Base2DCamera* camera, unsigned short i);
+    bool              Set3DCamera(const BaseCamera* camera  , unsigned short i);
     //
-    
+    const Instruction&  GetRenderRule(void) const;
+    bool                SetRenderRule(RenderInstruction rules[3], size_t i);
+    RenderTexture2D&    GetLayer(unsigned short i);
+    const BaseGroup*    GetToRender(unsigned short i);
+    const Base*         GetPov(unsigned short i);
+    //
+    int  SetToRender(BaseGroup* group, unsigned short i);
+    //
+    int                 InitLayer(unsigned short i, Vector2 size);
+    int                 SetLayer(unsigned short i, Vector2 size);
+    int                 CloseLayer(unsigned short i);
     //
   protected:
     //
     //
   private:
     //todo v
-    std::array<BaseGroup*,    ROOM_MAX_CAMERA + 1>      __ToRender;   /*                            */
-    std::array<Base2DCamera*, ROOM_MAX_CAMERA + 1>      __2DCameras;  /*index is later of rendering */
-    std::array<BaseCamera*  , ROOM_MAX_CAMERA + 1>      __3DCameras;  /*                            */
-    int                                                 __currentRenderMode = 0;
-    std::array<RenderTexture2D, ROOM_MAX_LAYER>         __layers;
+    std::array<BaseGroup*,    ROOM_MAX_LAYER * 2>       __ToRender; /*                            */
+    std::array<Base*,         ROOM_MAX_CAMERA + 1>      __Cameras;  /*                            */
+    Instruction                                         __renderInstruction;
+    std::array<RenderTexture2D, 255>                    __layers;
     size_t                                              __layerNumber  = 0;
     size_t                                              __currentLayer = 0;
     //! old-> v ^ <- new

@@ -231,7 +231,8 @@ void  __setCursor(bool mode) {
 /// @return 
 int   IceFactory::UpdateEngine(void) {
   //ClearBackground(BLANK); //! render job? yes :>
-  __renderEngine.Draw();
+  __renderEngine.Update();
+  //__renderEngine.Draw();
   const int status = UpdateInpus() + UpdateEvent();
   Audios.Update();
   if (__EngineEvent[Event_window_resized]) {

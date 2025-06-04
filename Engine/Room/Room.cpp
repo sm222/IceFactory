@@ -120,3 +120,82 @@ BaseGroup*  Room::GetRoot(void) {
 void   Room::BuildUiEngine(void) {
   // Todo: build terminal and main menu
 }
+
+
+const std::array<RenderInstruction[3], ROOM_MAX_LAYER>& \
+Room::GetRenderRule(void) const {
+  return __renderInstruction;
+}
+
+bool  Room::SetRenderRule(RenderInstruction rules[3], size_t i) {
+  if (i > __renderInstruction.size())
+    return false;
+  for (short j = 0; j < 3; j++) {
+    __renderInstruction[i][j] = rules[j];
+  }
+  return true;
+}
+
+RenderTexture2D&  Room::GetLayer(unsigned short i) {
+  return __layers[i];
+}
+
+
+const BaseGroup* Room::GetToRender(unsigned short i) {
+  return __ToRender[i];
+}
+
+int  Room::SetToRender(BaseGroup* group, unsigned short i) {
+  if (i > __ToRender.size())
+    return 0;
+  __ToRender[i] = group;
+  return 1;
+}
+
+const Base*   Room::GetPov(unsigned short i) {
+  return __Cameras[i];
+}
+
+
+bool    Room::Set2DCamera(const Base2DCamera* camera, unsigned short i) {
+  if (i > __Cameras.size())
+    return false;
+  __Cameras[i] = (Base*)camera;
+  return true;
+}
+
+bool    Room::Set3DCamera(const BaseCamera* camera  , unsigned short i) {
+  if (i > __Cameras.size())
+    return false;
+  __Cameras[i] = (Base*)camera;
+  return true;
+}
+
+int   Room::InitLayer(unsigned short i, Vector2 size) {
+  if (i > __layers.size())
+    return 0;
+  if (!IsRenderTextureValid(__layers[i])) {
+    __layers[i] = LoadRenderTexture(size.x, size.y);
+    const int a = IsRenderTextureValid(__layers[i]);
+    return a;
+  }
+  return 0;
+}
+
+int   Room::SetLayer(unsigned short i, Vector2 size) {
+  if (i > __layers.size())
+    return 0;
+  if (!IsRenderTextureValid(__layers[i])) {
+    UnloadRenderTexture(__layers[i]);
+    __layers[i] = LoadRenderTexture(size.x, size.y);
+    return IsRenderTextureValid(__layers[i]);
+  }
+  return 0;
+}
+
+int   Room::CloseLayer(unsigned short i) {
+  if (i < __layers.size())
+    return 0;
+  UnloadRenderTexture(__layers[i]);
+  return 1;
+}

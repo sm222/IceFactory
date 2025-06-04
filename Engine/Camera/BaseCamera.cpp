@@ -87,7 +87,6 @@ void  BaseCamera::SetRotation(const float rotation) {
 }
 
 const Camera3D BaseCamera::GetCamera(void) const {
-  DEBUG_P(orange, "BaseCamera::GetCamera %s", this->GetName());
   return __camera;
 }
 

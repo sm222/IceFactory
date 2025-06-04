@@ -87,7 +87,7 @@ void   Render::Draw(void) const {
 }
 
 
-bool   Render::SetRoom(const Room* room) {
+bool   Render::SetRoom(Room* room) {
   if (!room) {
     DEBUG_P(red, "Render::SetRoom no room was given");
     return false;
@@ -102,4 +102,105 @@ bool   Render::RemoveRoom(void) {
     return true;
   }
   return false;
+}
+
+
+static unsigned int __DrawGroupType(const BaseGroup& group, const unsigned short t) {
+  unsigned int totalPass = 1;
+  for (size_t i = 0; i < group.Size(); i++) {
+    const Base* ptr = group.GetByIndex(i);
+    const char* type = ptr->GetType();
+    if (strcmp(type, TYPE_BASE_GROUP) == 0)
+      totalPass += __DrawGroupType((const BaseGroup&)*ptr, t);
+    else {
+      if (ptr->GetDrawType() == t) {
+        totalPass++;
+        ptr->Draw(ptr->GetMetod());
+      }
+    }
+  }
+  return totalPass;
+}
+
+
+int DrawFrame3D(const BaseCamera& camera, const BaseGroup& group, RenderTexture2D& layer) {
+  BeginTextureMode(layer);
+  ClearBackground(BLANK);
+  BeginMode3D(camera.GetCamera());
+  __DrawGroupType(group, 3);
+  EndMode3D();
+  EndTextureMode();
+  return 0;
+}
+
+
+static int DrawFrame(const Base* camera, const BaseGroup& group, RenderTexture2D& layer) {
+  int error = 0;
+  if (!camera)
+    return ++error;
+  const char* type = camera->GetType();
+  if (strcmp(BASE_CAMERA, type) == 0) {
+    BaseCamera& renderDevice = *(BaseCamera*)camera;
+    DrawFrame3D(renderDevice, group, layer);
+  }
+  else if (strcmp("camera_2D", type) == 0) {
+    printf(" -");
+  }
+  else {
+    error++;
+  }
+  return error;
+}
+
+
+int   Render::Update(void) {
+  int error = 0;
+  if (!__current)
+    return ++error;
+  const Instruction& in = __current->GetRenderRule();
+  for (size_t i = 0; i < in.size(); i++) {
+    const RenderInstruction c = R_GET_CAMERA(in[i]);
+    const RenderInstruction l = R_GET_LAYER(in[i]);
+    const RenderInstruction g = R_GET_GROUP(in[i]);
+    if (!c && !l && !g)
+      continue ;
+    else if (!c || !l || !g) {
+      DEBUG_P(red, "Render::Update c:%d l:%d g:%d", c, l, g);
+      error++;
+      continue ;
+    }
+    RenderTexture2D& r = __current->GetLayer(i);
+    if (!IsRenderTextureValid(r)) {
+      DEBUG_P(red, "Render::Update [%zu]Rtexture not valid", i);
+      error++;
+      continue ;
+    }
+    const BaseGroup* group = __current->GetToRender(i);
+    if (!group || !group->Size()) {
+      error++;
+      DEBUG_P(red, "Render::Update [%zu]no group", i);
+      continue ;
+    }
+    group->PrintTree();
+    const Base* camera = __current->GetPov(i);
+    if (!camera) {
+      DEBUG_P(red, "Render::Update [%zu] messing camera", i);
+      error++;
+      continue ;
+    }
+    DrawFrame(camera, *group, r);
+  }
+  BeginDrawing();
+  ClearBackground(BLACK);
+  for (unsigned short i = 0; i < 10; i++) {
+    RenderTexture2D& t = __current->GetLayer(i);
+    if (IsRenderTextureValid(t)) {
+      const Rectangle src = {0,0, (float)t.texture.width, -(float)t.texture.height};
+      DrawText("abc", 0, 20, 20, GREEN);
+      DrawTextureRec(t.texture, src, (Vector2){0,0}, WHITE);
+    }
+  }
+  DrawFPS(0, 0);
+  EndDrawing();
+  return error;
 }

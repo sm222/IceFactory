@@ -203,3 +203,8 @@ void   Base::__DrawInheritance(void) {
     i++;
   }
 }
+
+
+unsigned short  Base::GetDrawType(void) const {
+  return __drawType;
+}

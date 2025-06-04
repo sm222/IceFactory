@@ -48,6 +48,13 @@ void loop(IceFactory& engine) {
   engine.AddCameraToUpdateList(&testCam);
   engine._root.Add(&testCam);
   Room* r = engine.GetRoom(0);
+  RenderInstruction rule[3];
+  R_SET_CAMERA(0, rule);
+  R_SET_LAYER(0, rule);
+  R_SET_GROUP(0, rule);
+  r->SetRenderRule(rule, 0);
+  r->Set3DCamera(&PlayerCamera, 0);
+  r->SetLayer(0, small);
   MeshObject mesh("mesh");
   mesh.SetModel(engine.Models.Get("Engine/Resource/Models/Axis_Cube.m3d"));
   Object t("test");
@@ -66,6 +73,8 @@ void loop(IceFactory& engine) {
   t.interface.Get(0, V);
   V._ft.void_void(t);
   newG.Add(&t);
+  
+  r->SetToRender(&GameTest, 0);
   engine._root.Add(&newG);
   engine._root.Add(&newG);
   engine._root.Remove("mewG");

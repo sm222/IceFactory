@@ -13,14 +13,15 @@ class Render {
     ~Render(void);
     //
     void    Draw(void) const;
-    bool    SetRoom(const Room* room);
+    bool    SetRoom(Room* room);
     bool    RemoveRoom(void);
+    int     Update(void) ;
   protected:
     //
   private:
     //
     void               DrawRoom(const Room& room) const;
-    const Room*      __current;
+    Room*            __current;
     bool             __debug;
     //
 };
