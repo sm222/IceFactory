@@ -19,7 +19,7 @@ class Object : public Base {
     virtual ~Object(void);
     //
     static void Info(Base& self);
-    void        Draw(int metod) const { (void)metod; };
+    virtual void  Draw(int metod) const { (void)metod; };
   protected:
     Object(const char* name, unsigned short drawType);
     Object(const std::string& name, unsigned short drawType);

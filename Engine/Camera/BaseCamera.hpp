@@ -14,6 +14,8 @@ enum {
   camera_run = 2,
 };
 
+
+//! outdate
 typedef enum {
   none,
   camera_texture,      // output all inside of a 2DrenderTexture
@@ -24,6 +26,7 @@ typedef enum {
 // (Camera camera, Texture2D texture, Rectangle source, Vector3 position,
 // Vector3 up, Vector2 size, Vector2 origin, float rotation, Color tint)
 
+//! outdate
 typedef struct {
   Camera3D  pov;
   Texture2D texture;

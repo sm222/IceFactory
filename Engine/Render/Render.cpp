@@ -133,6 +133,16 @@ int DrawFrame3D(const BaseCamera& camera, const BaseGroup& group, RenderTexture2
   return 0;
 }
 
+int DrawFrame2D(const Camera2D& camera, const BaseGroup& group, RenderTexture2D& layer) {
+  BeginTextureMode(layer);
+  ClearBackground(BLANK);
+  BeginMode2D(camera);
+  __DrawGroupType(group, 2);
+  EndMode2D();
+  EndTextureMode();
+  return 0;
+}
+
 
 static int DrawFrame(const Base* camera, const BaseGroup& group, RenderTexture2D& layer) {
   int error = 0;
@@ -143,8 +153,10 @@ static int DrawFrame(const Base* camera, const BaseGroup& group, RenderTexture2D
     BaseCamera& renderDevice = *(BaseCamera*)camera;
     DrawFrame3D(renderDevice, group, layer);
   }
-  else if (strcmp("camera_2D", type) == 0) {
-    printf(" -");
+  else if (strcmp(BASE_CAMERA_2D, type) == 0) {
+    const Base2DCamera& ref = *(Base2DCamera*)(camera);
+    const Camera2D& c = ref.GetCamera();
+    DrawFrame2D(c, group, layer);
   }
   else {
     error++;
@@ -162,42 +174,35 @@ int   Render::Update(void) {
     const RenderInstruction c = R_GET_CAMERA(in[i]);
     const RenderInstruction l = R_GET_LAYER(in[i]);
     const RenderInstruction g = R_GET_GROUP(in[i]);
-    if (!c && !l && !g)
+    if (!(R_IS_VALID_LAYER(in[i])))
       continue ;
-    else if (!c || !l || !g) {
-      DEBUG_P(red, "Render::Update c:%d l:%d g:%d", c, l, g);
-      error++;
-      continue ;
-    }
-    if (!__current->GetLayerValid(i)) {
-      DEBUG_P(red, "Render::Update [%zu]Rtexture not valid", i);
-      error++;
-      continue ;
-    }
-    const BaseGroup* group = __current->GetToRender(i);
+    const BaseGroup* group = __current->GetToRender(g);
     if (!group || !group->Size()) {
       error++;
       DEBUG_P(red, "Render::Update [%zu]no group", i);
       continue ;
     }
-    const Base* camera = __current->GetPov(i);
+    const Base* camera = __current->GetPov(c);
     if (!camera) {
       DEBUG_P(red, "Render::Update [%zu] messing camera", i);
       error++;
       continue ;
     }
-    DrawFrame(camera, *group, __current->GetLayer(i));
+    DrawFrame(camera, *group, __current->GetLayer(l));
   }
   BeginDrawing();
-  ClearBackground(BLACK);
-  for (unsigned short i = 0; i < __current->GetLayerSize(); i++) {
+  ClearBackground(BLANK);
+  for (unsigned short i = 0; i < 10; i++) {
     RenderTexture2D& t = __current->GetLayer(i);
     if (IsRenderTextureValid(t)) {
       const Rectangle src = {0,0, (float)t.texture.width, -(float)t.texture.height};
+      DEBUG_P(blue, "run > %d", i);
       DrawTextureRec(t.texture, src, (Vector2){0,0}, WHITE);
+      const Color C = (Color){0,255,0,60};
+      DrawRectangleLinesEx((Rectangle){0,0, (float)t.texture.width, (float)t.texture.height}, 4, C);
     }
   }
-  DrawFPS(0, 0);
+  DrawFPS(700, 700);
   EndDrawing();
   //DrawTexturePro(
   //  Texture2D texture, 

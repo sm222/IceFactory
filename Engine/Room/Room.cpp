@@ -24,7 +24,7 @@ root("root"),  __cameraList("cameraList"), __engineUi("EngineUi")
     __renderlist[i].toRender = nullptr;
   }
     for (size_t i = 0; i < __layers.max_size() ; i++) {
-    ZERO_NONE_PTR(__layers[i]);
+      memset(&__layers[i], 0, sizeof(t_layer));
   }
 
   BuildUiEngine();

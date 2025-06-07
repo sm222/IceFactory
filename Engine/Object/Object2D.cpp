@@ -34,8 +34,11 @@ Object2D::~Object2D(void) {
 
 
 void   Object2D::Draw(int metod) const {
-  if (metod == R_none)
+  if (metod == -1)
+    DrawRectangleLinesEx(__hitBox, 50, ORANGE);
+  if (metod == R_none) {
     return;
+  }
   if (metod == R_hitbox || metod == R_wire) {
     DrawRectangleLinesEx(__hitBox, 1, RED);
   }

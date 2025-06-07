@@ -24,14 +24,17 @@ typedef enum {
 typedef unsigned short RenderInstruction;
 typedef std::array<RenderInstruction[3], ROOM_MAX_LAYER> Instruction;
 
-# define R_SET_LAYER( i, dest)     dest[0] = (i + 1)
-# define R_SET_CAMERA(i, dest)     dest[1] = (i + 1)
-# define R_SET_GROUP( i, dest)     dest[2] = (i + 1)
+# define R_SET_LAYER( i, dest) dest[0] = (i + 1)
+# define R_SET_CAMERA(i, dest) dest[1] = (i + 1)
+# define R_SET_GROUP( i, dest) dest[2] = (i + 1)
 
+# define R_IS_VALID_LAYER( dest) dest[0] > 0 ? true : false
+# define R_IS_VALID_CAMERA(dest) dest[1] > 0 ? true : false
+# define R_IS_VALID_GROUP( dest) dest[2] > 0 ? true : false
 
-# define R_GET_LAYER(dest)     dest[0]
-# define R_GET_CAMERA(dest)    dest[1]
-# define R_GET_GROUP(dest)     dest[2]
+# define R_GET_LAYER(dest)     dest[0] - 1
+# define R_GET_CAMERA(dest)    dest[1] - 1
+# define R_GET_GROUP(dest)     dest[2] - 1
 
 struct RoomRenderCamera {
   BaseCamera*    camera;

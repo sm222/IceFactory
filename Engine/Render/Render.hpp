@@ -20,6 +20,7 @@ class Render {
     //
   private:
     //
+    const Camera2D   __defaultPov = {(Vector2){0,0}, (Vector2){0,0}, 0, 1};
     void               DrawRoom(const Room& room) const;
     Room*            __current;
     bool             __debug;

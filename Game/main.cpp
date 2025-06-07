@@ -2,6 +2,7 @@
 # include "../Engine/Object/DevCube.hpp"
 # include "../Engine/Camera/BaseCamera.hpp"
 # include "../Engine/Type/RenderType.hpp"
+# include "../Engine/Draw2D/DrawTexture2D.hpp"
 //# include "../Engine/Ui/UiBaseTextBox.hpp"
 
 
@@ -42,6 +43,8 @@ void loop(IceFactory& engine) {
   tr.a /= 5;
   testCam.SetColors(GRAY, tr);
   //
+  DrawTexture2D d2d("2d");
+  //
   engine.Textures2D.Add("Engine/Resource/Image/cat.jpg");
   engine.Models.Add("Engine/Resource/Models/Axis_Cube.m3d");
   engine.AddCameraToUpdateList(&PlayerCamera);
@@ -54,40 +57,52 @@ void loop(IceFactory& engine) {
   R_SET_GROUP(0, rule);
   r->SetRenderRule(rule, 0);
   r->Set3DCamera(&PlayerCamera, 0);
-  r->SetLayer(0, small);
+  r->SetLayer(0, small / 2);
+  
+  //r->SetRenderRule(rule, 1);
+  RenderTexture2D& texture2D = r->GetLayer(0);
+  r->SetLayer(1, small);
+  std::cout << d2d.SetTexture(texture2D.texture);
+  d2d.SetSize(small);
+  R_SET_CAMERA(1, rule);
+  R_SET_LAYER(1, rule);
+  R_SET_GROUP(1, rule);
+  r->SetRenderRule(rule, 1);
   MeshObject mesh("mesh");
   mesh.SetModel(engine.Models.Get("Engine/Resource/Models/Axis_Cube.m3d"));
   Object t("test");
+  //
   DevCube cube("cube");
   cube.SetSize({0.5, 0.5, 0.5});
   cube.SetShape(0);
   cube.SetMetod(R_wire);
+  //
   BaseGroup  GameTest("gametest");
   GameTest.Add(&t);
   GameTest.Add(&cube);
   GameTest.Add(&mesh);
-  r->SetToRender(0, &GameTest, 0);
-  r->SetToRender(1, &GameTest, 1);
+  //
+  BaseGroup  GameUi("ui");
+  Object2D   box2D("box2d");
+  GameUi.Add(&box2D);
+  GameUi.Add(&d2d);
+  Rectangle awd = (Rectangle){600,600,300,200};
+  box2D.SetHitBox(awd);
+  Base2DCamera cam2D("cam2d");
+  r->Set2DCamera(&cam2D, 1);
+  r->SetToRender(&GameUi, 1);
+  r->SetToRender(&GameTest, 0); /// game visual
   BaseGroup newG("mewG");
   t_BaseInterface V;
   t.interface.Get(0, V);
   V._ft.void_void(t);
   newG.Add(&t);
   
-  r->SetToRender(&GameTest, 0);
-  engine._root.Add(&newG);
-  engine._root.Add(&newG);
-  engine._root.Remove("mewG");
-  engine._root.Add(&newG);
-  engine._root.PrintTree();
-  engine._root.Remove("mewG");
-  engine._root.Remove("mewG");
-  //
-  engine.Audios.Add("Engine/Resource/Sound/clap.mp3");
+  // Sound
   engine.Audios.AddSound("Engine/Resource/Sound/clap.mp3");
+  //
   HideCursor();
   DisableCursor();
-  //
   int status = IceFactory::GetEngineStatus();
   while (status == S_EngineRun || status == S_EnginePause) {
     //usleep(50000);
