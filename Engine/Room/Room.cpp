@@ -223,6 +223,10 @@ int   Room::SetLayer(unsigned short i, Vector2 size) {
   return 0;
 }
 
+const t_layer&   Room::GetLayerData(unsigned short i) {
+  return __layers[i];
+}
+
 int   Room::CloseLayer(unsigned short i) {
   if (i < __layers.size())
     return 0;

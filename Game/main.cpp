@@ -57,8 +57,7 @@ void loop(IceFactory& engine) {
   R_SET_GROUP(0, rule);
   r->SetRenderRule(rule, 0);
   r->Set3DCamera(&PlayerCamera, 0);
-  r->SetLayer(0, small / 2);
-  
+  r->SetLayer(0, small / 4);
   //r->SetRenderRule(rule, 1);
   RenderTexture2D& texture2D = r->GetLayer(0);
   r->SetLayer(1, small);
@@ -83,11 +82,7 @@ void loop(IceFactory& engine) {
   GameTest.Add(&mesh);
   //
   BaseGroup  GameUi("ui");
-  Object2D   box2D("box2d");
-  GameUi.Add(&box2D);
   GameUi.Add(&d2d);
-  Rectangle awd = (Rectangle){600,600,300,200};
-  box2D.SetHitBox(awd);
   Base2DCamera cam2D("cam2d");
   r->Set2DCamera(&cam2D, 1);
   r->SetToRender(&GameUi, 1);
@@ -97,7 +92,17 @@ void loop(IceFactory& engine) {
   t.interface.Get(0, V);
   V._ft.void_void(t);
   newG.Add(&t);
-  
+  t_layerSetting sett;
+  ZERO_NONE_PTR(sett);
+  sett.drawOnScrean = true;
+  sett.dest.x = 50;
+  sett.dest.y = 50;
+  sett.dest.width = 1500;
+  sett.dest.height = 800;
+  sett.tint = WHITE;
+  sett.origin = {0,0};
+  sett.rotation = 0;
+  r->SetLayerSetting(1, sett);
   // Sound
   engine.Audios.AddSound("Engine/Resource/Sound/clap.mp3");
   //

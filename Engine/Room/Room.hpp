@@ -100,6 +100,7 @@ class Room {
     //
     int                 InitLayer(unsigned short i, Vector2 size);
     int                 SetLayer(unsigned short i, Vector2 size);
+    const t_layer&      GetLayerData(unsigned short i);
     int                 CloseLayer(unsigned short i);
     //
   protected:

@@ -192,14 +192,13 @@ int   Render::Update(void) {
   }
   BeginDrawing();
   ClearBackground(BLANK);
-  for (unsigned short i = 0; i < 10; i++) {
-    RenderTexture2D& t = __current->GetLayer(i);
-    if (IsRenderTextureValid(t)) {
-      const Rectangle src = {0,0, (float)t.texture.width, -(float)t.texture.height};
-      DEBUG_P(blue, "run > %d", i);
-      DrawTextureRec(t.texture, src, (Vector2){0,0}, WHITE);
+  for (unsigned short i = 0; i < 255; i++) {
+    const t_layer& data = __current->GetLayerData(i);
+    if (data.drawOnScrean) {
+      const Rectangle src = {0,0, (float)data.l.texture.width, -(float)data.l.texture.height};
+      DrawTexturePro(data.l.texture, src, data.dest, data.origin, data.rotation, data.tint);
       const Color C = (Color){0,255,0,60};
-      DrawRectangleLinesEx((Rectangle){0,0, (float)t.texture.width, (float)t.texture.height}, 4, C);
+      DrawRectangleLinesEx((Rectangle){0,0, (float)data.l.texture.width, (float)data.l.texture.height}, 4, C);
     }
   }
   DrawFPS(700, 700);

@@ -1,4 +1,13 @@
 clean IceFactory class
-- make it simpler to call
-- have a way to soft and hard reset
-
+  - make it simpler to call 
+✅- have a way to soft and hard reset
+  - make ui
+  - consol
+✅- redo render
+  - muitiplayer/network
+  - redo input system
+  - controler suport
+  - shader
+  - iceSculter (manager level loader)
+  - Add music code
+  - setup lib at run time 
