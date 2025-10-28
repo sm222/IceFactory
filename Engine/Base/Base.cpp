@@ -3,7 +3,7 @@
 t_id  Base::__totalId = 0; // id
 
 Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
-  DEBUG_P(magenta, "Base::char %s", name);
+  DEBUG_P(TXT_MAG, "Base::char %s", name);
   memset(__inheritance, 0, sizeof(char*) * MAX_INHERITANCE);
   __AddInheritance();
   __DrawInheritance();
@@ -23,7 +23,7 @@ Base::Base(const char* name, unsigned short drawType) : Base(name) {
 
 Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
   memset(__inheritance, 0, sizeof(char*) * MAX_INHERITANCE);
-  DEBUG_P(magenta, "Base::string %s", name.c_str());
+  DEBUG_P(TXT_MAG, "Base::string %s", name.c_str());
   SetName(name);
   SetFtList();
   __AddInheritance();
@@ -41,7 +41,7 @@ Base::Base(const std::string& name, unsigned short drawType) : Base(name) {
 }
 
 Base::~Base(void) {
-  DEBUG_P(magenta, "Base::~");
+  DEBUG_P(TXT_MAG, "Base::~");
 }
 
 
@@ -76,7 +76,7 @@ t_id        Base::GetId(void) const {
 
 // print name, type and id
 void      Base::PrintId(void) const {
-  DEBUG_P(cyan, "Name:%s Type:%s Id:%u", this->__name, this->__type, this->__id);
+  DEBUG_P(TXT_CYN, "Name:%s Type:%s Id:%u", this->__name, this->__type, this->__id);
 }
 
 /// @brief return the total of Base made from the start of icefactory
@@ -110,11 +110,11 @@ void Base::SetName(const std::string& name) {
 }
 
 void  Base::Help(void) {
-  DEBUG_P(blue, "Base::Help");
+  DEBUG_P(TXT_BLU, "Base::Help");
 }
 
 void    Base::Hello(Base& self) {
-  DEBUG_P(yello, "Hello from %s, Type:%s Id:%u", self.GetName(), self.GetType(), self.GetId());
+  DEBUG_P(TXT_BLU, "Hello from %s, Type:%s Id:%u", self.GetName(), self.GetType(), self.GetId());
 }
 
 void  Base::SetFtList(void) {
@@ -161,7 +161,7 @@ bool  Base::GetIsAlloc(void) {
 bool Base::__SetParent(const Base& parant) {
   if (__parent)
     return false;
-  DEBUG_P(pink, "set parant to %p", &parant);
+  DEBUG_P(TXT_PIK, "set parant to %p", &parant);
   __parent = &parant;
   return true;
 }
@@ -171,7 +171,7 @@ bool Base::__SetParent(const Base& parant) {
 bool Base::__SetParantNone(void) {
   bool rm = false;
   if (__parent) {
-    DEBUG_P(pink, "remove parant %p", __parent);
+    DEBUG_P(TXT_PIK, "remove parant %p", __parent);
     __parent = nullptr;
     rm = true;
   }

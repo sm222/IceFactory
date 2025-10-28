@@ -2,7 +2,7 @@
 
 
 AudioManager::AudioManager(void): IImport<AudioData>() {
-  DEBUG_P(magenta, "AudioManager");
+  DEBUG_P(TXT_MAG, "AudioManager");
   InitAudioDevice();
   if (!IsAudioDeviceReady())
     throw std::runtime_error("audio device faild");
@@ -13,7 +13,7 @@ AudioManager::AudioManager(void): IImport<AudioData>() {
 }
 
 AudioManager::~AudioManager(void) {
-  DEBUG_P(magenta, "AudioManager...");
+  DEBUG_P(TXT_MAG, "AudioManager...");
   if (!IsAudioDeviceReady()) {
     Clear();
     CloseAudioDevice();
@@ -21,24 +21,24 @@ AudioManager::~AudioManager(void) {
 }
 
 int  AudioManager::Add(const char* name) {
-  DEBUG_P(red, "use AddSound or AddMusic...");
-  DEBUG_P(red, "fail to add %s", !name ? "noname" : name);
+  DEBUG_P(TXT_RED, "use AddSound or AddMusic...");
+  DEBUG_P(TXT_RED, "fail to add %s", !name ? "noname" : name);
   return 1;
 }
 
 int  AudioManager::AddSound(const char* name) {
   if(!name) {
-    DEBUG_P(red, "fail to add audio missing name");
+    DEBUG_P(TXT_RED, "fail to add audio missing name");
     return 1;
   }
   if (IsAllReadyLoadSound(name)) {
-    DEBUG_P(red, "AddSound: %s is all ready load in", name);
+    DEBUG_P(TXT_RED, "AddSound: %s is all ready load in", name);
     return 2;
   }
   Sound s = LoadSound(name);
   if (IsSoundValid(s)) {
     __sounds[std::string(name)] = s;
-    DEBUG_P(cyan, "add %s to sounds", name);
+    DEBUG_P(TXT_CYN, "add %s to sounds", name);
     return 0;
   }
   return 1;
@@ -46,7 +46,7 @@ int  AudioManager::AddSound(const char* name) {
 
 int  AudioManager::AddMusic(const char* name) {
   if(!name) {
-    DEBUG_P(red, "fail to add audio missing name");
+    DEBUG_P(TXT_RED, "fail to add audio missing name");
     return 1;
   }
   return 0;
@@ -90,7 +90,7 @@ bool   AudioManager::Play(const char* name) {
         break;
     }
     if (i < MAX_SOUND_PLAYING) {
-      DEBUG_P(green, "AudioManager::Play %s [%u]", name, i);
+      DEBUG_P(TXT_GRN, "AudioManager::Play %s [%u]", name, i);
       __PlayingSounds[i] = LoadSoundAlias(it->second);
       PlaySound(__PlayingSounds[i]);
       return 0;
@@ -102,14 +102,14 @@ bool   AudioManager::Play(const char* name) {
 
 bool    AudioManager::IsAllReadyLoad(const char* name) const {
   (void)name;
-  DEBUG_P(red, "IsAllReadyLoad call" \
+  DEBUG_P(TXT_RED, "IsAllReadyLoad call" \
     "IsAllReadyLoadSound IsAllReadyLoadMusic");
   return false;
 }
 
 bool  AudioManager::IsAllReadyLoadSound(const char* name) const {
   if (!name) {
-    DEBUG_P(red, "IsAllReadyLoadSound missing name");
+    DEBUG_P(TXT_RED, "IsAllReadyLoadSound missing name");
     return false;
   }
   MapSound::const_iterator it = __sounds.find(name);
@@ -118,7 +118,7 @@ bool  AudioManager::IsAllReadyLoadSound(const char* name) const {
 
 bool  AudioManager::IsAllReadyLoadMusic(const char* name) const {
   if (!name) {
-    DEBUG_P(red, "IsAllReadyLoadMusic missing name");
+    DEBUG_P(TXT_RED, "IsAllReadyLoadMusic missing name");
     return false;
   }
   MapMusic::const_iterator it = __musics.find(name);

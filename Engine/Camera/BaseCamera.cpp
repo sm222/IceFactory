@@ -7,18 +7,18 @@ unsigned int BaseCamera::__cameraNumber = 0;
 BaseCamera::BaseCamera(const char* name) : Object(name), __CameraID(GetNewID()) {
   Default();
   __type = BASE_CAMERA;
-  DEBUG_P(magenta, "BaseCamera::char Name:%s", name);
+  DEBUG_P(TXT_MAG, "BaseCamera::char Name:%s", name);
 }
 
 BaseCamera::BaseCamera(const std::string& name) : Object(name), __CameraID(GetNewID()) {
   Default();
   __type = BASE_CAMERA;
-  DEBUG_P(magenta, "BaseCamera::char Name:%s", name.c_str());
+  DEBUG_P(TXT_MAG, "BaseCamera::char Name:%s", name.c_str());
 }
 
 bool BaseCamera::SetMode(const t_camera_mode mode) {
   if (!__active) {
-    DEBUG_P(orange, "BaseCamera::SetMode %d", mode);
+    DEBUG_P(TXT_MAG, "BaseCamera::SetMode %d", mode);
     __mode = mode;
     return true;
   }
@@ -34,27 +34,27 @@ BaseCamera::~BaseCamera(void) {
   if (IsRenderTextureValid(__RenderTexture)) {
     UnloadRenderTexture(__RenderTexture);
   }
-  DEBUG_P(magenta, "BaseCamera::~ %s", this->GetName());
+  DEBUG_P(TXT_MAG, "BaseCamera::~ %s", this->GetName());
 }
 
 void BaseCamera::SetTarget(const Vector3& position) {
   __camera.target = position;
   # if (CAMEA_LOGS)
-    DEBUG_P(green, "BaseCamera::SetTarget x:%f y:%f z:%f", position.x, position.y, position.z);
+    DEBUG_P(TXT_GRN, "BaseCamera::SetTarget x:%f y:%f z:%f", position.x, position.y, position.z);
   # endif
 }
 
 void BaseCamera::SetPosition(const Vector3& position) {
   __camera.position = position;
   # if (CAMEA_LOGS)
-  DEBUG_P(green, "BaseCamera::SetPosition x:%f y:%f z:%f", position.x, position.y, position.z);
+    DEBUG_P(TXT_GRN,"BaseCamera::SetPosition x:%f y:%f z:%f", position.x, position.y, position.z);
   # endif
 }
 
 void BaseCamera::SetPosition(float x, float y, float z) {
   this->SetPosition({x, y, z});
   # if (CAMEA_LOGS)
-    DEBUG_P(green, "BaseCamera::SetPosition x:%f y:%f z:%f", x, y, z);
+    DEBUG_P(TXT_GRN, "BaseCamera::SetPosition x:%f y:%f z:%f", x, y, z);
   # endif
 }
 
@@ -108,7 +108,7 @@ bool BaseCamera::SetCanvas(const Vector2& size) {
 
 void  BaseCamera::Update(const Vector3& movement, const Vector3& rotate, const float& zoom) {
   # if (CAMEA_LOGS && 0)
-    DEBUG_P(green, "BaseCamera::Update\nmove-> x:%f y:%f z:%f\nrotate-> x:%f y:%f z:%f zoom: %f", \
+    , "BaseCamera::Update\nmove-> x:%f y:%f z:%f\nrotate-> x:%f y:%f z:%f zoom: %f", \
     movement.x, movement.y, movement.z, rotate.x, rotate.y, rotate.z, zoom);
   # endif
   UpdateCameraPro(&__camera, movement, rotate, zoom);

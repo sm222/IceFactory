@@ -15,11 +15,11 @@ const char* const _dependency[] = {
 bool IceFactory::TestDependency(void) {
   for (size_t i = 0; _dependency[i]; i++) {
     if (access(_dependency[i], R_OK) != 0) {
-      DEBUG_P(red, "IceFactory::TestDependency ✕%s", _dependency[i]);
+      DEBUG_P(TXT_RED, "IceFactory::TestDependency ✕%s", _dependency[i]);
       perror("access");
       return false;
     }
-    DEBUG_P(green, "IceFactory::TestDependency ✓%s", _dependency[i]);
+    DEBUG_P(TXT_GRN, "IceFactory::TestDependency ✓%s", _dependency[i]);
   }
   return true;
 }
@@ -36,7 +36,7 @@ void IceFactory::_SetFpsControl(void) {
 int   IceFactory::Start(void) {
   const int status = GetEngineStatus();
   if (status != S_EngineBuild && status != S_EngineStop && status != S_EngineReboot) {
-    DEBUG_P(red, "IceFactory::Start engine status %d", status);
+    DEBUG_P(TXT_RED, "IceFactory::Start engine status %d", status);
     return 0;
   }
   for (size_t i = 0; i < MAX_ROOM + 1; i++) {
@@ -68,13 +68,13 @@ _root("root"), __currentRoom(nullptr), __screenSize({1000, 1000}), __inputSelect
 __numberGamepads(0)
 {
   __gameName = ("test");
-  DEBUG_P(magenta, "IceFactory::");
+  DEBUG_P(TXT_MAG, "IceFactory::");
   SetEngineStatus(S_EngineBuild);
   // error and debug
 }
 
 IceFactory::~IceFactory(void) {
-  DEBUG_P(magenta, "IceFactory::~");
+  DEBUG_P(TXT_MAG, "IceFactory::~");
 }
 // - - - - - - - - - - - - - - - -
 
@@ -89,7 +89,7 @@ const Vector2 IceFactory::GetMonitorSize(void) {
     const int monitor  = GetCurrentMonitor();
     const float width  = GetMonitorWidth(monitor) ;
     const float height = GetMonitorHeight(monitor);
-    DEBUG_P(green, "IceFactory::GetMonitorSize monitor:%d width%f height%f", monitor, width, height);
+    DEBUG_P(TXT_ORG, "IceFactory::GetMonitorSize monitor:%d width%f height%f", monitor, width, height);
     return ((Vector2){width, height});
   }
   return ((Vector2){0, 0});
@@ -98,7 +98,7 @@ const Vector2 IceFactory::GetMonitorSize(void) {
 const Vector2 IceFactory::GetWindowSize(void) {
   if (IceFactory::GetEngineStatus()) {
     const Vector2  WindowSize = (Vector2){(float)GetRenderWidth() ,(float)GetRenderHeight()};
-    DEBUG_P(green, "IceFactory::GetWindowSize Width:%f Height:%f", WindowSize.x, WindowSize.y);
+    DEBUG_P(TXT_ORG, "IceFactory::GetWindowSize Width:%f Height:%f", WindowSize.x, WindowSize.y);
     return (WindowSize);
   }
   return ((Vector2){0, 0});
@@ -113,7 +113,7 @@ int  IceFactory::initEngine(void) {
   InitRaylib();
   const int monitor = GetCurrentMonitor();
   const int fpsTarget = GetMonitorRefreshRate(monitor);
-  DEBUG_P(orange, "IceFactory::initEngine monitor:%d -> targetFps:%d", monitor, fpsTarget);
+  DEBUG_P(TXT_ORG, "IceFactory::initEngine monitor:%d -> targetFps:%d", monitor, fpsTarget);
   SetTargetFPS(fpsTarget);
   return 1;
 }
@@ -143,12 +143,12 @@ bool IceFactory::InitRaylib(void) {
     SetWindowSize(__screenSize.x, __screenSize.y);
     Models.Add(ERR_MESH);
     if (!IsModelValid(Models.Get(ERR_MESH))) {
-      DEBUG_P(red, "error loading");
+      DEBUG_P(TXT_RED, "error loading");
     }
     __what = Models.Get(ERR_MESH);
   }
   else {
-    DEBUG_P(red, "raylib run all ready");
+    DEBUG_P(TXT_RED, "raylib run all ready");
   }
   return true;
 }
@@ -242,7 +242,7 @@ int   IceFactory::UpdateEngine(void) {
     #ifdef HOT_RELOAD
     SetEngineStatus(S_EngineReboot);
     #else
-    DEBUG_P(red, "hot reload not support");
+    DEBUG_P(TXT_RED, "hot reload not support");
     #endif
   }
   if (IsKeyPressed(KEY_ESCAPE)) { SetEngineStatus(S_EngineUnload); }
@@ -289,11 +289,11 @@ Model*  IceFactory::GiveWhatModel(void) {
 
 bool  IceFactory::AddCameraToUpdateList(BaseCamera* camera) {
   if (!camera) {
-    DEBUG_P(red, "IceFactory::AddCameraToUpdateList no camera");
+    DEBUG_P(TXT_RED, "IceFactory::AddCameraToUpdateList no camera");
     return false;
   }
   if (!__currentRoom) {
-    DEBUG_P(red, "IceFactory::AddCameraToUpdateList no room!?");
+    DEBUG_P(TXT_RED, "IceFactory::AddCameraToUpdateList no room!?");
     return false;
   }
   __currentRoom->AddCamera(camera);
@@ -317,7 +317,7 @@ Room* IceFactory::GetRoom(size_t index) {
 
 
 void   IceFactory::SetKeyMapToKey(t_ControlKeys action, KeyboardKey key) {
-  DEBUG_P(orange, "action[%d] key%d", action, key);
+  DEBUG_P(TXT_ORG, "action[%d] key%d", action, key);
   __keyMapBind[action] = key;
 }
 

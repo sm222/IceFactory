@@ -7,16 +7,16 @@ void   BaseGroup::Zero(void) {
 
 BaseGroup::BaseGroup(const char* name) : Base(name) {
   __type = TYPE_BASE_GROUP;
-  DEBUG_P(magenta, "BaseGroup::char %s", name);
+  DEBUG_P(TXT_MAG, "BaseGroup::char %s", name);
   SetName(name);
 }
 
 BaseGroup::BaseGroup(const std::string& name) : BaseGroup(name.c_str()) {
-  DEBUG_P(magenta, "BaseGroup::string %s", name.c_str());
+  DEBUG_P(TXT_MAG, "BaseGroup::string %s", name.c_str());
 }
 
 BaseGroup::~BaseGroup(void) { 
-  DEBUG_P(magenta, "BaseGroup::~");
+  DEBUG_P(TXT_MAG, "BaseGroup::~");
 }
 
 
@@ -74,7 +74,7 @@ Base*   BaseGroup::GetByIndex(const size_t index) const {
 
 void BaseGroup::PrintTree(void) const {
   const char* name = this->GetName();
-  Debug("", 0, nullptr, green, name);
+  Debug("", 0, nullptr, TXT_GRN, name);
   std::vector<Base*>::const_iterator it;
   for (it = __root.begin(); it != __root.end(); it++) {
     const char* type = (*it)->GetType();
@@ -83,7 +83,7 @@ void BaseGroup::PrintTree(void) const {
       ref.PrintTree(1);
     }
     else {
-      Debug("", 1, nullptr, green, "\tname:%s type:%s" ,(*it)->GetName(), (*it)->GetType());
+      Debug("", 1, nullptr, TXT_GRN, "\tname:%s type:%s" ,(*it)->GetName(), (*it)->GetType());
     }
   }
 }
@@ -96,7 +96,7 @@ void BaseGroup::PrintTree(int def) const {
   else
     space[98] = 0;
   const char* name = this->GetName();
-  Debug("", def, nullptr, green, "\t%s", name);
+  Debug("", def, nullptr, TXT_GRN, "\t%s", name);
   std::vector<Base*>::const_iterator it;
   for (it = __root.begin(); it != __root.end(); it++) {
     const char* type = (*it)->GetType();
@@ -105,7 +105,7 @@ void BaseGroup::PrintTree(int def) const {
       ref.PrintTree(def + 1);
     }
     else {
-      Debug("", def + 1, nullptr, green, "%sname:%s type:%s", space, (*it)->GetName(), (*it)->GetType());
+      Debug("", def + 1, nullptr, TXT_GRN, "%sname:%s type:%s", space, (*it)->GetName(), (*it)->GetType());
     }
   }
 }
@@ -116,11 +116,11 @@ bool  BaseGroup::Add(Base* obj) {
   std::vector<Base*>::iterator it;
   for (it = __root.begin(); it != __root.end(); it++) {
     if ((*it) == obj) {
-      DEBUG_P(red, "BaseGroup::Add %p(%s) is all ready in %s", obj, obj->GetName(), this->GetName());
+      DEBUG_P(TXT_RED, "BaseGroup::Add %p(%s) is all ready in %s", obj, obj->GetName(), this->GetName());
       return false;
     }
   }
-  DEBUG_P(green, "%s add %p(%s)", this->GetName(), obj, obj->GetName());
+  DEBUG_P(TXT_GRN, "%s add %p(%s)", this->GetName(), obj, obj->GetName());
   obj->__SetParent(*this);
   __root.push_back(obj);
   return true;
@@ -135,16 +135,16 @@ bool  BaseGroup::Remove(const char* name) {
     if (strncmp(name, (*it)->GetName(), nameLen) == 0) {
       (*it)->__SetParantNone();
       __root.erase(it);
-      DEBUG_P(green, "BaseGroup::Remove %s: %s", this->GetName(), name);
+      DEBUG_P(TXT_MAG, "BaseGroup::Remove %s: %s", this->GetName(), name);
       return true;
     }
   }
-  DEBUG_P(red, "BaseGroup::Remove %s: can't fine %s", this->GetName(), name);
+  DEBUG_P(TXT_RED, "BaseGroup::Remove %s: can't fine %s", this->GetName(), name);
   return false;
 }
 
 void   BaseGroup::DeAllocAll(void) {
-  DEBUG_P(pink, "BaseGroup::DeAllocAll from %s", this->__name);
+  DEBUG_P(TXT_PIK, "BaseGroup::DeAllocAll from %s", this->__name);
   std::vector<Base*>::iterator it;
   for (it = __root.begin(); it != __root.end() ; it++) {
     const char* type = (*it)->GetType();

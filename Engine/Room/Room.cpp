@@ -4,7 +4,13 @@
 Room::Room(const char* name) :
 root("root"),  __cameraList("cameraList"), __engineUi("EngineUi")
 {
-  DEBUG_P(magenta, "Room::name");
+  DEBUG_P(TXT_MAG, "Room::name");
+  Instruction::iterator it = __renderInstruction.begin();
+  for (; it != __renderInstruction.end(); it++) {
+    for (int i = 0; i < 3; i++) {
+      (*it)[i] = 0;
+    }
+  }
   if (name) {
     const size_t len = strlen(name);
     if (len < MAX_NAME_LEN) {
@@ -26,14 +32,13 @@ root("root"),  __cameraList("cameraList"), __engineUi("EngineUi")
     for (size_t i = 0; i < __layers.max_size() ; i++) {
       memset(&__layers[i], 0, sizeof(t_layer));
   }
-
   BuildUiEngine();
 }
 
 
 Room::~Room(void) {
   root.DeAllocAll();
-  DEBUG_P(magenta, "Room::~");
+  DEBUG_P(TXT_MAG, "Room::~");
 }
 
 void Room::SetRoomType(const t_roomType& type) {
@@ -46,11 +51,11 @@ t_roomType Room::GetRoomType(void) const {
 
 bool Room::AddCamera(BaseCamera* camera) {
   if (!camera || strcmp(camera->GetType(), BASE_CAMERA) != 0) {
-    DEBUG_P(red, "Room::AddCamera no camera or invalid");
+    DEBUG_P(TXT_RED, "Room::AddCamera no camera or invalid");
     return false;
   }
   if (GetNumberOfCameras() >= ROOM_MAX_CAMERA) {
-    DEBUG_P(red, "too many camera: max set by engine is %d", ROOM_MAX_CAMERA);
+    DEBUG_P(TXT_RED, "too many camera: max set by engine is %d", ROOM_MAX_CAMERA);
     return false;
   }
   __cameraList.Add(camera);
@@ -68,7 +73,7 @@ size_t  Room::GetNumberOfCameras(void) const {
 BaseCamera* Room::GetCamera(size_t i) const {
   const size_t n = GetNumberOfCameras();
   if (n <= i) {
-    DEBUG_P(red, "Room::GetCamera out of bound i%u nbr Camera %u", i, n);
+    DEBUG_P(TXT_RED, "Room::GetCamera out of bound i%u nbr Camera %u", i, n);
     return nullptr;
   }
   Base* ptr = __cameraList.GetByIndex(i);
@@ -77,19 +82,19 @@ BaseCamera* Room::GetCamera(size_t i) const {
 
 bool  Room::SetToRender(size_t index, BaseGroup* group, size_t cameraIndex) {
   if (!group) {
-    DEBUG_P(red, "Room::SetToRender no groups");
+    DEBUG_P(TXT_RED, "Room::SetToRender no groups");
     return false;
   }
   if (index >= ROOM_MAX_CAMERA) {
-    DEBUG_P(red, "Room::SetToRender bad index, max value is %d", ROOM_MAX_CAMERA);
+    DEBUG_P(TXT_RED, "Room::SetToRender bad index, max value is %d", ROOM_MAX_CAMERA);
     return false;
   }
   BaseCamera* camera = GetCamera(cameraIndex);
   if (!camera) {
-    DEBUG_P(red, "HERE");
+    DEBUG_P(TXT_RED, "HERE");
     return false;
   }
-  DEBUG_P(green, "Room::SetToRender set at %u", index);
+  DEBUG_P(TXT_GRN, "Room::SetToRender set at %u", index);
   __renderlist[index].camera = camera;
   __renderlist[index].toRender = group;
   return true;
@@ -97,7 +102,7 @@ bool  Room::SetToRender(size_t index, BaseGroup* group, size_t cameraIndex) {
 
 bool Room::UnbindToRender(size_t index) {
   if (index >= ROOM_MAX_CAMERA) {
-    DEBUG_P(red, "Room::UnbindToRender out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
+    DEBUG_P(TXT_RED, "Room::UnbindToRender out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
     return false;
   }
   __renderlist[index].camera   = nullptr;
@@ -109,7 +114,7 @@ bool  Room::GetRenderData(size_t index, RoomRenderCamera& data) const {
   data.camera = nullptr;
   data.toRender = nullptr;
   if (index >= ROOM_MAX_CAMERA) {
-    DEBUG_P(red, "Room::GetRenderData out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
+    DEBUG_P(TXT_RED, "Room::GetRenderData out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
     return false;
   }
   data = __renderlist[index];

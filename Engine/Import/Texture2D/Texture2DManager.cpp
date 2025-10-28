@@ -1,12 +1,12 @@
 #include "Texture2DManager.hpp"
 
 Texture2DManager::Texture2DManager(void): IImport() {
-  DEBUG_P(magenta, "Texture2DManager::");
+  DEBUG_P(TXT_MAG, "Texture2DManager::");
 }
 
 
 Texture2DManager::~Texture2DManager(void) {
-  DEBUG_P(magenta, "Texture2DManager::~");
+  DEBUG_P(TXT_MAG, "Texture2DManager::~");
 }
 
 
@@ -16,7 +16,7 @@ Texture2DManager::~Texture2DManager(void) {
 const Texture2D Texture2DManager::Get(const char* name) const {
   MapTexture2D::const_iterator it = __data.find(name);
   if (it != __data.end()) {
-    DEBUG_P(orange, "Texture2DManager::Get %s", name);
+    DEBUG_P(TXT_ORG, "Texture2DManager::Get %s", name);
     return it->second;
   }
   Texture2D  null;
@@ -40,17 +40,17 @@ bool  Texture2DManager::IsAllReadyLoad(const char* name) const {
 int  Texture2DManager::Add(const char* name) {
   MapTexture2D::const_iterator it = __data.find(name);
   if (it != __data.end()) {
-    DEBUG_P(red, "Texture2DManager::Add %s is already loaded", name);
+    DEBUG_P(TXT_RED, "Texture2DManager::Add %s is already loaded", name);
     return -1;
   }
   Texture2D t = LoadTexture(name);
   if (IsTextureValid(t)) {
     __data[name] = t;
     __total++;
-    DEBUG_P(green, "Texture2DManager::Add %s was loaded", name);
+    DEBUG_P(TXT_ORG, "Texture2DManager::Add %s was loaded", name);
     return 1;
   }
-  DEBUG_P(red, "Texture2DManager::Add fail to load %s", name);
+  DEBUG_P(TXT_RED, "Texture2DManager::Add fail to load %s", name);
   return 0;
 }
 

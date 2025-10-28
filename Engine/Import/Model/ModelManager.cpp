@@ -2,12 +2,12 @@
 #include "ModelManager.hpp"
 
 ModelManager::ModelManager(void): IImport() {
-  DEBUG_P(magenta, "ModelManager::");
+  DEBUG_P(TXT_MAG, "ModelManager::");
 }
 
 
 ModelManager::~ModelManager(void) {
-  DEBUG_P(magenta, "ModelManager::~");
+  DEBUG_P(TXT_MAG, "ModelManager::~");
 }
 
 
@@ -17,7 +17,7 @@ ModelManager::~ModelManager(void) {
 const Model ModelManager::Get(const char* name) const {
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end()) {
-    DEBUG_P(orange, "ModelManager::Get %s", name);
+    DEBUG_P(TXT_ORG, "ModelManager::Get %s", name);
     return it->second;
   }
   Model  null;
@@ -41,17 +41,17 @@ bool  ModelManager::IsAllReadyLoad(const char* name) const {
 int  ModelManager::Add(const char* name) {
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end()) {
-    DEBUG_P(red, "ModelManager::Add %s is already loaded", name);
+    DEBUG_P(TXT_RED, "ModelManager::Add %s is already loaded", name);
     return -1;
   }
   Model m = LoadModel(name);
   if (IsModelValid(m)) {
     __data[name] = m;
     __total++;
-    DEBUG_P(green, "ModelManager::Add %s was load", name);
+    DEBUG_P(TXT_ORG, "ModelManager::Add %s was load", name);
     return 1;
   }
-  DEBUG_P(red, "ModelManager::Add fail to load %s", name);
+  DEBUG_P(TXT_RED, "ModelManager::Add fail to load %s", name);
   return 0;
 }
 

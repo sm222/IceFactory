@@ -47,7 +47,7 @@ typedef enum {
 # define  DEBUG_STATUS 1
 # define  DEBUG_SLEEP  0
 
-inline void Debug(const char* file_no_null, int line, const char* root, e_debug_color color, const char* s, ...) {
+inline void Debug(const char* file_no_null, int line, const char* root, const char* color, const char* s, ...) {
   #if DEBUG_STATUS
   {
     # if (DEBUG_SLEEP)
@@ -66,14 +66,8 @@ inline void Debug(const char* file_no_null, int line, const char* root, e_debug_
       }
     }
     const char* c = TXT_WHT;
-    if (color == blue)    { c = TXT_BLU; }
-    if (color == red)     { c = TXT_RED; }
-    if (color == green)   { c = TXT_GRN; }
-    if (color == yello)   { c = TXT_YEL; }
-    if (color == magenta) { c = TXT_MAG; }
-    if (color == orange)  { c = TXT_ORG; }
-    if (color == pink)    { c = TXT_PIK; }
-    if (color == cyan)    { c = TXT_CYN; }
+    if (color)
+      c = color;
     fprintf(stdout, "%s%s:%d%s %s\n", c, file_no_null + i, line, TXT_RESET, buff);
     va_end(va);
   }

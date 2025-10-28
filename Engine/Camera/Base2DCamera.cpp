@@ -8,18 +8,18 @@ void Base2DCamera::Zero(void) {
 Base2DCamera::Base2DCamera(const char* name) : Object2D(name) {
   __type = BASE_CAMERA_2D;
   Default();
-  DEBUG_P(magenta, "Base2DCamera::");
+  DEBUG_P(TXT_MAG, "Base2DCamera::");
 }
 
 Base2DCamera::Base2DCamera(const std::string& name) : Object2D(name) {
   __type = BASE_CAMERA_2D;
   Default();
-  DEBUG_P(magenta, "Base2DCamera::");
+  DEBUG_P(TXT_MAG, "Base2DCamera::");
 }
 
 
 Base2DCamera::~Base2DCamera(void) {
-  DEBUG_P(magenta, "Base2DCamera::~");
+  DEBUG_P(TXT_MAG, "Base2DCamera::~");
 }
 
 

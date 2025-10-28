@@ -3,11 +3,11 @@
 
 
 Render::Render(void) {
-  DEBUG_P(magenta, "Render::");
+  DEBUG_P(TXT_MAG, "Render::");
 }
 
 Render::~Render(void) {
-  DEBUG_P(magenta, "Render::~");
+  DEBUG_P(TXT_MAG, "Render::~");
 }
 
 unsigned int __DrawGroup(const BaseGroup* group, const RoomRenderCamera data) {
@@ -89,7 +89,7 @@ void   Render::Draw(void) const {
 
 bool   Render::SetRoom(Room* room) {
   if (!room) {
-    DEBUG_P(red, "Render::SetRoom no room was given");
+    DEBUG_P(TXT_RED, "Render::SetRoom no room was given");
     return false;
   }
   __current = room;
@@ -179,12 +179,12 @@ int   Render::Update(void) {
     const BaseGroup* group = __current->GetToRender(g);
     if (!group || !group->Size()) {
       error++;
-      DEBUG_P(red, "Render::Update [%zu]no group", i);
+      DEBUG_P(TXT_RED, "Render::Update [%zu]no group", i);
       continue ;
     }
     const Base* camera = __current->GetPov(c);
     if (!camera) {
-      DEBUG_P(red, "Render::Update [%zu] messing camera", i);
+      DEBUG_P(TXT_RED, "Render::Update [%zu] messing camera", i);
       error++;
       continue ;
     }

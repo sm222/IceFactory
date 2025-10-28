@@ -37,7 +37,7 @@ void loop(IceFactory& engine) {
   testCam.SetCanvas(small / 4);
   testCam.SetDrawSize(small / 4);
   testCam.SetTarget({0,0,0});
-  testCam.Set2DDrawPosition(small / 7);
+  testCam.Set2DDrawPosition(small);
   testCam.SetMode(t_camera_mode::camera_texture_keep);
   Color tr = WHITE;
   tr.a /= 5;
@@ -47,7 +47,7 @@ void loop(IceFactory& engine) {
   //
   engine.Textures2D.Add("Engine/Resource/Image/cat.jpg");
   engine.Models.Add("Engine/Resource/Models/Axis_Cube.m3d");
-  engine.AddCameraToUpdateList(&PlayerCamera);
+  //engine.AddCameraToUpdateList(&PlayerCamera);
   engine.AddCameraToUpdateList(&testCam);
   engine._root.Add(&testCam);
   Room* r = engine.GetRoom(0);
@@ -127,7 +127,7 @@ int main(void) {
   while (run) {
     if (kill++ > 6) {
       run = 0;
-      DEBUG_P(red, "game kill for infinit loop");
+      DEBUG_P(TXT_RED, "game kill for infinit loop");
     }
     switch (IceFactory::GetEngineStatus()) {
       case S_EngineInit: {
@@ -151,7 +151,7 @@ int main(void) {
         break;
       }
       default:
-        DEBUG_P(red, "unknow case");
+        DEBUG_P(TXT_RED, "unknow case");
         return 1;
     }
   }

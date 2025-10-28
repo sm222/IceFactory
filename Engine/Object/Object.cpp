@@ -7,7 +7,7 @@ void   Object::Info(Base& self) {
 }
 
 Object::Object(const char* name) : Base(name) {
-  DEBUG_P(magenta, "Object::char");
+  DEBUG_P(TXT_MAG, "Object::char");
   __type = TYPE_OBJECT;
   __AddInheritance();
   __DrawInheritance();
@@ -18,7 +18,7 @@ Object::Object(const char* name, unsigned short drawType) : Base(name, drawType)
 }
 
 Object::Object(const std::string& name) : Base(name) {
-  DEBUG_P(magenta, "Object::string");
+  DEBUG_P(TXT_MAG, "Object::string");
   __type = TYPE_OBJECT;
   __AddInheritance();
   __DrawInheritance();
@@ -30,7 +30,7 @@ Object::Object(const std::string& name, unsigned short drawType) : Base(name, dr
 
 
 Object::~Object(void) {
-  DEBUG_P(magenta, "Object::~");
+  DEBUG_P(TXT_MAG, "Object::~");
 }
 
 void Object::Zero(void) {
