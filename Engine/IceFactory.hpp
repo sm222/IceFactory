@@ -23,6 +23,8 @@
 
 # define  MAX_ROOM 3
 
+# define  DEFAULT_CLOSE_KEY KEY_ESCAPE
+
 # include "Render/Render.hpp"
 
 # include <string>

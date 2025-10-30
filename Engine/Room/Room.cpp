@@ -38,7 +38,7 @@ root("root"),  __cameraList("cameraList"), __engineUi("EngineUi")
 
 Room::~Room(void) {
   root.DeAllocAll();
-  DEBUG_P(TXT_MAG, "Room::~");
+  DEBUG_P(TXT_MAG, "");
 }
 
 void Room::SetRoomType(const t_roomType& type) {
@@ -94,7 +94,7 @@ bool  Room::SetToRender(size_t index, BaseGroup* group, size_t cameraIndex) {
     DEBUG_P(TXT_RED, "HERE");
     return false;
   }
-  DEBUG_P(TXT_GRN, "Room::SetToRender set at %u", index);
+  DEBUG_P(TXT_GRN, "set at %u", index);
   __renderlist[index].camera = camera;
   __renderlist[index].toRender = group;
   return true;
@@ -102,7 +102,7 @@ bool  Room::SetToRender(size_t index, BaseGroup* group, size_t cameraIndex) {
 
 bool Room::UnbindToRender(size_t index) {
   if (index >= ROOM_MAX_CAMERA) {
-    DEBUG_P(TXT_RED, "Room::UnbindToRender out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
+    DEBUG_P(TXT_RED, "out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
     return false;
   }
   __renderlist[index].camera   = nullptr;
@@ -114,7 +114,7 @@ bool  Room::GetRenderData(size_t index, RoomRenderCamera& data) const {
   data.camera = nullptr;
   data.toRender = nullptr;
   if (index >= ROOM_MAX_CAMERA) {
-    DEBUG_P(TXT_RED, "Room::GetRenderData out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
+    DEBUG_P(TXT_RED, "out of boud, max is %u, index was %u", ROOM_MAX_CAMERA , index);
     return false;
   }
   data = __renderlist[index];

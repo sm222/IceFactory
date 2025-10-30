@@ -3,7 +3,7 @@
 t_id  Base::__totalId = 0; // id
 
 Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
-  DEBUG_P(TXT_MAG, "Base::char %s", name);
+  DEBUG_P(TXT_MAG, "::char %s", name);
   memset(__inheritance, 0, sizeof(char*) * MAX_INHERITANCE);
   __AddInheritance();
   __DrawInheritance();
@@ -23,7 +23,7 @@ Base::Base(const char* name, unsigned short drawType) : Base(name) {
 
 Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
   memset(__inheritance, 0, sizeof(char*) * MAX_INHERITANCE);
-  DEBUG_P(TXT_MAG, "Base::string %s", name.c_str());
+  DEBUG_P(TXT_MAG, "::string %s", name.c_str());
   SetName(name);
   SetFtList();
   __AddInheritance();
@@ -41,7 +41,7 @@ Base::Base(const std::string& name, unsigned short drawType) : Base(name) {
 }
 
 Base::~Base(void) {
-  DEBUG_P(TXT_MAG, "Base::~");
+  DEBUG_P(TXT_MAG, "");
 }
 
 

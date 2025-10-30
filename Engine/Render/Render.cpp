@@ -3,11 +3,11 @@
 
 
 Render::Render(void) {
-  DEBUG_P(TXT_MAG, "Render::");
+  DEBUG_P(TXT_MAG, "");
 }
 
 Render::~Render(void) {
-  DEBUG_P(TXT_MAG, "Render::~");
+  DEBUG_P(TXT_MAG, "");
 }
 
 unsigned int __DrawGroup(const BaseGroup* group, const RoomRenderCamera data) {

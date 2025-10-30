@@ -7,18 +7,18 @@ void Object3D::Zero(void) {
 
 Object3D::Object3D(const char* name) : Object(name, 3) {
   __type = TYPE_OBJECT3D;
-  DEBUG_P(TXT_MAG, "Object3D::char");
+  DEBUG_P(TXT_MAG, "char");
   Zero();
 }
 
 Object3D::Object3D(const std::string& name) : Object(name, 3) {
   __type = TYPE_OBJECT3D;
-  DEBUG_P(TXT_MAG, "Object3D::string");
+  DEBUG_P(TXT_MAG, "string");
   Zero();
 }
 
 Object3D::~Object3D(void) {
-  DEBUG_P(TXT_MAG, "Object3D::~");
+  DEBUG_P(TXT_MAG, "");
 }
 
 //*                  *//*                  *//

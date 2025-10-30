@@ -19,6 +19,8 @@ void UpatePlayer(IceFactory& engine, BaseCamera& PlayerCamera) {
   }
 }
 
+/*
+
 void loop(IceFactory& engine) {
   BaseCamera    PlayerCamera("player");
   //UiRenderZone  uiTest("uiTest", 400, 400);
@@ -106,8 +108,8 @@ void loop(IceFactory& engine) {
   // Sound
   engine.Audios.AddSound("Engine/Resource/Sound/clap.mp3");
   //
-  HideCursor();
-  DisableCursor();
+  HideCursor();    // raylib
+  DisableCursor(); //
   int status = IceFactory::GetEngineStatus();
   while (status == S_EngineRun || status == S_EnginePause) {
     //usleep(50000);
@@ -118,6 +120,27 @@ void loop(IceFactory& engine) {
       engine.Audios.Play("Engine/Resource/Sound/clap.mp3");
   }
 }
+*/
+
+void loop(IceFactory& engine) {
+  int status = IceFactory::GetEngineStatus();
+  BaseCamera player("player");
+  engine.Models.Add("Engine/Resource/Models/Axis_Cube.m3d");
+  MeshObject cube("cube");
+  cube.SetModel(engine.Models.Get("Engine/Resource/Models/Axis_Cube.m3d"));
+  //engine.Models.Get();
+  Room* room = engine.GetRoom(0);
+  room->AddCamera(&player);
+  BaseGroup* root = room->GetRoot();
+  root->Add(&cube);
+  while (status == S_EngineRun || status == S_EnginePause) {
+    //usleep(50000);
+    status = IceFactory::GetEngineStatus();
+    engine.UpdateEngine();
+    //UpatePlayer(engine, PlayerCamera);
+  }
+}
+
 
 int main(void) {
   IceFactory engine;
@@ -159,4 +182,3 @@ int main(void) {
   engine.closeEngine();
   return 0;
 }
-

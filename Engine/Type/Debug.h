@@ -31,6 +31,15 @@
 #  define TXT_CLE	CS "\e[1;1H\x1b[2J" CE
 # endif
 
+//? https://stackoverflow.com/questions/15305310/predefined-macros-for-function-name-func
+
+#ifndef __FUNCTION_NAME__
+    #ifdef WIN32   //WINDOWS
+        #define __FUNCTION_NAME__   __FUNCTION__
+    #else          //*NIX
+        #define __FUNCTION_NAME__   __func__
+    #endif
+#endif
 
 typedef enum {
   white = 0,
@@ -47,7 +56,7 @@ typedef enum {
 # define  DEBUG_STATUS 1
 # define  DEBUG_SLEEP  0
 
-inline void Debug(const char* file_no_null, int line, const char* root, const char* color, const char* s, ...) {
+inline void Debug(const char* file_no_null, const char* ft, int line, const char* root, const char* color, const char* s, ...) {
   #if DEBUG_STATUS
   {
     # if (DEBUG_SLEEP)
@@ -68,12 +77,13 @@ inline void Debug(const char* file_no_null, int line, const char* root, const ch
     const char* c = TXT_WHT;
     if (color)
       c = color;
-    fprintf(stdout, "%s%s:%d%s %s\n", c, file_no_null + i, line, TXT_RESET, buff);
+    fprintf(stdout, "%s%s:%d%s:%s %s\n", c, file_no_null + i, line, TXT_RESET, ft, buff);
     va_end(va);
   }
   # else
   {
     (void)file_no_null;
+    (void)ft;
     (void)line;
     (void)color;
     (void)root;
@@ -82,7 +92,7 @@ inline void Debug(const char* file_no_null, int line, const char* root, const ch
   #endif
 }
 
-# define DEBUG(root, color, s, ...)    Debug(__FILE__, __LINE__, root, color, s, ##__VA_ARGS__)
+# define DEBUG(root, color, s, ...)    Debug(__FILE__, __FUNCTION_NAME__, __LINE__, root, color, s, ##__VA_ARGS__)
 
 # define GRAF_LEN 1000
 

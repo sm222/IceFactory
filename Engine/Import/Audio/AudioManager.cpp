@@ -2,7 +2,7 @@
 
 
 AudioManager::AudioManager(void): IImport<AudioData>() {
-  DEBUG_P(TXT_MAG, "AudioManager");
+  DEBUG_P(TXT_MAG, "");
   InitAudioDevice();
   if (!IsAudioDeviceReady())
     throw std::runtime_error("audio device faild");
@@ -13,7 +13,7 @@ AudioManager::AudioManager(void): IImport<AudioData>() {
 }
 
 AudioManager::~AudioManager(void) {
-  DEBUG_P(TXT_MAG, "AudioManager...");
+  DEBUG_P(TXT_MAG, "");
   if (!IsAudioDeviceReady()) {
     Clear();
     CloseAudioDevice();
@@ -95,6 +95,9 @@ bool   AudioManager::Play(const char* name) {
       PlaySound(__PlayingSounds[i]);
       return 0;
     }
+  }
+  else {
+    DEBUG_P(TXT_RED, "%s: sound not found", name);
   }
   return 1;
 }

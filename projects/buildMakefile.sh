@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 
 # color
 RED=\\x1B[31m

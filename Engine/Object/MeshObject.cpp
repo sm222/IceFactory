@@ -59,10 +59,10 @@ bool MeshObject::SetErrorModel(Model* ptr) {
 bool MeshObject::SetModel(const Model model) {
   if (IsModelValid(model)) {
     __model = model;
-    DEBUG_P(TXT_ORG, "MeshObject::SetModel %s model was set", this->__name);
+    DEBUG_P(TXT_ORG, "%s model was set", this->__name);
     return true;
   }
-  DEBUG_P(TXT_RED, "MeshObject::SetModel %s model was not set", this->__name);
+  DEBUG_P(TXT_RED, "%s model was not set", this->__name);
   return false;
 }
 

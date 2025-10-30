@@ -7,25 +7,25 @@ void DrawTexture2D::Zero(void) {
 
 DrawTexture2D::DrawTexture2D(const char* name) : Object2D(name) {
   __type = TYPE_DRAWTEXTURE2D;
-  DEBUG_P(TXT_MAG, "DrawTexture2D::");
+  DEBUG_P(TXT_MAG, "");
   Zero();
 }
 
 
 DrawTexture2D::DrawTexture2D(const std::string& name) : Object2D(name) {
   __type = TYPE_DRAWTEXTURE2D;
-  DEBUG_P(TXT_MAG, "DrawTexture2D::");
+  DEBUG_P(TXT_MAG, "");
   Zero();
 }
 
 DrawTexture2D::~DrawTexture2D(void) {
-  DEBUG_P(TXT_MAG, "DrawTexture2D::~");
+  DEBUG_P(TXT_MAG, "");
 }
 
 
 
 void  DrawTexture2D::Info(Base &self) {
-  DEBUG_P(TXT_YEL, "DrawTexture2D::info %u %s", self.GetId(), self.GetName());
+  DEBUG_P(TXT_YEL, "%u %s", self.GetId(), self.GetName());
 }
 
 

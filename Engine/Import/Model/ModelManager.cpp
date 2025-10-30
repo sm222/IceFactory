@@ -1,13 +1,14 @@
 
 #include "ModelManager.hpp"
+#include "../../Type/Debug.h"
 
 ModelManager::ModelManager(void): IImport() {
-  DEBUG_P(TXT_MAG, "ModelManager::");
+  DEBUG_P(TXT_MAG, "");
 }
 
 
 ModelManager::~ModelManager(void) {
-  DEBUG_P(TXT_MAG, "ModelManager::~");
+  DEBUG_P(TXT_MAG, "");
 }
 
 
@@ -17,7 +18,7 @@ ModelManager::~ModelManager(void) {
 const Model ModelManager::Get(const char* name) const {
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end()) {
-    DEBUG_P(TXT_ORG, "ModelManager::Get %s", name);
+    DEBUG_P(TXT_ORG, "%s", name);
     return it->second;
   }
   Model  null;
@@ -41,17 +42,17 @@ bool  ModelManager::IsAllReadyLoad(const char* name) const {
 int  ModelManager::Add(const char* name) {
   MapModel::const_iterator it = __data.find(name);
   if (it != __data.end()) {
-    DEBUG_P(TXT_RED, "ModelManager::Add %s is already loaded", name);
+    DEBUG_P(TXT_RED, "%s is already loaded", name);
     return -1;
   }
   Model m = LoadModel(name);
   if (IsModelValid(m)) {
     __data[name] = m;
     __total++;
-    DEBUG_P(TXT_ORG, "ModelManager::Add %s was load", name);
+    DEBUG_P(TXT_ORG, "%s was load", name);
     return 1;
   }
-  DEBUG_P(TXT_RED, "ModelManager::Add fail to load %s", name);
+  DEBUG_P(TXT_RED, "fail to load %s", name);
   return 0;
 }
 
@@ -71,12 +72,15 @@ int  ModelManager::Remove(const char* name) {
 // unloadmodel all model and reset the map to empty
 void ModelManager::Clear(void) {
   MapModel::const_iterator it;
+  size_t i = 0;
   for (it = __data.begin(); it != __data.end(); it++ ) {
     Model m = it->second;
     if (IsModelValid(m)) {
       UnloadModel(m);
+      i++;
     }
   }
+  DEBUG_P(TXT_PIK, "unload %zu models", i);
   __data.clear();
   __total = 0;
 }
