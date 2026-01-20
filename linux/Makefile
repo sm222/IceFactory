@@ -1,7 +1,7 @@
 ########################################
 #	made by
 #		@sm222
-#		Thu Oct 30 04:24:05 PM EDT 2025
+#		Tue 20 Jan 2026 04:36:37 PM EST
 #		Linux
 #
 #	Don't edit that file by hands,
@@ -46,7 +46,6 @@ $(ENGINE)Camera/BaseCamera.cpp \
 $(ENGINE)Camera/Base2DCamera.cpp
 
 #Group
-GROUPS			=		$(ENGINE)Groups/BeseGroups.cpp
 
 
 #
@@ -64,19 +63,7 @@ I_TEXTURE2D	=		$(IMPORT)Texture2D/Texture2DManager.cpp
 #  --  --  --  #
 
 
-OBJECT			=	\
-$(ENGINE)Object/DevCube.cpp		\
-$(ENGINE)Object/MeshObject.cpp\
-$(ENGINE)Object/Object3D.cpp	\
-$(ENGINE)Object/Object2D.cpp	\
-$(ENGINE)Object/Object.cpp		\
-
-
 RENDER			=	$(ENGINE)Render/Render.cpp
-
-DRAW2D			=	$(ENGINE)Draw2D/DrawTexture2D.cpp
-
-ROOM				=	$(ENGINE)Room/Room.cpp
 
 
 UI					=	\
@@ -96,14 +83,10 @@ GAMEFILE	= $(GAME)main.cpp
 CPP_SRCS	=				\
 $(BASE)					\
 $(CAMERA)				\
-$(GROUPS)				\
 $(I_MODEL)			\
 $(I_AUDIO)			\
 $(I_TEXTURE2D)	\
-$(OBJECT)				\
 $(RENDER)				\
-$(DRAW2D)				\
-$(ROOM)					\
 $(GAMEFILE)			\
 $(ENGINE)IceFactory.cpp
 #$(UI)				\

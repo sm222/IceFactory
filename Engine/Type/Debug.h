@@ -12,6 +12,7 @@
 # include <time.h>
 # include <limits.h>
 # include <math.h>
+#include  <string.h>
 
 
 # ifndef  TXT_COLORS

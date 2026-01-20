@@ -17,28 +17,11 @@ Base::Base(const char* name) : __type(TYPE_BASE), __id(MakeId()) {
   #endif
 }
 
+
 Base::Base(const char* name, unsigned short drawType) : Base(name) {
   __drawType = drawType;
 }
 
-Base::Base(const std::string& name) : __type(TYPE_BASE), __id(MakeId()) {
-  memset(__inheritance, 0, sizeof(char*) * MAX_INHERITANCE);
-  DEBUG_P(TXT_MAG, "::string %s", name.c_str());
-  SetName(name);
-  SetFtList();
-  __AddInheritance();
-  __DrawInheritance();
-  __metod = -1;
-  __parent = nullptr;
-  __isAlloc = false;
-  #if (PRINT_ID_AT_BUILD)
-    PrintId();
-  #endif
-}
-
-Base::Base(const std::string& name, unsigned short drawType) : Base(name) {
-  __drawType = drawType;
-}
 
 Base::~Base(void) {
   DEBUG_P(TXT_MAG, "");
@@ -158,7 +141,7 @@ bool  Base::GetIsAlloc(void) {
 
 /// @brief set the parant to addr of parant
 /// @return return false if parent was all ready set
-bool Base::__SetParent(const Base& parant) {
+bool Base::__SetParent(Base& parant) {
   if (__parent)
     return false;
   DEBUG_P(TXT_PIK, "set parant to %p", &parant);
@@ -168,7 +151,7 @@ bool Base::__SetParent(const Base& parant) {
 
 /// @brief set parant ptr to nullptr
 /// @return return false if ptr all ready at nullptr
-bool Base::__SetParantNone(void) {
+bool Base::__RemoveParant(void) {
   bool rm = false;
   if (__parent) {
     DEBUG_P(TXT_PIK, "remove parant %p", __parent);

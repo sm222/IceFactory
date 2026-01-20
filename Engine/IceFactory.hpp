@@ -18,10 +18,7 @@
 # include "Import/Model/ModelManager.hpp"
 # include "Import/Audio/AudioManager.hpp"
 # include "Import/Texture2D/Texture2DManager.hpp"
-# include "Groups/BaseGroups.hpp"
-# include "Room/Room.hpp"
 
-# define  MAX_ROOM 3
 
 # define  DEFAULT_CLOSE_KEY KEY_ESCAPE
 
@@ -63,7 +60,6 @@ class IceFactory {
     Vector2              GiveWindowSize(void);
     //! Update
     bool                 AddCameraToUpdateList(BaseCamera* camera);
-    Room*                GetRoom(size_t index);                    //! Debug
     //! debug and error
     Model*               GiveWhatModel(void);
     //
@@ -75,7 +71,6 @@ class IceFactory {
     AudioManager        Audios;
     Texture2DManager    Textures2D;
     //
-    BaseGroup          _root;       //
     //
     protected:
     //! - - - - - -
@@ -83,9 +78,6 @@ class IceFactory {
   private:
     bool                InitRaylib(void);
     void                SetupStart(void);
-    //! room 0 is alway here as a backup
-    std::array<Room*, MAX_ROOM + 1>  __roomsEngine;
-    Room*                            __currentRoom;
     //
     bool                 CloseRaylib(void);
     bool                 IceFactoryInitRayLib(void);

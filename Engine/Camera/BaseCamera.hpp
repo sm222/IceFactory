@@ -42,7 +42,6 @@ typedef struct {
 class BaseCamera : public Object {
   public:
     BaseCamera(const char* name);
-    BaseCamera(const std::string& name);
     ~BaseCamera(void);
     //
     const Camera3D         GetCamera(void) const;

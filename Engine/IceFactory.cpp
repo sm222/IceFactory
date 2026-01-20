@@ -40,9 +40,6 @@ int   IceFactory::Start(void) {
     DEBUG_P(TXT_RED, "engine status %d", status);
     return 0;
   }
-  for (size_t i = 0; i < MAX_ROOM + 1; i++) {
-    __roomsEngine[i] = nullptr;
-  }
   if (!TestDependency())
     return 0;
   __userSeting.targetFps = 60;
@@ -52,11 +49,7 @@ int   IceFactory::Start(void) {
   for (int i = 0; i < t_ControlKeys::K_End; i++) {
     __keyMapBind[(t_ControlKeys)i] = KEY_NULL;
   }
-  __roomsEngine[0] = new Room("backup");
-  if (!__roomsEngine[0])
     throw std::runtime_error("new room fail");
-  __renderEngine.SetRoom(__roomsEngine[0]);
-  __roomsEngine[0]->SetRoomType(room_noType);
   SetEngineStatus(S_EngineInit);
   _SetFpsControl(); // defalut gamemode
   if (status == S_EngineReboot)
@@ -65,8 +58,7 @@ int   IceFactory::Start(void) {
 }
 
 IceFactory::IceFactory(void):
-_root("root"), __currentRoom(nullptr), __screenSize({1000, 1000}), __inputSelect(0), \
-__numberGamepads(0)
+__screenSize({1000, 1000}), __inputSelect(0), __numberGamepads(0)
 {
   __gameName = ("test");
   DEBUG_P(TXT_MAG, "");
@@ -111,7 +103,6 @@ const Vector2 IceFactory::GetWindowSize(void) {
 // - - - - - - - - - - - - - - - -
 
 int  IceFactory::initEngine(void) {
-  __currentRoom = __roomsEngine[0];
   InitRaylib();
   const int monitor = GetCurrentMonitor();
   const int fpsTarget = GetMonitorRefreshRate(monitor);
@@ -171,12 +162,6 @@ bool IceFactory::closeEngine(void) {
   Models.Clear();
   Audios.Clear();
   Textures2D.Clear();
-  for(size_t i = 0; i < MAX_ROOM + 1; i++) {
-    if (__roomsEngine[i])
-      delete __roomsEngine[i];
-    __roomsEngine[i] = nullptr;
-  }
-  __currentRoom = nullptr;
   //!last step
   if (GetEngineStatus() != S_EngineReboot)
     CloseRaylib();
@@ -295,19 +280,8 @@ bool  IceFactory::AddCameraToUpdateList(BaseCamera* camera) {
     DEBUG_P(TXT_RED, "no camera");
     return false;
   }
-  if (!__currentRoom) {
-    DEBUG_P(TXT_RED, "no room!?");
-    return false;
-  }
-  __currentRoom->AddCamera(camera);
   return true;
 }
-
-
-Room* IceFactory::GetRoom(size_t index) {
-  return __roomsEngine[index];
-}
-
 
 
 

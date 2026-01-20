@@ -10,20 +10,6 @@ Render::~Render(void) {
   DEBUG_P(TXT_MAG, "");
 }
 
-unsigned int __DrawGroup(const BaseGroup* group, const RoomRenderCamera data) {
-  unsigned int totalPass = 1;
-  for (size_t i = 0; i < group->Size(); i++) {
-    const Base* ptr = data.toRender->GetByIndex(i);
-    const char* type = ptr->GetType();
-    if (strcmp(type, TYPE_BASE_GROUP) == 0)
-      totalPass += __DrawGroup((const BaseGroup*)ptr, data);
-    else {
-      totalPass++;
-      ptr->Draw(ptr->GetMetod());
-    }
-  }
-  return totalPass;
-}
 
 void  SetRays(Ray rays[4 * ROOM_MAX_CAMERA], RoomRenderCamera* data, size_t i, size_t j) {
   rays[(i * 4) + j] = {{0,0,0},{0,0,0}};
@@ -38,7 +24,6 @@ void  DrawOnLayer(const struct RoomRenderCamera* data) {
   //const clock_t s = clock();
   data->camera->Start();
   ClearBackground(data->camera->GetCleanColor());
-  __DrawGroup(data->toRender, (*data));
   data->camera->Stop();
   //UpdateGraffValue(g, clock() - s);
 }
@@ -105,91 +90,33 @@ bool   Render::RemoveRoom(void) {
 }
 
 
-static unsigned int __DrawGroupType(const BaseGroup& group, const unsigned short t) {
-  unsigned int totalPass = 1;
-  for (size_t i = 0; i < group.Size(); i++) {
-    const Base* ptr = group.GetByIndex(i);
-    const char* type = ptr->GetType();
-    if (strcmp(type, TYPE_BASE_GROUP) == 0)
-      totalPass += __DrawGroupType((const BaseGroup&)*ptr, t);
-    else {
-      if (ptr->GetDrawType() == t) {
-        totalPass++;
-        ptr->Draw(ptr->GetMetod());
-      }
-    }
-  }
-  return totalPass;
-}
 
 
-int DrawFrame3D(const BaseCamera& camera, const BaseGroup& group, RenderTexture2D& layer) {
+int DrawFrame3D(const BaseCamera& camera, RenderTexture2D& layer) {
   BeginTextureMode(layer);
   ClearBackground(BLANK);
   BeginMode3D(camera.GetCamera());
-  __DrawGroupType(group, 3);
   EndMode3D();
   EndTextureMode();
   return 0;
 }
 
-int DrawFrame2D(const Camera2D& camera, const BaseGroup& group, RenderTexture2D& layer) {
+int DrawFrame2D(const Camera2D& camera, RenderTexture2D& layer) {
   BeginTextureMode(layer);
   ClearBackground(BLANK);
   BeginMode2D(camera);
-  __DrawGroupType(group, 2);
   EndMode2D();
   EndTextureMode();
   return 0;
 }
 
 
-static int DrawFrame(const Base* camera, const BaseGroup& group, RenderTexture2D& layer) {
-  int error = 0;
-  if (!camera)
-    return ++error;
-  const char* type = camera->GetType();
-  if (strcmp(BASE_CAMERA, type) == 0) {
-    BaseCamera& renderDevice = *(BaseCamera*)camera;
-    DrawFrame3D(renderDevice, group, layer);
-  }
-  else if (strcmp(BASE_CAMERA_2D, type) == 0) {
-    const Base2DCamera& ref = *(Base2DCamera*)(camera);
-    const Camera2D& c = ref.GetCamera();
-    DrawFrame2D(c, group, layer);
-  }
-  else {
-    error++;
-  }
-  return error;
-}
 
 
 int   Render::Update(void) {
   int error = 0;
   if (!__current)
     return ++error;
-  const Instruction& in = __current->GetRenderRule();
-  for (size_t i = 0; i < in.size(); i++) {
-    const RenderInstruction c = R_GET_CAMERA(in[i]);
-    const RenderInstruction l = R_GET_LAYER(in[i]);
-    const RenderInstruction g = R_GET_GROUP(in[i]);
-    if (!(R_IS_VALID_LAYER(in[i])))
-      continue ;
-    const BaseGroup* group = __current->GetToRender(g);
-    if (!group || !group->Size()) {
-      error++;
-      DEBUG_P(TXT_RED, "Render::Update [%zu]no group", i);
-      continue ;
-    }
-    const Base* camera = __current->GetPov(c);
-    if (!camera) {
-      DEBUG_P(TXT_RED, "Render::Update [%zu] messing camera", i);
-      error++;
-      continue ;
-    }
-    DrawFrame(camera, *group, __current->GetLayer(l));
-  }
   BeginDrawing();
   ClearBackground(BLANK);
   for (unsigned short i = 0; i < 255; i++) {

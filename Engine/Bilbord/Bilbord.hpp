@@ -9,7 +9,6 @@ class Bilbord : public Object3D {
   public:
     //
     Bilbord(const char* name);
-    Bilbord(const std::string& name);
     virtual ~Bilbord(void);
     //
     void      Draw(int metod) const ;

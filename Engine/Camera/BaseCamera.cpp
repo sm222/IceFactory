@@ -10,12 +10,6 @@ BaseCamera::BaseCamera(const char* name) : Object(name), __CameraID(GetNewID()) 
   DEBUG_P(TXT_MAG, "::char Name:%s", name);
 }
 
-BaseCamera::BaseCamera(const std::string& name) : Object(name), __CameraID(GetNewID()) {
-  Default();
-  __type = BASE_CAMERA;
-  DEBUG_P(TXT_MAG, "::string Name:%s", name.c_str());
-}
-
 bool BaseCamera::SetMode(const t_camera_mode mode) {
   if (!__active) {
     DEBUG_P(TXT_MAG, "%d", mode);

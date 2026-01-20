@@ -20,7 +20,6 @@ class BaseGroup;
 class Base {
   public:
     Base(const char* name);
-    Base(const std::string& name);
     virtual ~Base(void);
     //
     // Get
@@ -51,7 +50,6 @@ class Base {
     // 2 = 2D, 3 = 3D else garbage, set in constructor
     unsigned short          __drawType = 0; // can't be const becose f u i guess
     Base(const char* name, unsigned short drawType);
-    Base(const std::string& name, unsigned short drawType);
     //
     static t_id         MakeId(void);
     virtual void        Zero(void) = 0;
@@ -61,13 +59,12 @@ class Base {
     const char*       __type;
     const t_id        __id;
     //
-    const Base*       __parent;
+    Base*             __parent;
     //
-    friend              BaseGroup; // use for 
-    bool              __SetParent(const Base& parant);
-    bool              __SetParantNone(void);
+    bool              __SetParent(Base& parant);
+    bool              __RemoveParant(void);
     bool              __isAlloc;
-    //
+    // need rework on that shit
     bool              __AddInheritance(void);
     void              __DrawInheritance(void);
     const char*const*   GetInheritance(void);

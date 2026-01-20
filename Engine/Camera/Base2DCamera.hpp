@@ -8,7 +8,6 @@
 class Base2DCamera : public Object2D {
   public:
     Base2DCamera(const char* name);
-    Base2DCamera(const std::string& name);
     ~Base2DCamera(void);
     //
     void              Default(void);

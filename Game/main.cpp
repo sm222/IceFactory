@@ -129,10 +129,6 @@ void loop(IceFactory& engine) {
   MeshObject cube("cube");
   cube.SetModel(engine.Models.Get("Engine/Resource/Models/Axis_Cube.m3d"));
   //engine.Models.Get();
-  Room* room = engine.GetRoom(0);
-  room->AddCamera(&player);
-  BaseGroup* root = room->GetRoot();
-  root->Add(&cube);
   while (status == S_EngineRun || status == S_EnginePause) {
     //usleep(50000);
     status = IceFactory::GetEngineStatus();
