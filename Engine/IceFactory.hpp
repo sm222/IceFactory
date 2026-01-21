@@ -11,10 +11,6 @@
 //
 # include "Type/Type.hpp"
 //
-# include "Object/Object.hpp"
-# include "Object/MeshObject.hpp"
-# include "Render/Render.hpp"
-# include "Camera/BaseCamera.hpp"
 # include "Import/Model/ModelManager.hpp"
 # include "Import/Audio/AudioManager.hpp"
 # include "Import/Texture2D/Texture2DManager.hpp"
@@ -22,7 +18,6 @@
 
 # define  DEFAULT_CLOSE_KEY KEY_ESCAPE
 
-# include "Render/Render.hpp"
 
 # include <string>
 # include <map>
@@ -59,7 +54,6 @@ class IceFactory {
     //
     Vector2              GiveWindowSize(void);
     //! Update
-    bool                 AddCameraToUpdateList(BaseCamera* camera);
     //! debug and error
     Model*               GiveWhatModel(void);
     //
@@ -92,9 +86,7 @@ class IceFactory {
     static t_EngineStatus             __engineStatus;
     static bool                       __raylib;
     //
-    Render                            __renderEngine;
     //
-    std::vector<BaseCamera*>          __autoReSizeCamera;
     //
     Vector2                           __screenSize;
     std::string                       __gameName;

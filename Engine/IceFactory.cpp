@@ -49,7 +49,6 @@ int   IceFactory::Start(void) {
   for (int i = 0; i < t_ControlKeys::K_End; i++) {
     __keyMapBind[(t_ControlKeys)i] = KEY_NULL;
   }
-    throw std::runtime_error("new room fail");
   SetEngineStatus(S_EngineInit);
   _SetFpsControl(); // defalut gamemode
   if (status == S_EngineReboot)
@@ -218,11 +217,11 @@ void  __setCursor(bool mode) {
 /// @param
 /// @return
 int   IceFactory::UpdateEngine(void) {
-  //ClearBackground(BLANK); //! render job? yes :>
-  __renderEngine.Update();
-  //__renderEngine.Draw();
   const int status = UpdateInpus() + UpdateEvent();
   Audios.Update();
+  BeginDrawing();
+  ClearBackground(BLACK);
+  EndDrawing();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = IceFactory::GetWindowSize();
   }
@@ -275,13 +274,6 @@ Model*  IceFactory::GiveWhatModel(void) {
   return &__what;
 }
 
-bool  IceFactory::AddCameraToUpdateList(BaseCamera* camera) {
-  if (!camera) {
-    DEBUG_P(TXT_RED, "no camera");
-    return false;
-  }
-  return true;
-}
 
 
 

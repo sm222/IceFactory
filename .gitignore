@@ -29,7 +29,9 @@
 # folder
 build/
 .vscode/
-Engine/include/raylib
+.cache/
+Engine/include/raylib/
+Engine/include/
 
 # Executables
 *.exe

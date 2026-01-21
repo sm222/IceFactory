@@ -22,7 +22,7 @@ buildTime=$(bash -c date)
 platform=$(bash -c uname -os)
 madeby='@sm222'
 
-sysHeder=(
+sysHeader=(
   '########################################'
   '#	made by'
   "#		$madeby"
@@ -35,14 +35,14 @@ sysHeder=(
   '########################################'
 )
 
-i_sysHeader=${#sysHeder[@]}
+i_sysHeader=${#sysHeader[@]}
 
 function printSysHeader() {
   echo -n
   j_sysHeader=0
   while [ $j_sysHeader -lt $i_sysHeader ]
   do
-    echo "${sysHeder[$j_sysHeader]}" >> $1
+    echo "${sysHeader[$j_sysHeader]}" >> $1
     j_sysHeader=$((j_sysHeader + 1))
   done
 }
@@ -97,15 +97,6 @@ varAndFiles=(
   'BASE				=		$(ENGINE)Base/Base.cpp'
   ''
   ''
-  'CAMERA			=		\'
-  '$(ENGINE)Camera/BaseCamera.cpp \'
-  '$(ENGINE)Camera/Base2DCamera.cpp'
-  ''
-  '#Group'
-  ''
-  ''
-  '#'
-  ''
   '# -- IMPORT -- #'
   ''
   'IMPORT			=		$(ENGINE)Import/'
@@ -117,9 +108,6 @@ varAndFiles=(
   'I_TEXTURE2D	=		$(IMPORT)Texture2D/Texture2DManager.cpp'
   ''
   '#  --  --  --  #'
-  ''
-  ''
-  'RENDER			=	$(ENGINE)Render/Render.cpp'
   ''
   ''
   'UI					=	\'
@@ -182,11 +170,9 @@ compileRule=(
   '# - - - -|-|- - - - #'
   'CPP_SRCS	=				\'
 	'$(BASE)					\'
-	'$(CAMERA)				\'
 	'$(I_MODEL)			\'
 	'$(I_AUDIO)			\'
 	'$(I_TEXTURE2D)	\'
-	'$(RENDER)				\'
 	'$(GAMEFILE)			\'
 	'$(ENGINE)IceFactory.cpp'
   '#$(UI)				\'
@@ -321,6 +307,10 @@ function makeWindos() {
   printCompileRule $WindowsFilename
 }
 
+function makeFolder() {
+  mkdir ../linux
+  mkdir ../windows
+}
 
 
 time makelinux
