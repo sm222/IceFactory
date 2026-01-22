@@ -38,10 +38,10 @@ int   IceFactory::Start(void) {
   const int status = GetEngineStatus();
   if (status != S_EngineBuild && status != S_EngineStop && status != S_EngineReboot) {
     DEBUG_P(TXT_RED, "engine status %d", status);
-    return 0;
+    return Start_fail;
   }
   if (!TestDependency())
-    return 0;
+    return Start_fail;
   __userSeting.targetFps = 60;
   __userSeting.targetWindowSize = {600, 600};
   __inputSelect = KeybordMouse;
@@ -53,7 +53,17 @@ int   IceFactory::Start(void) {
   _SetFpsControl(); // defalut gamemode
   if (status == S_EngineReboot)
     __engineStatus = S_EngineRun;
-  return 1;
+  return no_error;
+}
+
+int  IceFactory::Reboot(int type) {
+  (void)type;
+  return this->Start() + this->InitEngine();
+}
+
+void  IceFactory::Stop(void) {
+  this->SetEngineStatus(S_EngineForceStop);
+  this->CloseEngine();
 }
 
 IceFactory::IceFactory(void):
@@ -101,7 +111,7 @@ const Vector2 IceFactory::GetWindowSize(void) {
 
 // - - - - - - - - - - - - - - - -
 
-int  IceFactory::initEngine(void) {
+int  IceFactory::InitEngine(void) {
   InitRaylib();
   const int monitor = GetCurrentMonitor();
   const int fpsTarget = GetMonitorRefreshRate(monitor);
@@ -155,7 +165,7 @@ bool IceFactory::CloseRaylib(void) {
 }
 
 // Rap around raylib
-bool IceFactory::closeEngine(void) {
+bool IceFactory::CloseEngine(void) {
   if (GetEngineStatus() != S_EngineReboot)
     __engineStatus = S_EngineStop;
   Models.Clear();
@@ -168,7 +178,7 @@ bool IceFactory::closeEngine(void) {
 }
 
 
-Vector2  IceFactory::flaotToVec2(float angle) {
+Vector2  IceFactory::FlaotToVec2(float angle) {
   return {sin(angle * DEG2RAD), cos(angle * DEG2RAD)};
 }
 
@@ -257,7 +267,7 @@ float  IceFactory::timeScale(float in) {
   return in * GetFrameTime() * __timeScale;
 }
 
-void   IceFactory::setTimeScale(float scale) {
+void   IceFactory::SetTimeScale(float scale) {
   __timeScale = scale;
 }
 
@@ -265,6 +275,14 @@ Vector2 IceFactory::GiveWindowSize(void) {
   return __screenSize;
 }
 
+
+bool IceFactory::ResizeWindowSize(Vector2 size) {
+  if (this->GetEngineStatus() == S_EngineRun) {
+    SetWindowMinSize((int)size.x, (int)size.y);
+    return true;
+  }
+  return false;
+}
 
 /*!
 //!
@@ -290,6 +308,8 @@ void   IceFactory::SetKeyMapToKey(t_ControlKeys action, KeyboardKey key) {
   __keyMapBind[action] = key;
 }
 
+
+// fps controls
 void IceFactory::UpdateKeybord(void) {
   __analogMap[ForwardBackward] = (IsKeyDown(__keyMapBind[K_forward]) - (IsKeyDown(__keyMapBind[K_backward])));
   __analogMap[LeftRight]       = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );

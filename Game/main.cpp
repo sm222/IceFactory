@@ -27,13 +27,13 @@ int main(void) {
     }
     switch (IceFactory::GetEngineStatus()) {
       case S_EngineInit: {
-        engine.initEngine();
+        engine.InitEngine();
         break;
       }
       case S_EngineRun: {
         SetTraceLogLevel(LOG_WARNING);
         loop(engine);
-        engine.closeEngine();
+        engine.CloseEngine();
         break;
       }
       case S_EngineStop: {
@@ -41,8 +41,7 @@ int main(void) {
         break;
       }
       case S_EngineReboot: {
-        engine.Start();
-        engine.initEngine();
+        engine.Reboot(0);
         kill = 0;
         break;
       }
@@ -51,7 +50,6 @@ int main(void) {
         return 1;
     }
   }
-  engine.SetEngineStatus(S_EngineForceStop);
-  engine.closeEngine();
+  engine.Stop();
   return 0;
 }

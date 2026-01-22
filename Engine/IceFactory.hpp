@@ -24,19 +24,17 @@
 namespace Engine {
 class IceFactory {
   public:
-    int                  initEngine(void);
+    int                  InitEngine(void);
     int                  Start(void);
-    int                  Reboot(int type); // todo
-    void                 Stop(void);       // todo
-    bool                 TestDependency(void);
-    
-    bool                 closeEngine(void);
-    
+    int                  Reboot(int type);
+    void                 Stop(void);
+    bool                 CloseEngine(void);
+    //
     static int           GetEngineStatus(void);
     static const Vector2 GetMonitorSize(void);
     static const Vector2 GetWindowSize(void);
     // Raylib
-    static Vector2       flaotToVec2(float angle);
+    static Vector2       FlaotToVec2(float angle);
     //
     void                 SetEngineStatus(const t_EngineStatus status);
     //
@@ -50,9 +48,10 @@ class IceFactory {
     bool                 ReadEnvent(const t_EngineEvents event) const;
     //
     static float         timeScale(float in);
-    static void          setTimeScale(float scale);
+    static void          SetTimeScale(float scale);
     //
     Vector2              GiveWindowSize(void);
+    bool                 ResizeWindowSize(Vector2 size);
     //! Update
     //! debug and error
     Model*               GiveWhatModel(void);
@@ -73,6 +72,7 @@ class IceFactory {
     bool                InitRaylib(void);
     void                SetupStart(void);
     //
+    bool                 TestDependency(void);
     bool                 CloseRaylib(void);
     bool                 IceFactoryInitRayLib(void);
     //! - - - - - - - - - - - - - - - - -

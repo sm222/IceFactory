@@ -17,6 +17,11 @@
 
 typedef KeyboardKey t_type_key;
 
+typedef enum {
+  no_error   = 0,
+  Start_fail = 1,
+}  t_error;
+
 // use define to be redefine at compile time
 # ifndef  LOCAL_FILE_PATH
 #  define LOCAL_FILE_PATH
