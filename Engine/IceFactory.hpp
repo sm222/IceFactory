@@ -98,7 +98,7 @@ class IceFactory {
     int                               __inputSelect;
     unsigned int                      __numberGamepads;
     //
-    std::map<t_ControlKeys, TYPE_KEY> __keyMapBind;
+    std::map<t_ControlKeys, t_type_key> __keyMapBind;
     //
     static float                      __timeScale; // defalut 1
     //static 

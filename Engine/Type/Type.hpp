@@ -15,7 +15,7 @@
 
 # include "Debug.h"
 
-# define TYPE_KEY KeyboardKey
+typedef KeyboardKey t_type_key;
 
 // use define to be redefine at compile time
 # ifndef  LOCAL_FILE_PATH
