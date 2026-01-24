@@ -40,8 +40,8 @@ class Base {
     //
     int                 GetMetod(void)   const ;
     void                SetMetod(const int metod);
-    void                SetIsAlloc(bool) ;
-    bool                GetIsAlloc(void) ;
+    void                SetIsAlloc(bool);
+    bool                GetIsAlloc(void);
     unsigned short      GetDrawType(void) const ;
     BaseInterface<MAX_CHILD_FT>   interface;
   protected:

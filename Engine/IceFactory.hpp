@@ -47,7 +47,7 @@ class IceFactory {
     void                 ForceEnvent(const t_EngineEvents envent);
     bool                 ReadEnvent(const t_EngineEvents event) const;
     //
-    static float         timeScale(float in);
+    static float         TimeScale(float in);
     static void          SetTimeScale(float scale);
     //
     Vector2              GiveWindowSize(void);
@@ -67,10 +67,10 @@ class IceFactory {
     //
     protected:
     //! - - - - - -
-    // Raylib
+    //* Raylib
   private:
-    bool                InitRaylib(void);
-    void                SetupStart(void);
+    bool                 InitRaylib(void);
+    void                 SetupStart(void);
     //
     bool                 TestDependency(void);
     bool                 CloseRaylib(void);

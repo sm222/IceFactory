@@ -263,7 +263,7 @@ float  IceFactory::GetAnalogInput(const t_Controls name) const {
   return 0;
 }
 
-float  IceFactory::timeScale(float in) {
+float  IceFactory::TimeScale(float in) {
   return in * GetFrameTime() * __timeScale;
 }
 
