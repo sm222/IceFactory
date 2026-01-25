@@ -1,8 +1,17 @@
-#ifndef  __RENDER__
-# define __RENDER__
+#ifndef  __RENDER_HPP__
+# define __RENDER_HPP__
 
-# define REDER_MODE_NO_ROOM 1
-# define REDER_DEV_DEBUG 1
+
+//TODO | 3D camera
+//TODO | 2D camera
+//TODO | use room/lvl
+//TODO | optimse
+//TODO | use rlights?
+//TODO | 
+//TODO | 
+//TODO | 
+
+
 
 
 class Render {
@@ -10,7 +19,6 @@ class Render {
     Render(void);
     ~Render(void);
     //
-    void    Draw(void) const;
     int     Update(void) ;
   protected:
     //

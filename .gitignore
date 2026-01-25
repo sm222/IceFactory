@@ -30,8 +30,8 @@
 build/
 .vscode/
 .cache/
-Engine/include/raylib/
-Engine/include/
+Engine/include/raylib/*
+Engine/include/*
 
 # Executables
 *.exe

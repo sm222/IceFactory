@@ -6,10 +6,15 @@
 class Obj3D : public Obj {
   public:
     Obj3D(const char* name);
-    ~Obj3D(void);
-    //
+    virtual ~Obj3D(void);
+    //* - - - - - - - -  - - - - - - - - - - - - -
     virtual void Draw(int mode) const;
-    
+    //* - - - - - - - -  - - - - - - - - - - - - -
+    void        SetPosition(Vector3 position);
+    Vector3     GetPosition(void) const ;
+    //* - - - - - - - -  - - - - - - - - - - - - -
+    void        SetBoundingBox(BoundingBox box);
+    BoundingBox GetBoundingBox(void) const ;
     //
   protected:
     Vector3      __position;
