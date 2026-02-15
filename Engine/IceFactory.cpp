@@ -124,6 +124,7 @@ int  IceFactory::InitEngine(void) {
 bool IceFactory::IceFactoryInitRayLib(void) {
   InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
   if (!IsWindowReady()) {
+    fprintf(stderr, "InitWindow: faild\n");
     return false;
   }
   __engineStatus = S_EngineRun;
