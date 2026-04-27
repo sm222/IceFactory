@@ -1,6 +1,7 @@
 #ifndef  __RENDER_HPP__
 # define __RENDER_HPP__
 
+#include "../Type/Type.hpp"
 
 //TODO | 3D camera
 //TODO | 2D camera

@@ -1,7 +1,8 @@
 
 // raylib
-#include "../../Engine/include/raylib/src/raylib.h"
-#include "../../Engine/include/raylib/src/raymath.h"
+# include "../../thirdParty/raylib/src/raylib.h"
+# include "../../thirdParty/raylib/src/raymath.h"
+
 // - - - -
 #include <iostream>
 #include <stdio.h>
