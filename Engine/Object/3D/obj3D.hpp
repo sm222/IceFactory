@@ -3,6 +3,8 @@
 
 # include "../obj.hpp"
 
+# define  TYPE_OBJ_3D "TYPE_OBJ_3D"
+
 class Obj3D : public Obj {
   public:
     Obj3D(const char* name);
@@ -10,13 +12,14 @@ class Obj3D : public Obj {
     //* - - - - - - - -  - - - - - - - - - - - - -
     virtual void Draw(int mode) const;
     //* - - - - - - - -  - - - - - - - - - - - - -
-    void        SetPosition(Vector3 position);
-    Vector3     GetPosition(void) const ;
+    virtual void SetPosition(Vector3 position);
+    Vector3      GetPosition(void) const ;
     //* - - - - - - - -  - - - - - - - - - - - - -
     void        SetBoundingBox(BoundingBox box);
     BoundingBox GetBoundingBox(void) const ;
     //
   protected:
+    virtual void   Zero(void);
     Vector3      __position;
     BoundingBox  __boundingBox;
     //

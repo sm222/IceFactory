@@ -60,8 +60,8 @@ typedef enum {
 inline void Debug(const char* file_no_null, const char* ft, int line, const char* root, const char* color, const char* s, ...) {
   #if DEBUG_STATUS
   {
-    # if (DEBUG_SLEEP)
-      usleep(DEBUG_SLEEP);
+    # ifdef DEBUG_SLEEP
+      usleep((double)DEBUG_SLEEP);
     # endif
     char buff[10001];
     va_list va;

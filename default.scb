@@ -1,0 +1,57 @@
+# build with scb
+# 
+# https://github.com/sm222/SuperCBuilder
+
+#Render!
+
+ING:
+  thirdParty!
+  Ui!
+  windows!
+  linux!
+
+rootDefine:
+  -D LOCAL_FILE_PATH 
+  -D PROJECT_ROOT=\\"%_ROOT\\" 
+  -D RESOURCE=\\"Engine/Resource/\\" 
+  -D MODEL=\\"Models/\\" 
+
+raylibPath:%_ROOT\ thirdParty/raylib/src/libraylib.a
+
+debug: %_DEV -g
+
+engineSetting:
+  -D 'HOT_RELOAD=1' 
+  -Wextra -Wno-missing-field-initializers 
+  %debug 
+
+flags:
+  -Wall 
+  -Werror 
+  -Wextra 
+  %rootDefine 
+
+NAME:IceFactory
+NAMEX:
+  %_LINUX\ .out
+  %_MACOS\ .out
+  %_WINDOWS\ .exe
+
+engineFlags:
+  %_LINUX\ %raylibPath -lGL -lm -lrt -lX11
+  %_MACOS\   todo
+  %_WINDOWS\ %raylibPath -lgdi32 -lwinmm
+
+CFLAGS:
+  %flags 
+  %engineSetting 
+
+CXXFLAGS:
+  %flags 
+  %engineSetting 
+
+DEP:
+  make -j10 -C %_ROOT\ thirdParty/raylib/src
+
+PROG:
+  %engineFlags

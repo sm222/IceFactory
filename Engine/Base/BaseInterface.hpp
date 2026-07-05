@@ -3,6 +3,7 @@
 
 # include "../Type/Type.hpp"
 
+
 class Base;
 //* void
 typedef    void(*void__void)(Base& self);
@@ -95,6 +96,7 @@ class BaseInterface {
     bool Add(vec3__3 ft, t_prototype types, const char* name, const char* description);
     //
     bool Get(size_t i, t_BaseInterface& get);
+    bool Get(const char* name, t_BaseInterface& get);
     //
   private:
     bool __Add(t_prototype types, const char* name, const char* description);

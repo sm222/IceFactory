@@ -25,23 +25,26 @@ typedef enum {
 // use define to be redefine at compile time
 # ifndef  LOCAL_FILE_PATH
 #  define LOCAL_FILE_PATH
-#  define PROJECT_ROOT "IceFactory"
+#  define PROJECT_ROOT "IceFactory/"
 #  define RESOURCE "Engine/Resource/"
 #  define MODEL    "Models/"
-#  define ERR_MESH RESOURCE MODEL "what.glb"
 # endif
 
-# define DEBUG_P(color, s, ...)   DEBUG("Engine", color, s, ##__VA_ARGS__)
+
+# define ERR_MESH PROJECT_ROOT RESOURCE MODEL "what.glb"
+
+# define DEBUG_P(color, s, ...) DEBUG("Engine", color, s, ##__VA_ARGS__)
 
 # ifndef ENGINE_DEF
 #  define ENGINE_DEF
 #  define MAX_NUMBER_OBJECTS 600
 #  define MAX_NUMBER_MODEL   100 // add meaby later
 #  define MAX_TEXTURE        300
-#  define MAX_NAME_LEN       100
+#  define MAX_NAME_LEN       255
 # endif
 
-# define ZERO_NONE_PTR(var)    memset(&var, 0 ,sizeof(var))
+# define ZERO_NONE_PTR(var) memset(&var, 0 ,sizeof(var))
+
 typedef struct {
   Model        data;
   char         name[MAX_NAME_LEN + 1];

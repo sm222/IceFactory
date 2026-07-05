@@ -15,7 +15,7 @@
 template <typename T>
 class IImport {
   public:
-    IImport(void) { __total = 0; DEBUG_P(TXT_MAG, "");  };
+    IImport(void) { __total = 0; DEBUG_P(TXT_MAG, ""); };
     virtual  ~IImport(void)    { DEBUG_P(TXT_MAG, ""); }; // clean what was import
     // Get
       virtual const T  Get(const char* name)            const = 0;

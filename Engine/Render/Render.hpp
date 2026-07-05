@@ -1,31 +1,27 @@
 #ifndef  __RENDER_HPP__
 # define __RENDER_HPP__
 
-#include "../Type/Type.hpp"
+# include "../Group/Group.hpp"
+# include "../Object/3D/3DCamera/3DCamera.hpp"
+# include "Layer/Layer.hpp"
 
-//TODO | 3D camera
-//TODO | 2D camera
-//TODO | use room/lvl
-//TODO | optimse
-//TODO | use rlights?
-//TODO | 
-//TODO | 
-//TODO | 
+# define MAX_RENDERER_LAYERS 5
+# include <map>
 
 
-
+typedef std::map<std::string, Layer*> LayersData;
 
 class Render {
   public:
-    Render(void);
+    Render();
     ~Render(void);
-    //
-    int     Update(void) ;
-  protected:
-    //
+    size_t AddLayer(std::string name, Vector2 size);
+    void    Close(void);
   private:
-    //
-    bool             __debug;
+    LayersData __layers;
+    //Group __cameras3D;
+    //Group __cameras2D;
+
     //
 };
 

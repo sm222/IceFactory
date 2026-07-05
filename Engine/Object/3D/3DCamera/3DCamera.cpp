@@ -5,6 +5,7 @@ Camera_3D::Camera_3D(const char* name) : Obj3D(name) {
   ZERO_NONE_PTR(__up);
   ZERO_NONE_PTR(__fovy);
   ZERO_NONE_PTR(__projection);
+  __type = TYPE_CAMERA_3D;
 }
 
 Camera_3D::~Camera_3D (void) {

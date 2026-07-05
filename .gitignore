@@ -30,8 +30,7 @@
 build/
 .vscode/
 .cache/
-Engine/include/raylib/*
-Engine/include/*
+thirdParty/
 
 # Executables
 *.exe

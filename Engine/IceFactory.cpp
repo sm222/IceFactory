@@ -1,7 +1,6 @@
 
 #include "IceFactory.hpp"
 
-
 #include <stdio.h>
 
 bool             IceFactory::__raylib       = false;
@@ -16,21 +15,21 @@ const char* const _dependency[] = {
 bool IceFactory::TestDependency(void) {
   for (size_t i = 0; _dependency[i]; i++) {
     if (access(_dependency[i], R_OK) != 0) {
-      DEBUG_P(TXT_RED, " ✕%s", _dependency[i]);
+      DEBUG_P(TXT_RED, "✕ %s", _dependency[i]);
       perror("access");
       return false;
     }
-    DEBUG_P(TXT_GRN, " ✓%s", _dependency[i]);
+    DEBUG_P(TXT_GRN, "✓ %s", _dependency[i]);
   }
   return true;
 }
 
 void IceFactory::_SetFpsControl(void) {
-  SetKeyMapToKey(K_forward,  KEY_W);
-  SetKeyMapToKey(K_backward, KEY_S);
-  SetKeyMapToKey(K_left,     KEY_A);
-  SetKeyMapToKey(K_right,    KEY_D);
-  SetKeyMapToKey(K_pause,    KEY_BACKSPACE);
+  SetKeyMapToKey(K_Forward,  KEY_W);
+  SetKeyMapToKey(K_Backward, KEY_S);
+  SetKeyMapToKey(K_Left,     KEY_A);
+  SetKeyMapToKey(K_Right,    KEY_D);
+  SetKeyMapToKey(K_Pause,    KEY_BACKSPACE);
 }
 
 
@@ -57,7 +56,7 @@ int   IceFactory::Start(void) {
 }
 
 int  IceFactory::Reboot(int type) {
-  (void)type;
+  (void)type; //! add later
   return this->Start() + this->InitEngine();
 }
 
@@ -67,7 +66,11 @@ void  IceFactory::Stop(void) {
 }
 
 IceFactory::IceFactory(void):
-__screenSize({1000, 1000}), __inputSelect(0), __numberGamepads(0)
+__render(),
+__screenSize({1000, 1000}),
+__inputSelect(0),
+__numberGamepads(0),
+__root((char*)"root")
 {
   __gameName = ("test");
   DEBUG_P(TXT_MAG, "");
@@ -95,7 +98,7 @@ const Vector2 IceFactory::GetMonitorSize(void) {
     DEBUG_P(TXT_ORG, "monitor:%d width%f height%f", monitor, width, height);
     return ((Vector2){width, height});
   }
-  return ((Vector2){0, 0});
+  return (Vector2Zero());
 }
 
 const Vector2 IceFactory::GetWindowSize(void) {
@@ -104,7 +107,7 @@ const Vector2 IceFactory::GetWindowSize(void) {
     DEBUG_P(TXT_ORG, "Width:%f Height:%f", WindowSize.x, WindowSize.y);
     return (WindowSize);
   }
-  return ((Vector2){0, 0});
+  return (Vector2Zero());
 }
 
 
@@ -116,6 +119,7 @@ int  IceFactory::InitEngine(void) {
   const int monitor = GetCurrentMonitor();
   const int fpsTarget = GetMonitorRefreshRate(monitor);
   DEBUG_P(TXT_ORG, "monitor:%d -> targetFps:%d", monitor, fpsTarget);
+  __render.AddLayer("main", __screenSize);
   SetTargetFPS(fpsTarget);
   SetExitKey(KEY_NULL);
   return 1;
@@ -159,6 +163,7 @@ bool IceFactory::InitRaylib(void) {
 
 bool IceFactory::CloseRaylib(void) {
   if (__raylib) {
+    DEBUG_P(TXT_RED, "raylib was close");
     CloseWindow();
     __raylib = false;
   }
@@ -172,9 +177,11 @@ bool IceFactory::CloseEngine(void) {
   Models.Clear();
   Audios.Clear();
   Textures2D.Clear();
+  __render.Close();
   //!last step
   if (GetEngineStatus() != S_EngineReboot)
     CloseRaylib();
+  CloseRaylib();
   return true;
 }
 
@@ -194,7 +201,7 @@ int      IceFactory::UpdateInpus(void) {
 }
 
 int   IceFactory::UpdateEvent(void) {
-  __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_pause]);
+  __EngineEvent[Event_pause] = IsKeyPressed(__keyMapBind[K_Pause]);
   __EngineEvent[Event_window_resized] = IsWindowResized();
   return 0;
 }
@@ -230,9 +237,6 @@ void  __setCursor(bool mode) {
 int   IceFactory::UpdateEngine(void) {
   const int status = UpdateInpus() + UpdateEvent();
   Audios.Update();
-  BeginDrawing();
-  ClearBackground(BLACK);
-  EndDrawing();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = IceFactory::GetWindowSize();
   }
@@ -245,7 +249,7 @@ int   IceFactory::UpdateEngine(void) {
   }
   if (IsKeyPressed(DEFAULT_CLOSE_KEY)|| WindowShouldClose()) { SetEngineStatus(S_EngineUnload); }
   if (ReadEnvent(Event_pause))  {
-    static bool pause = false;
+    static bool pause = false; //! put in class engine
     __setCursor(IsCursorHidden());
     if (!pause)
       SetEngineStatus(S_EnginePause);
@@ -253,6 +257,11 @@ int   IceFactory::UpdateEngine(void) {
       SetEngineStatus(S_EngineRun);
     pause = !pause;
   }
+  //! replace by render
+  BeginDrawing();
+  ClearBackground(BLACK);
+  DrawFPS(0, 0);
+  EndDrawing();
   return status;
 }
 
@@ -305,15 +314,15 @@ Model*  IceFactory::GiveWhatModel(void) {
 
 
 void   IceFactory::SetKeyMapToKey(t_ControlKeys action, KeyboardKey key) {
-  DEBUG_P(TXT_ORG, "action[%d] key%d", action, key);
+  DEBUG_P(TXT_ORG, "action[%d] key %d", action, key);
   __keyMapBind[action] = key;
 }
 
 
 // fps controls
 void IceFactory::UpdateKeybord(void) {
-  __analogMap[ForwardBackward] = (IsKeyDown(__keyMapBind[K_forward]) - (IsKeyDown(__keyMapBind[K_backward])));
-  __analogMap[LeftRight]       = (IsKeyDown(__keyMapBind[K_right])   - (IsKeyDown(__keyMapBind[K_left])) );
+  __analogMap[ForwardBackward] = (IsKeyDown(__keyMapBind[K_Forward]) - (IsKeyDown(__keyMapBind[K_Backward])));
+  __analogMap[LeftRight]       = (IsKeyDown(__keyMapBind[K_Right])   - (IsKeyDown(__keyMapBind[K_Left])) );
 }
 
 

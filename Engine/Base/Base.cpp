@@ -53,6 +53,10 @@ const char* Base::GetType(void) const {
   return __type;
 }
 
+t_id        Base::GetId(void) {
+  return __id;
+}
+
 t_id        Base::GetId(void) const {
   return __id;
 }
@@ -92,16 +96,8 @@ void Base::SetName(const std::string& name) {
   SetName(name.c_str());
 }
 
-void  Base::Help(void) {
-  DEBUG_P(TXT_BLU, "Base::Help");
-}
-
-void    Base::Hello(Base& self) {
-  DEBUG_P(TXT_BLU, "Hello from %s, Type:%s Id:%u", self.GetName(), self.GetType(), self.GetId());
-}
 
 void  Base::SetFtList(void) {
-  interface.Add(Base::Hello, "hello", "say hello");
 }
 
 
@@ -174,7 +170,7 @@ bool  Base::__AddInheritance(void) {
   return false;
 }
 
-const char*const*   Base::GetInheritance(void) {
+const char*const*   Base::__GetInheritance(void) {
   return __inheritance;
 }
 

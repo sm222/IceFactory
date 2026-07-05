@@ -3,6 +3,8 @@
 
 # include "../obj3D.hpp"
 
+# define TYPE_CAMERA_3D "CAMERA_3D"
+
 class Camera_3D : public Obj3D {
   public:
     Camera_3D(const char* name);
