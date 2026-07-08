@@ -16,7 +16,12 @@ class Render {
     Render();
     ~Render(void);
     size_t AddLayer(std::string name, Vector2 size);
-    void    Close(void);
+    bool   ResizeLayer(std::string name, Vector2 size);
+    bool   Start(Vector2 window);
+    void   Close(void);
+    //
+    bool   Draw(Camera_3D& c, Group& g, std::string layer);
+    bool   Print(std::string layer);
   private:
     LayersData __layers;
     //Group __cameras3D;

@@ -1,14 +1,21 @@
 # include "../Engine/IceFactory.hpp"
-
-
-#include "../Engine/Object//3D/Dev/DevCube.hpp"
+# include "../Engine/Object/3D/Dev/DevCube.hpp"
+# include "../Engine/Object/3D/3DCamera/3DCamera.hpp"
 
 
 void loop(IceFactory& engine) {
   int status = IceFactory::GetEngineStatus();
   DevCube3D cube("cube");
+  Camera_3D camera("test");
+  camera.SetTarget({0,0,0});
+  engine.SetPlayerCamera(&camera);
+  camera.SetPosition({-2, 0, -2});
+  engine.__root.Add(&cube);
+  float f = 0;
   while (status == S_EngineRun || status == S_EnginePause) {
-    //usleep(50000);
+    f += 10 * engine.GetDeltaTime();
+    const Vector2 pos = IceFactory::FlaotToVec2(f);
+    cube.SetPosition({(pos.x), 0, (pos.y)});
     status = IceFactory::GetEngineStatus();
     engine.UpdateEngine();
     //UpatePlayer(engine, PlayerCamera);

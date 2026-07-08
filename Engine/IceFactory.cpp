@@ -66,11 +66,11 @@ void  IceFactory::Stop(void) {
 }
 
 IceFactory::IceFactory(void):
+__root("root"),
 __render(),
 __screenSize({1000, 1000}),
 __inputSelect(0),
-__numberGamepads(0),
-__root((char*)"root")
+__numberGamepads(0)
 {
   __gameName = ("test");
   DEBUG_P(TXT_MAG, "");
@@ -115,25 +115,31 @@ const Vector2 IceFactory::GetWindowSize(void) {
 // - - - - - - - - - - - - - - - -
 
 int  IceFactory::InitEngine(void) {
-  InitRaylib();
+  if (!InitRaylib()) { DEBUG_P(TXT_RED, "fatal init raylib"); return 0; }
   const int monitor = GetCurrentMonitor();
   const int fpsTarget = GetMonitorRefreshRate(monitor);
   DEBUG_P(TXT_ORG, "monitor:%d -> targetFps:%d", monitor, fpsTarget);
-  __render.AddLayer("main", __screenSize);
   SetTargetFPS(fpsTarget);
   SetExitKey(KEY_NULL);
   return 1;
 }
 
 bool IceFactory::IceFactoryInitRayLib(void) {
+  const int flags = \
+  FLAG_MSAA_4X_HINT | \
+  FLAG_WINDOW_HIGHDPI| \
+  FLAG_WINDOW_ALWAYS_RUN;
+  // - - - - - - - - - - |
+  SetConfigFlags(flags);
   InitWindow(__screenSize.x, __screenSize.y, __gameName.c_str());
   if (!IsWindowReady()) {
-    fprintf(stderr, "InitWindow: faild\n");
+    DEBUG_P(TXT_RED, "InitWindow: faild");
     return false;
   }
   __engineStatus = S_EngineRun;
   SetWindowState(FLAG_WINDOW_RESIZABLE);
   SetWindowMinSize(600, 600);
+  __render.Start({500,500});
   return true;
 }
 
@@ -163,7 +169,7 @@ bool IceFactory::InitRaylib(void) {
 
 bool IceFactory::CloseRaylib(void) {
   if (__raylib) {
-    DEBUG_P(TXT_RED, "raylib was close");
+    DEBUG_P(TXT_GRN, "raylib was close");
     CloseWindow();
     __raylib = false;
   }
@@ -178,9 +184,6 @@ bool IceFactory::CloseEngine(void) {
   Audios.Clear();
   Textures2D.Clear();
   __render.Close();
-  //!last step
-  if (GetEngineStatus() != S_EngineReboot)
-    CloseRaylib();
   CloseRaylib();
   return true;
 }
@@ -231,10 +234,13 @@ void  __setCursor(bool mode) {
 }
 
 
+# include "Object/3D/Dev/DevCube.hpp"
+
 /// @brief call UpdateInpus and UpdateEvent
 /// @param
 /// @return
 int   IceFactory::UpdateEngine(void) {
+  __deltaTime = GetFrameTime();
   const int status = UpdateInpus() + UpdateEvent();
   Audios.Update();
   if (__EngineEvent[Event_window_resized]) {
@@ -242,10 +248,14 @@ int   IceFactory::UpdateEngine(void) {
   }
   if (IsKeyPressed(KEY_HOME)) {
     #ifdef HOT_RELOAD
-      SetEngineStatus(S_EngineReboot);
+      //SetEngineStatus(S_EngineReboot);
+      DEBUG_P(TXT_RED, "hot reload not support");
     #else
       DEBUG_P(TXT_RED, "hot reload not support");
     #endif
+  }
+  if (IsKeyPressed(KEY_O)) {
+    __render.ResizeLayer("main", __screenSize);
   }
   if (IsKeyPressed(DEFAULT_CLOSE_KEY)|| WindowShouldClose()) { SetEngineStatus(S_EngineUnload); }
   if (ReadEnvent(Event_pause))  {
@@ -257,9 +267,18 @@ int   IceFactory::UpdateEngine(void) {
       SetEngineStatus(S_EngineRun);
     pause = !pause;
   }
-  //! replace by render
+  //Camera_3D camera("test");
+  //Group test("testGroup");
+  //DevCube3D cube("cube");
+  //camera.SetPosition({-1, 0,-1});
+  //camera.SetTarget({0,0,0});
+  //test.Add(&cube);
+  if (__player) {
+    __render.Draw(*__player, __root, "main");
+  }
   BeginDrawing();
-  ClearBackground(BLACK);
+  ClearBackground(BLANK);
+  __render.Print("main");
   DrawFPS(0, 0);
   EndDrawing();
   return status;
@@ -302,6 +321,10 @@ Model*  IceFactory::GiveWhatModel(void) {
   return &__what;
 }
 
+
+void  IceFactory::SetPlayerCamera(Camera_3D* camera) {
+  __player = camera;
+}
 
 
 

@@ -19,7 +19,7 @@ class Layer {
     ~Layer(void);
     layerStatus             Start(void);
     layerStatus             Stop(void);
-    const RenderTexture2D   GetFrame(void) const;
+    const RenderTexture2D   GetFrame(void) const ;
     layerStatus             ReSize(Vector2 size);
   private:
     bool                    Init(void);

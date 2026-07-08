@@ -2,9 +2,9 @@
 
 Camera_3D::Camera_3D(const char* name) : Obj3D(name) {
   ZERO_NONE_PTR(__target);
-  ZERO_NONE_PTR(__up);
-  ZERO_NONE_PTR(__fovy);
-  ZERO_NONE_PTR(__projection);
+  __up = {0.0f, 1.0f, 0.0f};
+  __fovy = 90;
+  __projection = CAMERA_PERSPECTIVE;
   __type = TYPE_CAMERA_3D;
 }
 

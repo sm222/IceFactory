@@ -11,7 +11,7 @@ DevCube3D::~DevCube3D(void) {
 
 void DevCube3D::Draw(int mode) const {
   (void)mode;
-  DrawBoundingBox(__boundingBox, RED);
+  DrawBoundingBox(__boundingBox, GREEN);
 }
 
 void DevCube3D::SetPosition(Vector3 position) {

@@ -40,13 +40,29 @@ layerStatus  Layer::Start(void) {
   return __status;
 }
 
+layerStatus  Layer::ReSize(Vector2 size) {
+  if (__status != layer_valid) { return layer_error; }
+  if (size.x < 1 || size.y < 1) { return layer_invalide; }
+  if (size == __size) { return __status; }
+  if (IsRenderTextureValid(__data)) {
+    __size = size;
+    DEBUG_P(TXT_WHT, "%d", __status);
+    UnloadRenderTexture(__data);
+    __data = LoadRenderTexture(__size.x, __size.y);
+    __status = IsRenderTextureValid(__data) ? layer_valid : layer_invalide;
+    return __status;
+  }
+  return layer_invalide;
+}
+
 layerStatus  Layer::Stop(void) {
   if (__status != layer_rendering) {
     return layer_error;
   }
   EndTextureMode();
   __actifLayer--;
-  return layer_valid;
+  __status = layer_valid;
+  return __status;
 }
 
 const RenderTexture2D Layer::GetFrame(void) const {

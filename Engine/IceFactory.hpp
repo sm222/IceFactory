@@ -53,6 +53,7 @@ class IceFactory {
     int                  UpdateInpus(void);
     int                  UpdateEvent(void);
     void                 ForceEnvent(const t_EngineEvents envent);
+    float                GetDeltaTime(void) const { return __deltaTime; };
     // INPUTS
     float                GetAnalogInput(const t_Controls name) const ;
     bool                 ReadEnvent(const t_EngineEvents event) const;
@@ -62,18 +63,21 @@ class IceFactory {
     // ERROR
     Model*               GiveWhatModel(void);
     // MANAGERS
+    void                SetPlayerCamera(Camera_3D* camera);
     ModelManager        Models;
     AudioManager        Audios;
     Texture2DManager    Textures2D;
     //todo:             text manger ? dose font too ?
-    ///!Manager
+    //!Manager
     //todo:             gamepad
     //todo:             keybord
     //
+    Group                               __root;
     protected:
     //! - - - - - -
     //* Raylib
   private:
+    Camera_3D*         __player = nullptr;
     // INIT
     bool                 InitRaylib(void);
     void                 SetupStart(void);
@@ -91,6 +95,7 @@ class IceFactory {
     // ENGINE
     static t_EngineStatus               __engineStatus;
     static bool                         __raylib;
+    float                               __deltaTime;
     // RENDER
     Render                              __render;
     Vector2                             __screenSize;
@@ -110,7 +115,6 @@ class IceFactory {
     // debug / errors tools
     Model                               __what;
     //Group
-    Group                               __root;
   };
 };
 
