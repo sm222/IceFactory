@@ -5,6 +5,7 @@ Camera_3D::Camera_3D(const char* name) : Obj3D(name) {
   __up = {0.0f, 1.0f, 0.0f};
   __fovy = 90;
   __projection = CAMERA_PERSPECTIVE;
+  __zoom = 1;
   __type = TYPE_CAMERA_3D;
 }
 

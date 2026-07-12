@@ -73,6 +73,9 @@ typedef enum EngineStatus {
   S_EngineReboot,
 } t_EngineStatus;
 
+# define ENGINE_STATUS_RUNNIG(status) \
+  (status == S_EngineRun || status == S_EnginePause)
+
 typedef enum InputType {
   KeybordMouse = 0,
   Gamepad,
@@ -81,6 +84,7 @@ typedef enum InputType {
 typedef struct {
   unsigned int targetFps;
   Vector2      targetWindowSize;
+  int          preferMonitor = 0;
 } UserSeting;
 
 typedef struct dataText {
@@ -126,6 +130,10 @@ union t_types {
   Vector2 vec2;
   Vector3 vec3;
 };
+
+inline Vector2 FlaotToVec2(float angle) {
+  return {sin(angle * DEG2RAD), cos(angle * DEG2RAD)};
+}
 
 
 #endif

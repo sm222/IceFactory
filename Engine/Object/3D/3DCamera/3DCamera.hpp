@@ -27,6 +27,7 @@ class Camera_3D : public Obj3D {
     Vector3  __up;
     float    __fovy;
     int      __projection;
+    float    __zoom;
   private:
     //
 };

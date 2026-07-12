@@ -45,7 +45,6 @@ class IceFactory {
     bool                 ResizeWindowSize(Vector2 size);
     // RAYLIB
     // MATH
-    static Vector2       FlaotToVec2(float angle);
     // TIMER
     
     // UPDATE

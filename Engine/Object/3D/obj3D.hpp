@@ -14,6 +14,7 @@ class Obj3D : public Obj {
     //* - - - - - - - -  - - - - - - - - - - - - -
     virtual void SetPosition(Vector3 position);
     Vector3      GetPosition(void) const ;
+    void         Tranform(Vector3 dir);
     //* - - - - - - - -  - - - - - - - - - - - - -
     void        SetBoundingBox(BoundingBox box);
     BoundingBox GetBoundingBox(void) const ;

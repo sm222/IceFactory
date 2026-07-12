@@ -32,6 +32,10 @@ BoundingBox Obj3D::GetBoundingBox(void) const {
   return __boundingBox;
 }
 
+void Obj3D::Tranform(Vector3 dir) {
+  __position += dir;
+}
+
 void Obj3D::Zero(void) {
 
 }

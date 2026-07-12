@@ -139,7 +139,12 @@ bool IceFactory::IceFactoryInitRayLib(void) {
   __engineStatus = S_EngineRun;
   SetWindowState(FLAG_WINDOW_RESIZABLE);
   SetWindowMinSize(600, 600);
-  __render.Start({500,500});
+  __render.Start({1080,720});
+  if (GetCurrentMonitor() != __userSeting.preferMonitor) {
+    DEBUG_P(TXT_YEL, "switching monitor");
+    //!not worrrking yippe
+    SetWindowMonitor(__userSeting.preferMonitor);
+  }
   return true;
 }
 
@@ -189,15 +194,10 @@ bool IceFactory::CloseEngine(void) {
 }
 
 
-Vector2  IceFactory::FlaotToVec2(float angle) {
-  return {sin(angle * DEG2RAD), cos(angle * DEG2RAD)};
-}
-
-
 int      IceFactory::UpdateInpus(void) {
   //
-  const Vector2 mouseDelta = GetMouseDelta();
   UpdateKeybord();
+  const Vector2 mouseDelta = GetMouseDelta();
   __analogMap[MouseVertical]   = mouseDelta.y;
   __analogMap[MouseHorizontal] = mouseDelta.x;
   return 0;
@@ -233,9 +233,6 @@ void  __setCursor(bool mode) {
   }
 }
 
-
-# include "Object/3D/Dev/DevCube.hpp"
-
 /// @brief call UpdateInpus and UpdateEvent
 /// @param
 /// @return
@@ -245,14 +242,6 @@ int   IceFactory::UpdateEngine(void) {
   Audios.Update();
   if (__EngineEvent[Event_window_resized]) {
     __screenSize = IceFactory::GetWindowSize();
-  }
-  if (IsKeyPressed(KEY_HOME)) {
-    #ifdef HOT_RELOAD
-      //SetEngineStatus(S_EngineReboot);
-      DEBUG_P(TXT_RED, "hot reload not support");
-    #else
-      DEBUG_P(TXT_RED, "hot reload not support");
-    #endif
   }
   if (IsKeyPressed(KEY_O)) {
     __render.ResizeLayer("main", __screenSize);
@@ -267,12 +256,6 @@ int   IceFactory::UpdateEngine(void) {
       SetEngineStatus(S_EngineRun);
     pause = !pause;
   }
-  //Camera_3D camera("test");
-  //Group test("testGroup");
-  //DevCube3D cube("cube");
-  //camera.SetPosition({-1, 0,-1});
-  //camera.SetTarget({0,0,0});
-  //test.Add(&cube);
   if (__player) {
     __render.Draw(*__player, __root, "main");
   }
